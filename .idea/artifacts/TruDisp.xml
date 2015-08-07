@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="TruDisp">
+    <output-path>$PROJECT_DIR$/out/artifacts/TruDisp</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="TruDisp.TruDisp" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="TruDisp.jar">
+        <element id="module-output" name="TruDisp" />
+      </element>
+    </root>
+  </artifact>
+</component>
