@@ -50,7 +50,31 @@ public class TDData {
     public TDData(String dataset, TruDispStatusPane stbr)
     {
         statusPane = stbr;
-        set(dataset);
+        initVariables();
+
+        String[] buffer = dataset.split(";");
+
+        setExperiment(buffer[0]);
+        beta = new Double[] {Double.parseDouble(buffer[1]),Double.parseDouble(buffer[2])};
+        betaO= buffer[3];
+        gamma =new Double[] {Double.parseDouble(buffer[4]),Double.parseDouble(buffer[5])};
+        gammaO= buffer[6];
+        phi =new Double[] {Double.parseDouble(buffer[7]),Double.parseDouble(buffer[8])};
+        gammaO = buffer[9];
+        alpha = new Double[] {Double.parseDouble(buffer[10]),Double.parseDouble(buffer[1])};
+        sm =new Double[] {Double.parseDouble(buffer[12]),Double.parseDouble(buffer[13])};
+        smd= new Double[] {Double.parseDouble(buffer[14]),Double.parseDouble(buffer[15])};
+        smh =new Double[] {Double.parseDouble(buffer[16]),Double.parseDouble(buffer[17])};
+        s =  new Double[] {Double.parseDouble(buffer[18]),Double.parseDouble(buffer[19])};
+        ss = new Double[] {Double.parseDouble(buffer[20]),Double.parseDouble(buffer[21])};
+        sd = new Double[] {Double.parseDouble(buffer[22]),Double.parseDouble(buffer[23])};
+        sv = new Double[] {Double.parseDouble(buffer[24]),Double.parseDouble(buffer[25])};
+        sh = new Double[] {Double.parseDouble(buffer[26]),Double.parseDouble(buffer[27])};
+        theta = Double.parseDouble(buffer[28]);
+        thetanull = Double.parseDouble(buffer[29]);
+        setNotes(buffer[30]);
+
+
     }
 
 
@@ -647,6 +671,36 @@ public class TDData {
     {return experiment;}
     public String getNotes()
     {return notes;}
+
+
+
+    // ToString
+
+
+    @Override
+    public String toString() {
+
+        String sp=";";
+
+        return experiment +sp+
+                getBeta() +sp+ getBetaError() +sp+ getBetaOrientation() +sp+
+                getGamma()+sp+ getGammaError()+sp+ getGammaOrientation()+sp+
+                getPhi()  +sp+ getPhiError()  +sp+ getPhiError()        +sp+
+                getAlpha()+sp+ getAlphaError()+sp+
+                getSm()   +sp+ getSmError()   +sp+
+                getSmd()  +sp+ getsmdError()  +sp+
+                getSmh()  +sp+ getSmhError()  +sp+
+                getS()    +sp+ getSError()    +sp+
+                getSs()   +sp+ getSsError()   +sp+
+                getSd()   +sp+ getSdError()   +sp+
+                getSv()   +sp+ getSvError()   +sp+
+                getSh()   +sp+ getShError()   +sp+
+                getTheta()+sp+
+                getThetaNull()                +sp+
+                getNotes();
+    }
+
+
 }
 
 

@@ -20,9 +20,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Mnemonic;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -51,14 +48,16 @@ public class TruDisp extends Application {
     private HBox methodsHBox;
     private MenuBar menuBar;
     private Menu trudispMenu, methodsMenu, panelsMenu;
-    private MenuItem trudispMenuCloseItem,panelMenuHistoryItem;
+    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,panelMenuOutputItem,panelMenuInputItem,trudispMenuAboutItem;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
     private Stage mainTruDispStage;
     private Scene mainScene;
     private TruDispTable truDispTable;
-
+    private TDOpenSave truDispOpenSave;
     private Boolean shakeStageFlag = true;
     private Integer methodFlag = 0;
+    private TDDialogs trudispTDDialogs;
+
 
     // Método 1;
     private GridPane method1GridLayout;
@@ -281,6 +280,9 @@ public class TruDisp extends Application {
 
         truDispTable = new TruDispTable();
 
+        truDispOpenSave = new TDOpenSave(mainTruDispStage);
+
+        trudispTDDialogs = new TDDialogs();
 
         /** Cuerpo de la aplicación*/
         // Cuerpo Principal
@@ -355,7 +357,13 @@ public class TruDisp extends Application {
         trudispMenu = new Menu("TruDisp");
         trudispMenuCloseItem = new MenuItem("Exit");
         trudispMenuCloseItem.setOnAction(event -> System.exit(0));
-        trudispMenu.getItems().addAll(trudispMenuCloseItem);
+        trudispMenuSaveItem = new MenuItem("Save Session");
+        trudispMenuSaveItem.setOnAction(event -> { truDispOpenSave.Save(truDispTable.getDataList());} );
+        trudispMenuOpenItem = new MenuItem("Open Session");
+        trudispMenuOpenItem.setOnAction(even-> truDispTable.setObservableList(truDispOpenSave.Open(statusPane)));
+        trudispMenuAboutItem = new MenuItem("About");
+        trudispMenuAboutItem.setOnAction(event-> trudispTDDialogs.showAbout());
+        trudispMenu.getItems().addAll(trudispMenuAboutItem,trudispMenuOpenItem, trudispMenuSaveItem, trudispMenuCloseItem);
 
         methodsMenu = new Menu("Methods");
         method2CheckMenuItem = new CheckMenuItem("Method 2");
@@ -371,7 +379,14 @@ public class TruDisp extends Application {
         panelMenuHistoryItem.setOnAction(event -> {
             truDispTable.show();
         });
-        panelsMenu.getItems().addAll(panelMenuHistoryItem);
+        panelMenuInputItem = new MenuItem("Input");
+        panelMenuInputItem.setOnAction(event->
+        {
+            trudispTDDialogs.showInput();
+        });
+        panelMenuOutputItem = new MenuItem("Output");
+        panelMenuOutputItem.setOnAction(event-> trudispTDDialogs.showOutput());
+        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuInputItem,panelMenuOutputItem);
 
         menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu);
         mainBorderLayout.setTop(menuBar);
@@ -1847,7 +1862,76 @@ class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
     }
 }
 
+class TDDialogs {
 
+    private Stage stageinput,stageoutput,stageabout;
+    private VBox  box;
+    private ImageView inputim,outputim;
+    private Scene scene;
+
+    public TDDialogs()
+    {
+        stageinput = new Stage(StageStyle.DECORATED);
+        stageoutput = new Stage(StageStyle.DECORATED);
+        stageabout = new Stage(StageStyle.DECORATED);
+
+        ImageView im = new ImageView(new Image("Images/data.jpg"));
+        im.fitWidthProperty().bind(stageinput.widthProperty());
+        im.fitHeightProperty().bind(stageinput.heightProperty());
+        im.setPreserveRatio(true);
+        stageinput.setScene(new Scene(new VBox(im)));
+        stageinput.setWidth(500);
+
+        im = new ImageView(new Image("Images/outcome.jpg"));
+        im.fitWidthProperty().bind(stageoutput.widthProperty());
+        im.fitHeightProperty().bind(stageoutput.heightProperty());
+        im.setPreserveRatio(true);
+        stageoutput.setScene(new Scene(new VBox(im)));
+        stageoutput.setWidth(500);
+
+        TextArea txtarea= new TextArea();
+        txtarea.setWrapText(true);
+        txtarea.setEditable(false);
+        txtarea.setText(
+                "© (2013) Nieto-Samaniego A. F. and Xu S.-S.\n\nAuthored by:\n\nR. Nieto-Fuentes\n" +
+                        "Universidad Nacional Autónoma de México, Centro de Física Aplicada y Tecnología Avanzada, " +
+                        "Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n\n" +
+                        "Nieto-Samaniego A. F., Xu S.-S., Alaniz-Alvarez, S. A.\n" +
+                        "Universidad Nacional Autónoma de México, Centro de Geociencias, Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n\n" +
+                        "TruDisp 1.0 is a program that calculates the true displacement (S) using the apparent displacement (Sm), which is measured from an arbitrary " +
+                        "“observation line” on a fault plane. For the cases when Sm is unknown, the application uses apparent displacement along the dip line (Smd)." +
+                        "\nSpecial cases are map view and transversal section; for these cases, the apparent displacement along the dip (Smd) or the strike (Smh) are used. " +
+                        "The application does not consider the sense of movement and the obtained displacements are the absolute values of the vector displacement.\n\n" +
+                        "The program analyses 18 different combinations of the input data. The theory was published in: \n\n" +
+                        "Xu, S.-S., Velasquillo-Martinez, L. G., Grajales-Nishimura, J. M., Murillo-Muñetón, G., Nieto-Samaniego, A. F., 2007, " +
+                        "Methods for quantitatively determining fault displacement using fault separation: Journal of Structural Geology, v. 29, p. 1709-1720.\n\n" +
+                        "Xu, S.-S., Nieto-Samaniego, A. F., y Alaniz-Álvarez, S. A, 2009, Quantification of true displacement using apparent displacement along an " +
+                        "arbitrary line on a fault plane: Tectonophysics, v 467, p. 107-118.\n\nTruDisp is a tool for applied geologists, students and academics. " +
+                        "It was developed in Java SE 6.0.\n\nInput data\n\nThe application is designed for data obtained in the field, or from maps and sections. " +
+                        "The measuring tool is usually a compass or protractor. The angular data is in decimal degrees format. " +
+                        "β, γ and φ are angles measured on the fault plane. For that reason they must be in the same, or in two opposite quadrants. \n"
+        );
+        VBox.setVgrow(txtarea,Priority.ALWAYS);
+        stageabout.setScene(new Scene(new VBox(txtarea)));
+        stageabout.setWidth(400);
+        stageabout.setHeight(500);
+        stageabout.centerOnScreen();
+    }
+
+    public void showInput()
+    {
+     stageinput.show();
+    }
+    public void showOutput()
+    {
+        stageoutput.show();
+    }
+    public void showAbout()
+    {
+        stageabout.show();
+    }
+
+}
 
 
 

@@ -9,12 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.control.TableColumn.CellEditEvent;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class TruDispTable
@@ -27,7 +31,8 @@ public class TruDispTable
 
     private Stage stage;
     private VBox  tableLayout = new VBox();
-    private Button removeButton ;
+    private HBox buttonsLayout= new HBox();
+    private Button removeButton;
 
     public TruDispTable()
     {
@@ -89,6 +94,24 @@ public class TruDispTable
     public void hide()
     {
         stage.hide();
+    }
+
+    public ArrayList<TDData> getDataList()
+    {
+       ArrayList<TDData> dt = new ArrayList<>();
+
+        data.stream().forEach(item -> dt.add(item.getTDData()));
+
+        return dt;
+    }
+
+    public void setObservableList(ArrayList<TDData> td)
+    {
+        data.removeAll();
+
+        data.addAll(td.stream().map(t -> new TDDataWrapper(t)).collect(Collectors.toList()));
+
+        table.setItems(data);
     }
 
     public TableView<TDDataWrapper> getTable()
