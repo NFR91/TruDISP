@@ -1566,7 +1566,14 @@ public class TruDisp extends Application {
                                                 {
                                                     if(data.setOsPlunch(osplunchTextField.getText(),osplunchErrorLabel.getText()))
                                                     {
-
+                                                        if(data.isDataValidForCalcuating())
+                                                        {
+                                                            if(data.Calculate(2))
+                                                            {
+                                                                displayData(data);
+                                                                TDTable.addData(data);
+                                                            }else{shakeStage();}
+                                                        }else{shakeStage();}
                                                     }else{shakeStage();}
                                                 }else{shakeStage();}
                                             }else{shakeStage();}
@@ -1672,6 +1679,64 @@ public class TruDisp extends Application {
 
         smhTextField.setText(data.getSmh().toString());
         smhErrorLabel.setText("± " + data.getSmhError());
+
+        fodTextField.setText(data.getFod().toString());
+        fodErrorLabel.setText("± "+ data.getFodError()+" º");
+
+        foddTextField.setText(data.getFodd().toString());
+        foddErrorLabel.setText("± "+ data.getFoddError()+" º");
+
+        opodTextField.setText(data.getOpod().toString());
+        opodErrorLabel.setText("± "+ data.getOpodError()+" º");
+
+        opoddTextField.setText(data.getOpodd().toString());
+        opoddErrorLabel.setText("± "+ data.getOpoddError()+" º");
+
+        smo1dTextField.setText(data.getSmo1d().toString());
+        smo1dErrorLabel.setText("± "+ data.getSmo1dError()+" º");
+
+        smo1ddTextField.setText(data.getSmo1dd().toString());
+        smo1ddErrorLabel.setText("± "+ data.getSmo1ddError()+" º");
+
+        smo2dTextField.setText(data.getSmo2d().toString());
+        smo2dErrorLabel.setText("± "+ data.getSmo2dError()+" º");
+
+        smo2ddTextField.setText(data.getSmo2dd().toString());
+        smo2ddErrorLabel.setText("± "+ data.getSmo2ddError()+" º");
+
+        ostrendTextField.setText(data.getOsTrend().toString());
+        ostrendErrorLabel.setText("± "+ data.getOsTrendError()+" º");
+
+        osplunchTextField.setText(data.getOsPlunch().toString());
+        osplunchErrorLabel.setText("± "+ data.getOsPlunchError()+" º");
+
+        fplTextField.setText(data.getFpl().toString());
+        fplErrorLabel.setText("± "+ data.getFplError());
+        fpmTextField.setText(data.getFpm().toString());
+        fpmErrorLabel.setText("± "+ data.getFpmError());
+        fpnTextField.setText(data.getFpn().toString());
+        fpnErrorLabel.setText("± "+ data.getFpnError());
+
+        oplTextField.setText(data.getOpl().toString());
+        oplErrorLabel.setText("± "+ data.getOplError());
+        opmTextField.setText(data.getOpm().toString());
+        opmErrorLabel.setText("± "+ data.getOpmError());
+        opnTextField.setText(data.getOpn().toString());
+        opnErrorLabel.setText("± "+ data.getOpnError());
+
+        aplTextField.setText(data.getApl().toString());
+        aplErrorLabel.setText("± "+ data.getAplError());
+        apmTextField.setText(data.getApm().toString());
+        apmErrorLabel.setText("± "+ data.getApmError());
+        apnTextField.setText(data.getApn().toString());
+        apnErrorLabel.setText("± "+ data.getApnError());
+
+        bplTextField.setText(data.getBpl().toString());
+        bplErrorLabel.setText("± "+ data.getBplError());
+        bpmTextField.setText(data.getBpm().toString());
+        bpmErrorLabel.setText("± "+ data.getBpmError());
+        bpnTextField.setText(data.getBpn().toString());
+        bpnErrorLabel.setText("± "+ data.getBpnError());
 
     }
 

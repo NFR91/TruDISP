@@ -105,6 +105,32 @@ public class TDData {
 
     }
 
+
+
+    public Boolean Calculate(Integer method)
+    {
+        try {
+            // calculo
+            switch (method) {
+                case 1:
+                {
+                    s[DATA] = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+                    calculateDistance();
+                    calculateErrors();
+                    break;
+                }
+                case 2:
+                {
+                    //TODO
+                }
+            }
+            return true;
+        }catch(Exception e){System.err.println(e);return false;}
+
+    }
+
+    //*********************************************************************
+
     public void initVariables()
     {
         /**Método 1*/
@@ -759,25 +785,6 @@ public class TDData {
         return (isNumber(data))? ((Double.parseDouble(data)<0||Double.parseDouble(data)>1)? false:true ):false;
     }
     /**Métodos de procesamiento de datos.*/
-
-    public Boolean Calculate(Integer method)
-    {
-        try {
-            // calculo
-            switch (method) {
-                case 1:
-                {
-                    s[DATA] = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
-                    calculateDistance();
-                    calculateErrors();
-                    break;
-                }
-            }
-            return true;
-        }catch(Exception e){System.err.println(e);return false;}
-
-    }
-
 
 
     // Método 1

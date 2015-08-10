@@ -37,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1568" column="0" selection-start-line="1568" selection-start-column="0" selection-end-line="1568" selection-end-column="0" />
+              <caret line="1739" column="0" selection-start-line="1739" selection-start-column="0" selection-end-line="1739" selection-end-column="0" />
               <folding>
                 <element signature="docComment;class#TruDisp#0" expanded="false" />
                 <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
@@ -52,9 +52,8 @@
                 <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-                <element signature="class#71155:71556" expanded="false" />
-                <element signature="method#handle#0;class#71155:71556" expanded="false" />
-                <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+                <element signature="class#71776:72177" expanded="false" />
+                <element signature="method#handle#0;class#71776:72177" expanded="false" />
                 <element signature="class#ValueChangeScrollListener#0" expanded="false" />
                 <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
                 <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -72,10 +71,10 @@
       <file leaf-file-name="TDData.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="13.375">
-              <caret line="1205" column="60" selection-start-line="1205" selection-start-column="60" selection-end-line="1205" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.8474265">
+              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
               <folding>
-                <element signature="method#TDData#0;class#TDData#0" expanded="false" />
+                <element signature="method#TDData#1;class#TDData#0" expanded="false" />
                 <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
                 <element signature="docComment;method#setBeta#0;class#TDData#0" expanded="false" />
                 <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -119,9 +118,7 @@
                 <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
                 <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
                 <element signature="method#isAngleValid4Method2#0;class#TDData#0" expanded="false" />
-                <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
-                <element signature="docComment;method#Calculate#0;class#TDData#0" expanded="false" />
-                <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
+                <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateSd#0;class#TDData#0" expanded="false" />
@@ -198,8 +195,8 @@
         <option value="$PROJECT_DIR$/src/TruDisp/Updater.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TDTable.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/MyUpdater.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/TDData.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/TDData.java" />
       </list>
     </option>
   </component>
@@ -644,9 +641,8 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71155:71556" expanded="false" />
-            <element signature="method#handle#0;class#71155:71556" expanded="false" />
-            <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#71776:72177" expanded="false" />
+            <element signature="method#handle#0;class#71776:72177" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -686,9 +682,8 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71155:71556" expanded="false" />
-            <element signature="method#handle#0;class#71155:71556" expanded="false" />
-            <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#71776:72177" expanded="false" />
+            <element signature="method#handle#0;class#71776:72177" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -708,7 +703,7 @@
           <caret line="230" column="16" selection-start-line="230" selection-start-column="16" selection-end-line="230" selection-end-column="16" />
           <folding>
             <element signature="method#TDData#0;class#TDData#0" expanded="false" />
-            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
+            <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,9 +746,8 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71155:71556" expanded="false" />
-            <element signature="method#handle#0;class#71155:71556" expanded="false" />
-            <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#71776:72177" expanded="false" />
+            <element signature="method#handle#0;class#71776:72177" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -773,7 +767,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#TDData#0;class#TDData#0" expanded="false" />
-            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
+            <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -866,9 +860,8 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71155:71556" expanded="false" />
-            <element signature="method#handle#0;class#71155:71556" expanded="false" />
-            <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#71776:72177" expanded="false" />
+            <element signature="method#handle#0;class#71776:72177" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -1033,7 +1026,7 @@
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1568" column="0" selection-start-line="1568" selection-start-column="0" selection-end-line="1568" selection-end-column="0" />
+          <caret line="1739" column="0" selection-start-line="1739" selection-start-column="0" selection-end-line="1739" selection-end-column="0" />
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
@@ -1048,9 +1041,8 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71155:71556" expanded="false" />
-            <element signature="method#handle#0;class#71155:71556" expanded="false" />
-            <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#71776:72177" expanded="false" />
+            <element signature="method#handle#0;class#71776:72177" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
@@ -1066,10 +1058,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="13.375">
-          <caret line="1205" column="60" selection-start-line="1205" selection-start-column="60" selection-end-line="1205" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.8474265">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
           <folding>
-            <element signature="method#TDData#0;class#TDData#0" expanded="false" />
+            <element signature="method#TDData#1;class#TDData#0" expanded="false" />
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="docComment;method#setBeta#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -1113,9 +1105,7 @@
             <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
             <element signature="method#isAngleValid4Method2#0;class#TDData#0" expanded="false" />
-            <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
-            <element signature="docComment;method#Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateSd#0;class#TDData#0" expanded="false" />
