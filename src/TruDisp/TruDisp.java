@@ -111,7 +111,6 @@ public class TruDisp extends Application {
     private final int SPLASH_WIDTH = 500;
 
 
-
     /**
      * Constantes
      */
@@ -151,6 +150,7 @@ public class TruDisp extends Application {
     @Override
     public void start(Stage mainStage) throws InterruptedException {
 
+        /**Splash Screen*/
         mainStage = new Stage(StageStyle.TRANSPARENT);
 
         // Creamos el contenedor de la imagen de splash;
@@ -183,6 +183,7 @@ public class TruDisp extends Application {
         mainStage.setScene(splashScene);
         mainStage.show();
 
+        // Revisamos si hay actualizaciones.
         update(splashProgressBar,splashProgressText,mainStage);
     }
 
@@ -232,18 +233,18 @@ public class TruDisp extends Application {
 
 
 
-    /**
-     * Iniciamos los componentes
-     */
+    /** Iniciamos los componentes  */
 
     private void initcomponents() {
         mainTruDispStage = new Stage(StageStyle.DECORATED);
         mainTruDispStage.setOnCloseRequest(event1 -> {System.exit(0);});
 
+        /**Dialogos*/
+        // Historial
         TDTable = new TDTable();
-
+        // Guardado y apertura
         truDispOpenSave = new TDOpenSave(mainTruDispStage);
-
+        // Dialogos de entradas, salidas e información
         trudispTDDialogs = new TDDialogs();
 
         /** Cuerpo de la aplicación*/
@@ -259,30 +260,19 @@ public class TruDisp extends Application {
         statusPane = new TruDispStatusPane();
         statusPane.setStatus("Bienvenido a TruDISP", WELCOMEICON);
 
-
         /** Método 1 */
-
         initMethod1ComponentsGrid();
-
         /** Método 2 */
         initMethod2ComponentsGrid();
-
         /**Método 3*/
-
         initMethod3ComponentsGrid();
-
         /**Displacement*/
-
         initDisplacementComponentsGrid();
-
         /**Resultados*/
         initResultComponentsGrid();
-
         /**Ponemos los valores por defecto*/
         clearcomponents();
-
         /** Definimos las características de crecimiento de los contenedores. */
-
         // Entradas
         HBox.setHgrow(methodsHBox, Priority.ALWAYS);
         HBox.setHgrow(method1GridLayout, Priority.SOMETIMES);
@@ -290,10 +280,8 @@ public class TruDisp extends Application {
         HBox.setHgrow(method3GridLayout, Priority.SOMETIMES);
         VBox.setVgrow(displacementGridLayout, Priority.ALWAYS);
         VBox.setVgrow(methodsHBox, Priority.ALWAYS);
-
         // Resultados
         VBox.setVgrow(resultGridLayout, Priority.ALWAYS);
-
 
         /** Establemcemos los componentes en sus contenedres*/
 
@@ -312,10 +300,20 @@ public class TruDisp extends Application {
         mainScene = new Scene(mainBorderLayout);
         mainScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
 
+        /**Barra de menú*/
+        initMenuBar();
 
+        /**Colocamos las acciones de los diferentes botones de la interface*/
+        initGUIActions();
+        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOMEICON);
+    }
+
+    private  void initMenuBar()
+    {
         /** Barra de menu */
         menuBar = new MenuBar();
 
+        // Menú
         trudispMenu = new Menu("TruDisp");
         trudispMenuCloseItem = new MenuItem("Exit");
         trudispMenuCloseItem.setOnAction(event -> System.exit(0));
@@ -324,9 +322,10 @@ public class TruDisp extends Application {
         trudispMenuOpenItem = new MenuItem("Open Session");
         trudispMenuOpenItem.setOnAction(even-> TDTable.setObservableList(truDispOpenSave.Open(statusPane)));
         trudispMenuAboutItem = new MenuItem("About");
-        trudispMenuAboutItem.setOnAction(event-> trudispTDDialogs.showAbout());
+        trudispMenuAboutItem.setOnAction(event -> trudispTDDialogs.showAbout());
         trudispMenu.getItems().addAll(trudispMenuAboutItem, trudispMenuOpenItem, trudispMenuSaveItem, trudispMenuCloseItem);
 
+        // Métodos
         methodsMenu = new Menu("Methods");
         method2CheckMenuItem = new CheckMenuItem("Method 2");
         method2CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(2, method2GridLayout, methodsHBox, mainTruDispStage));
@@ -334,8 +333,7 @@ public class TruDisp extends Application {
         method3CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(3, method3GridLayout, methodsHBox, mainTruDispStage));
         methodsMenu.getItems().addAll(method2CheckMenuItem, method3CheckMenuItem);
 
-
-
+        // Paneles.
         panelsMenu = new Menu("Panels");
         panelMenuHistoryItem = new MenuItem("History");
         panelMenuHistoryItem.setOnAction(event -> TDTable.show());
@@ -343,26 +341,16 @@ public class TruDisp extends Application {
         panelMenuInputItem.setOnAction(event-> trudispTDDialogs.showInput());
         panelMenuOutputItem = new MenuItem("Output");
         panelMenuOutputItem.setOnAction(event-> trudispTDDialogs.showOutput());
-
         panelMenuLabelsItems = new MenuItem("Labels");
         panelMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
-
         panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuLabelsItems,panelMenuInputItem,panelMenuOutputItem);
 
+        // Añadimos los menus.
         menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu);
         mainBorderLayout.setTop(menuBar);
 
 
-
-        /***/
-
-        initGUIActions();
-
-        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOMEICON);
-
-
     }
-
 
     private void initMethod1ComponentsGrid() {
 
@@ -1528,6 +1516,10 @@ public class TruDisp extends Application {
                 // TODO
                 TDData data = new TDData(statusPane);
 
+
+            // Obtenemos si esta activo o inactivo el método1
+            if(!method1GridLayout.getChildren().get(2).isDisable())
+            {
                 if (data.setBeta(betaTextField.getText(), betaErrorLabel.getText(), betaComboBox.getSelectionModel().getSelectedItem().toString())) {
                     if (data.setGamma(gammaTextField.getText(), gammaErrorLabel.getText(), gammaComboBox.getSelectionModel().getSelectedItem().toString())) {
                         if (data.setPhi(phiTextField.getText(), phiErrorLabel.getText(), phiComboBox.getSelectionModel().getSelectedItem().toString())) {
@@ -1540,36 +1532,53 @@ public class TruDisp extends Application {
                                                     if (data.Calculate(1)) {
                                                         displayData(data);
                                                         TDTable.addData(data);
-                                                    } else {
-                                                        shakeStage();
-                                                    }
-                                                } else {
-                                                    shakeStage();
-                                                }
-                                            } else {
-                                                shakeStage();
-                                            }
-                                        } else {
-                                            shakeStage();
-                                        }
-                                    } else {
-                                        shakeStage();
-                                    }
-                                } else {
-                                    shakeStage();
-                                }
-                            } else {
-                                shakeStage();
-                            }
-                        } else {
-                            shakeStage();
-                        }
-                    } else {
-                        shakeStage();
-                    }
-                } else {
-                    shakeStage();
-                }
+                                                    } else {shakeStage();}
+                                                } else {shakeStage();}
+                                            } else {shakeStage(); }
+                                        } else {shakeStage();}
+                                    } else {shakeStage();}
+                                } else {shakeStage();}
+                            } else {shakeStage();}
+                        } else {shakeStage();}
+                    } else {shakeStage();}
+                } else {shakeStage();}
+            }
+
+            if(!method2GridLayout.getChildren().get(2).isDisable())
+            {
+                if(data.setFod(fodTextField.getText(),fodErrorLabel.getText()))
+                {
+                    if(data.setFodd(foddTextField.getText(),foddErrorLabel.getText()))
+                    {
+                        if(data.setOpod(opodTextField.getText(),opodErrorLabel.getText()))
+                        {
+                            if(data.setOpodd(opoddTextField.getText(),opoddErrorLabel.getText()))
+                            {
+                                if(data.setSmo1d(smo1dTextField.getText(),smo1dLabel.getText()))
+                                {
+                                    if(data.setSmo1dd(smo1ddTextField.getText(),smo1ddErrorLabel.getText()))
+                                    {
+                                        if(data.setSmo2d(smo2dTextField.getText(),smo2dErrorLabel.getText()))
+                                        {
+                                            if(data.setSmo2dd(smo2ddTextField.getText(),smo2ddErrorLabel.getText()))
+                                            {
+                                                if(data.setOsTrend(ostrendTextField.getText(),ostrendErrorLabel.getText()))
+                                                {
+                                                    if(data.setOsPlunch(osplunchTextField.getText(),osplunchErrorLabel.getText()))
+                                                    {
+
+                                                    }else{shakeStage();}
+                                                }else{shakeStage();}
+                                            }else{shakeStage();}
+                                        }else{shakeStage();}
+                                    }else{shakeStage();}
+                                }else{shakeStage();}
+                            }else{shakeStage();}
+                        }else{shakeStage();}
+                    }else{shakeStage();}
+                }else{shakeStage();}
+            }
+
         });
 
 
@@ -1857,7 +1866,7 @@ class TDDialogs {
         im.setPreserveRatio(true);
         stageoutput.setScene(new Scene(new VBox(im)));
         stageoutput.setTitle("Output Variables Diagram");
-        stageoutput.setHeight(500*(im.getImage().getHeight()/im.getImage().getWidth()));
+        stageoutput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
         stageoutput.setWidth(500);
         stageoutput.show();
         stageoutput.requestFocus();

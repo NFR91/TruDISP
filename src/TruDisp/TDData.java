@@ -8,11 +8,14 @@ package TruDisp;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+import javax.xml.crypto.Data;
+
 
 public class TDData {
 
     // Variables
     private final int DATA=0,ERROR=1;
+    private final int DD=0,D=1;
     private Double PRECITION=10.0;
     private TruDispStatusPane statusPane;
     private final Double MINANGLE=0.00157; //.1 grados
@@ -72,16 +75,39 @@ public class TDData {
         sh = new Double[] {Double.parseDouble(buffer[26]),Double.parseDouble(buffer[27])};
         theta = Double.parseDouble(buffer[28]);
         thetanull = Double.parseDouble(buffer[29]);
-        setNotes(buffer[30]);
+
+        fod = new Double[] {Double.parseDouble(buffer[30]),Double.parseDouble(buffer[31])};
+        fodd = new Double[] {Double.parseDouble(buffer[32]),Double.parseDouble(buffer[33])};
+        opod = new Double[] {Double.parseDouble(buffer[34]),Double.parseDouble(buffer[35])};
+        opodd = new Double[] {Double.parseDouble(buffer[36]),Double.parseDouble(buffer[37])};
+        smo1d = new Double[] {Double.parseDouble(buffer[38]),Double.parseDouble(buffer[39])};
+        smo1dd = new Double[] {Double.parseDouble(buffer[40]),Double.parseDouble(buffer[41])};
+        smo2d = new Double[] {Double.parseDouble(buffer[42]),Double.parseDouble(buffer[43])};
+        smo2dd = new Double[] {Double.parseDouble(buffer[44]),Double.parseDouble(buffer[45])};
+        ostrend = new Double[] {Double.parseDouble(buffer[46]),Double.parseDouble(buffer[47])};
+        osplunch= new Double[] {Double.parseDouble(buffer[48]),Double.parseDouble(buffer[49])};
+
+        fpl = new Double[] {Double.parseDouble(buffer[50]),Double.parseDouble(buffer[51])};
+        fpm = new Double[] {Double.parseDouble(buffer[52]),Double.parseDouble(buffer[53])};
+        fpn = new Double[] {Double.parseDouble(buffer[54]),Double.parseDouble(buffer[55])};
+        opl = new Double[] {Double.parseDouble(buffer[56]),Double.parseDouble(buffer[57])};
+        opm = new Double[] {Double.parseDouble(buffer[58]),Double.parseDouble(buffer[59])};
+        opn = new Double[] {Double.parseDouble(buffer[60]),Double.parseDouble(buffer[61])};
+        apl = new Double[] {Double.parseDouble(buffer[62]),Double.parseDouble(buffer[63])};
+        apm = new Double[] {Double.parseDouble(buffer[64]),Double.parseDouble(buffer[65])};
+        apn = new Double[] {Double.parseDouble(buffer[66]),Double.parseDouble(buffer[67])};
+        bpl = new Double[] {Double.parseDouble(buffer[68]),Double.parseDouble(buffer[69])};
+        bpn = new Double[] {Double.parseDouble(buffer[70]),Double.parseDouble(buffer[71])};
+        bpm = new Double[] {Double.parseDouble(buffer[72]),Double.parseDouble(buffer[73])};
+
+        setNotes(buffer[74]);
 
 
     }
 
-
-
-
     public void initVariables()
     {
+        /**Método 1*/
         beta = new Double[ ] {0.0,0.0};
         betaO = new String();
 
@@ -107,18 +133,45 @@ public class TDData {
 
         setMapView("Map & Sec");
 
+        /**Método 2*/
+        fod = new Double[ ] {0.0,0.0};
+        fodd = new Double[ ] {0.0,0.0};
+
+        opod= new Double[ ] {0.0,0.0};
+        opodd= new Double[ ] {0.0,0.0};
+        smo1d= new Double[ ] {0.0,0.0};
+        smo1dd= new Double[ ] {0.0,0.0};
+        smo2d= new Double[ ] {0.0,0.0};
+        smo2dd= new Double[ ] {0.0,0.0};
+
+        osplunch = new Double[ ] {0.0,0.0};
+        ostrend = new Double[ ] {0.0,0.0};
+
+        /**Método 3*/
+        fpn  = new Double[ ] {0.0,0.0};
+        fpl = new Double[ ] {0.0,0.0};
+        fpm= new Double[ ] {0.0,0.0};
+
+        opl= new Double[ ] {0.0,0.0};
+        opn= new Double[ ] {0.0,0.0};
+        opm= new Double[ ] {0.0,0.0};
+
+        apn= new Double[ ] {0.0,0.0};
+        apl= new Double[ ] {0.0,0.0};
+        apm= new Double[ ] {0.0,0.0};
+
+        bpl= new Double[ ] {0.0,0.0};
+        bpm= new Double[ ] {0.0,0.0};
+        bpn= new Double[ ] {0.0,0.0};
+
         experiment="";
         notes="";
 
-
     }
-    // setMethods
 
-    public void set(String data){
+    /**Set Methods*/
 
-    };
-
-
+    // Método 1
     public Boolean setBeta(String data,String error,String orientation)
     {
         if(isAngleValid(data))
@@ -135,7 +188,6 @@ public class TDData {
             return false;
         }
     }
-
     public Boolean setGamma(String data,String error, String orientation)
     {
         if(isAngleValid(data))
@@ -152,7 +204,6 @@ public class TDData {
             return false;
         }
     }
-
     public Boolean setPhi(String data,String error, String orientation)
     {
         if(isAngleValid(data))
@@ -169,7 +220,6 @@ public class TDData {
             return false;
         }
     }
-
     public Boolean setApha(String data,String error)
     {
         if(isAngleValid(data))
@@ -186,7 +236,6 @@ public class TDData {
         }
 
     }
-
     public Boolean setSm(String data,String error)
     {
         if(isDisplacementValid(data))
@@ -203,7 +252,6 @@ public class TDData {
         }
 
     }
-
     public Boolean setSmd(String data,String error)
     {
         if(isDisplacementValid(data))
@@ -220,7 +268,6 @@ public class TDData {
         }
 
     }
-
     public Boolean setSmh(String data,String error)
     {
         if(isDisplacementValid(data))
@@ -237,13 +284,360 @@ public class TDData {
         }
 
     }
-
-
     public Boolean setMapView(String view)
     {
         MapView=view;
         return true;
     }
+
+    // Método 2
+
+    public Boolean setFod(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            fod[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            fod[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle d D of fault plane is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+
+    }
+    public Boolean setFodd(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            fodd[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            fodd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle  DD of fault plane is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+
+    }
+    public Boolean setOpod(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            opod[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            opod[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle D of observation plane is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOpodd(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            opodd[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            opodd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle d DD of observation plane is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setSmo1d(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            smo1d[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            smo1d[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle D of marker 1  is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setSmo1dd(String data, String error)
+    {
+
+        if(isAngleValid4Method2(data))
+        {
+            smo1dd[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            smo1dd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle DD of marker 1  is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setSmo2d(String data, String error)
+    {
+
+        if(isAngleValid4Method2(data))
+        {
+            smo2d[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            smo2d[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle D of marker 2  is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setSmo2dd(String data, String error)
+    {
+
+        if(isAngleValid4Method2(data))
+        {
+            smo2dd[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            smo2dd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle DD of marker 2  is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOsTrend(String data,String error)
+    {
+
+        if(isAngleValid4Method2(data))
+        {
+            ostrend[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            ostrend[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle Trend is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOsPlunch(String data, String error)
+    {
+        if(isAngleValid4Method2(data))
+        {
+            osplunch[DATA] = Math.toRadians(Double.parseDouble(data));
+            errorValue = error.split(" ");
+            osplunch[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR angle Plunge  is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+
+
+    // Método 3
+
+
+    public Boolean setFpl(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            fpl[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            fpl[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR fpl is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setFpm(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            fpm[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            fpm[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR fpm is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setFpn(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            fpn[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            fpn[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR fpn is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOpl(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            opl[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            opl[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR opl is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOpn(String data, String error)
+    {
+
+        if(isDirCosineValid(data))
+        {
+            opn[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            opn[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR opn is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setOpm(String data, String error)
+    {
+
+        if(isDirCosineValid(data))
+        {
+            opm[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            opm[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR opm is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setApl(String data, String error)
+    {
+
+        if(isDirCosineValid(data))
+        {
+            apl[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            apl[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR apl is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setApn(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            apn[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            apn[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR apn is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setApm(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            apm[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            apm[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR apm is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setBpl(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            bpl[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            bpl[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR bpl is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setBpn(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            bpn[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            bpn[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR bpn is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setBpm(String data, String error)
+    {
+        if(isDirCosineValid(data))
+        {
+            bpm[DATA] = (Double.parseDouble(data));
+            errorValue = error.split(" ");
+            bpm[ERROR]= (Double.parseDouble(errorValue[1]));
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR bpm is not valid",TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+
+    // General
 
     public Boolean setExperiment(String exp)
     {
@@ -255,7 +649,7 @@ public class TDData {
     {notes=nts; return true;}
 
 
-    // Métodos de validación
+    /**Métodos de validación*/
 
     public Boolean isDataValidForCalcuating()
     {
@@ -333,7 +727,6 @@ public class TDData {
         return false;
     }
 
-
     public Boolean isAngleValid(String data)
     {
         return (isNumber(data)) ? ( (Double.parseDouble(data)<0 || Double.parseDouble(data)>90) ? false : true ) : false;
@@ -356,8 +749,16 @@ public class TDData {
         return true;
     }
 
+    public Boolean isAngleValid4Method2(String data)
+    {
+        return (isNumber(data)) ? ((Double.parseDouble(data)<0||Double.parseDouble(data)>180)? false:true):false;
+    }
 
-    // Métodos de procesamiento de datos
+    public Boolean isDirCosineValid(String data)
+    {
+        return (isNumber(data))? ((Double.parseDouble(data)<0||Double.parseDouble(data)>1)? false:true ):false;
+    }
+    /**Métodos de procesamiento de datos.*/
 
     public Boolean Calculate(Integer method)
     {
@@ -489,7 +890,6 @@ public class TDData {
         }
         return 0.0;
     }
-
     public Double calculateSs(Double s,Double gamma)
     { return s*Math.cos(gamma);}
     public Double calculateSd(Double s, Double gamma)
@@ -602,7 +1002,7 @@ public class TDData {
 
     }
 
-// Getters
+    /**Metodos Get*/
 
     public Double getS()
     {return (double)Math.round(s[DATA]*PRECITION)/PRECITION;}
@@ -673,8 +1073,102 @@ public class TDData {
     {return notes;}
 
 
+    // Metodo 2
 
-    // ToString
+    public Double getFod()
+    {return Math.round(Math.toDegrees(fod[DATA])*PRECITION)/PRECITION;}
+    public Double getFodError()
+    {return Math.round(Math.toDegrees(fod[ERROR])*PRECITION)/PRECITION;}
+    public Double getFodd()
+    {return Math.round(Math.toDegrees(fodd[DATA])*PRECITION)/PRECITION;}
+    public Double getFoddError()
+    {return Math.round(Math.toDegrees(fodd[ERROR])*PRECITION)/PRECITION;}
+    public Double getOpod()
+    {return Math.round(Math.toDegrees(opod[DATA])*PRECITION)/PRECITION;}
+    public Double getOpodError()
+    {return Math.round(Math.toDegrees(opod[ERROR])*PRECITION)/PRECITION;}
+    public Double getOpodd()
+    {return Math.round(Math.toDegrees(opodd[DATA])*PRECITION)/PRECITION;}
+    public Double getOpoddError()
+    {return Math.round(Math.toDegrees(opodd[ERROR])*PRECITION)/PRECITION;}
+    public Double getSmo1d()
+    {return Math.round(Math.toDegrees(smo1d[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo1dError()
+    {return Math.round(Math.toDegrees(smo1d[ERROR])*PRECITION)/PRECITION;}
+    public Double getSmo1dd()
+    {return Math.round(Math.toDegrees(smo1dd[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo1ddError()
+    {return Math.round(Math.toDegrees(smo1dd[ERROR])*PRECITION)/PRECITION;}
+    public Double getSmo2d()
+    {return Math.round(Math.toDegrees(smo2d[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo2dError()
+    {return Math.round(Math.toDegrees(smo2d[ERROR])*PRECITION)/PRECITION;}
+    public Double getSmo2dd()
+    {return Math.round(Math.toDegrees(smo2dd[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo2ddError()
+    {return Math.round(Math.toDegrees(smo2dd[ERROR])*PRECITION)/PRECITION;}
+    public Double getOsTrend()
+    {return Math.round(Math.toDegrees(ostrend[DATA])*PRECITION)/PRECITION;}
+    public Double getOsTrendError()
+    {return Math.round(Math.toDegrees(ostrend[ERROR])*PRECITION)/PRECITION;}
+    public Double getOsPlunch()
+    {return Math.round(Math.toDegrees(osplunch[DATA])*PRECITION)/PRECITION;}
+    public Double getOsPlunchError()
+    {return Math.round(Math.toDegrees(osplunch[DATA])*PRECITION)/PRECITION;}
+
+    // Metodo 3
+
+    public Double getFpl()
+    {return Math.round(fpl[DATA]*PRECITION)/PRECITION;}
+    public Double getFplError()
+    {return Math.round(fpl[ERROR]*PRECITION)/PRECITION;}
+    public Double getFpn()
+    {return Math.round(fpn[DATA]*PRECITION)/PRECITION;}
+    public Double getFpnError()
+    {return Math.round(fpn[ERROR]*PRECITION)/PRECITION;}
+    public Double getFpm()
+    {return Math.round(fpm[DATA]*PRECITION)/PRECITION;}
+    public Double getFpmError()
+    {return Math.round(fpm[ERROR]*PRECITION)/PRECITION;}
+    public Double getOpl()
+    {return Math.round(opl[DATA]*PRECITION)/PRECITION;}
+    public Double getOplError()
+    {return Math.round(opl[ERROR]*PRECITION)/PRECITION;}
+    public Double getOpm()
+    {return Math.round(opm[DATA]*PRECITION)/PRECITION;}
+    public Double getOpmError()
+    {return Math.round(opm[ERROR]*PRECITION)/PRECITION;}
+    public Double getOpn()
+    {return Math.round(opn[DATA]*PRECITION)/PRECITION;}
+    public Double getOpnError()
+    {return Math.round(opn[ERROR]*PRECITION)/PRECITION;}
+    public Double getApl()
+    {return Math.round(apl[DATA]*PRECITION)/PRECITION;}
+    public Double getAplError()
+    {return Math.round(apl[ERROR]*PRECITION)/PRECITION;}
+    public Double getApn()
+    {return Math.round(apn[DATA]*PRECITION)/PRECITION;}
+    public Double getApnError()
+    {return Math.round(apn[ERROR]*PRECITION)/PRECITION;}
+    public Double getApm()
+    {return Math.round(apm[DATA]*PRECITION)/PRECITION;}
+    public Double getApmError()
+    {return Math.round(apm[ERROR]*PRECITION)/PRECITION;}
+    public Double getBpl()
+    {return Math.round(bpl[DATA]*PRECITION)/PRECITION;}
+    public Double getBplError()
+    {return Math.round(bpl[ERROR]*PRECITION)/PRECITION;}
+    public Double getBpn()
+    {return Math.round(bpn[DATA]*PRECITION)/PRECITION;}
+    public Double getBpnError()
+    {return Math.round(bpn[ERROR]*PRECITION)/PRECITION;}
+    public Double getBpm()
+    {return Math.round(bpm[DATA]*PRECITION)/PRECITION;}
+    public Double getBpmError()
+    {return Math.round(bpm[ERROR]*PRECITION)/PRECITION;}
+
+
+    /**To String*/
 
 
     @Override
@@ -682,21 +1176,43 @@ public class TDData {
 
         String sp=";";
 
-        return experiment +sp+
-                getBeta() +sp+ getBetaError() +sp+ getBetaOrientation() +sp+
-                getGamma()+sp+ getGammaError()+sp+ getGammaOrientation()+sp+
-                getPhi()  +sp+ getPhiError()  +sp+ getPhiError()        +sp+
-                getAlpha()+sp+ getAlphaError()+sp+
-                getSm()   +sp+ getSmError()   +sp+
-                getSmd()  +sp+ getsmdError()  +sp+
-                getSmh()  +sp+ getSmhError()  +sp+
-                getS()    +sp+ getSError()    +sp+
-                getSs()   +sp+ getSsError()   +sp+
-                getSd()   +sp+ getSdError()   +sp+
-                getSv()   +sp+ getSvError()   +sp+
-                getSh()   +sp+ getShError()   +sp+
-                getTheta()+sp+
-                getThetaNull()                +sp+
+        return experiment       +sp+
+                getBeta()       +sp+ getBetaError()     +sp+ getBetaOrientation() +sp+
+                getGamma()      +sp+ getGammaError()    +sp+ getGammaOrientation()+sp+
+                getPhi()        +sp+ getPhiError()      +sp+ getPhiError()        +sp+
+                getAlpha()      +sp+ getAlphaError()    +sp+
+                getSm()         +sp+ getSmError()       +sp+
+                getSmd()        +sp+ getsmdError()      +sp+
+                getSmh()        +sp+ getSmhError()      +sp+
+                getS()          +sp+ getSError()        +sp+
+                getSs()         +sp+ getSsError()       +sp+
+                getSd()         +sp+ getSdError()       +sp+
+                getSv()         +sp+ getSvError()       +sp+
+                getSh()         +sp+ getShError()       +sp+
+                getTheta()      +sp+
+                getThetaNull()  +sp+
+                getFod()        +sp+ getFodError()      +sp+
+                getFodd()       +sp+ getFoddError()     +sp+
+                getOpod()       +sp+ getOpodError()     +sp+
+                getOpodd()      +sp+ getOpoddError()    +sp+
+                getSmo1d()      +sp+ getSmo1dError()    +sp+
+                getSmo1dd()     +sp+getSmo1ddError()    +sp+
+                getSmo2d()      +sp+ getSmo2dError()    +sp+
+                getSmo2dd()     +sp+getSmo2ddError()    +sp+
+                getOsTrend()    +sp+getOsTrendError()   +sp+
+                getOsPlunch()   +sp+getOsPlunchError()  +sp+
+                getFpl()        +sp+ getFplError()      +sp+
+                getFpm()        +sp+ getFpmError()      +sp+
+                getFpn()        +sp+ getFpnError()      +sp+
+                getOpl()        +sp+  getOplError()     +sp+
+                getOpm()        +sp+ getOpmError()      +sp+
+                getOpn()        +sp+ getOpnError()      +sp+
+                getApl()        +sp+ getAplError()      +sp+
+                getApm()        +sp+ getApmError()      +sp+
+                getApn()        +sp+ getApnError()      +sp+
+                getBpl()        +sp+ getBplError()      +sp+
+                getBpm()        +sp+ getBpmError()      +sp+
+                getBpn()        +sp+ getBpnError()      +sp+
                 getNotes();
     }
 
