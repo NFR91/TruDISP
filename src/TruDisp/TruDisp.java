@@ -1,6 +1,5 @@
 package TruDisp;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.*;
@@ -26,8 +25,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.util.Duration;
 
-import javafx.concurrent.*;
-
 
 /**
  * Created by Nieto on 29/07/15.
@@ -48,11 +45,11 @@ public class TruDisp extends Application {
     private HBox methodsHBox;
     private MenuBar menuBar;
     private Menu trudispMenu, methodsMenu, panelsMenu;
-    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,panelMenuOutputItem,panelMenuInputItem,trudispMenuAboutItem;
+    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
     private Stage mainTruDispStage;
     private Scene mainScene;
-    private TruDispTable truDispTable;
+    private TDTable TDTable;
     private TDOpenSave truDispOpenSave;
     private Boolean shakeStageFlag = true;
     private Integer methodFlag = 0;
@@ -111,12 +108,8 @@ public class TruDisp extends Application {
 
     // SplashScreen
     private static final String SPLASH_IMAGE = "Images/splashimage.png";
-    private VBox splashVBoxLayout;
-    private Label splashProgressText;
-    private ProgressBar splashProgressBar;
-    private ImageView splashImageView;
     private final int SPLASH_WIDTH = 500;
-    private final int SPLASH_HEIGHT = 500;
+
 
 
     /**
@@ -141,6 +134,9 @@ public class TruDisp extends Application {
     private static final String VERSION = " v: 2.0";
 
     public static final String TRUDISP_STYLE_SHEET = "TruDisp/TruDispStyleSheet.css";
+    public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
+    public static final Double TRU_DISP_VERSION = 1.9;
+    public static final String REPOSITORY ="beta";
 
     /**
      * Imagenes
@@ -154,7 +150,40 @@ public class TruDisp extends Application {
 
     @Override
     public void start(Stage mainStage) throws InterruptedException {
-        splashScreen(mainStage);
+
+        mainStage = new Stage(StageStyle.TRANSPARENT);
+
+        // Creamos el contenedor de la imagen de splash;
+        ImageView splashImageView = new ImageView(new Image(SPLASH_IMAGE));
+        splashImageView.setFitWidth(SPLASH_WIDTH);
+        splashImageView.setPreserveRatio(true);
+
+        // Creamos el contenedor del texto ;
+        Label splashProgressText = new Label("Iniciando TruDISP");
+        splashProgressText.setId(SPLASH_PROGRESS_TEXT);
+        splashProgressText.setMaxWidth(Double.MAX_VALUE);
+
+        // Creamos el contenedor de la barra de progreso;
+        ProgressBar splashProgressBar = new ProgressBar(0);
+        splashProgressBar.setId(SPLASH_PROGRESS_BAR);
+        splashProgressBar.setMaxWidth(Double.MAX_VALUE);
+
+
+        // Creamos el layout del splash;
+        VBox splashVBoxLayout = new VBox();
+        splashVBoxLayout.getChildren().addAll(splashImageView, splashProgressText, splashProgressBar);
+
+        Scene splashScene = new Scene(splashVBoxLayout);
+        splashScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
+
+        splashScene.setFill(Color.WHITE);
+        splashVBoxLayout.setBackground(Background.EMPTY);
+
+
+        mainStage.setScene(splashScene);
+        mainStage.show();
+
+        update(splashProgressBar,splashProgressText,mainStage);
     }
 
     /**
@@ -165,55 +194,18 @@ public class TruDisp extends Application {
     }
 
 
-    private void splashScreen(Stage stage) {
+    private void update(ProgressBar splashProgressBar, Label splashProgressText,Stage stage) {
 
-        // Creamos el contenedor de la imagen de splash;
-        splashImageView = new ImageView(new Image(SPLASH_IMAGE));
-        splashImageView.setFitWidth(SPLASH_WIDTH);
-        splashImageView.setPreserveRatio(true);
-
-        // Creamos el contenedor del texto ;
-        splashProgressText = new Label("Iniciando TruDISP");
-        splashProgressText.setId(SPLASH_PROGRESS_TEXT);
-        splashProgressText.setMaxWidth(Double.MAX_VALUE);
-
-        // Creamos el contenedor de la barra de progreso;
-        splashProgressBar = new ProgressBar(0);
-        splashProgressBar.setId(SPLASH_PROGRESS_BAR);
-        splashProgressBar.setMaxWidth(Double.MAX_VALUE);
-
-
-        // Creamos el layout del splash;
-        splashVBoxLayout = new VBox();
-        splashVBoxLayout.getChildren().addAll(splashImageView, splashProgressText, splashProgressBar);
-
-        final Task<Integer> loadingTask = new Task<Integer>() {
-
-
-            @Override
-            protected Integer call() throws Exception {
-
-                // Loading Things
-                updateMessage("Loading");
-                Integer i;
-                for (i = 1; i <= 400; i++) {
-                    if (isCancelled())
-                        break;
-
-                    Thread.sleep(4);
-
-                    // Mostramos el progreso.
-
-                    updateProgress(i, 400);
-                }
-                return 0;
+        MyUpdater up = new MyUpdater(splashProgressBar,splashProgressText,stage);
+        up.getIsreadyProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue)
+            {
+                showMainStage();
             }
-        };
+        });
 
+        up.updateApp();
 
-        showSplash(stage, loadingTask, () -> showMainStage());
-
-        new Thread(loadingTask).start();
     }
 
 
@@ -237,37 +229,7 @@ public class TruDisp extends Application {
 
     }
 
-    private void showSplash(final Stage stage, Task<?> task, InitCompletionHandler initCompletionHandler) {
-        splashProgressText.textProperty().bind(task.messageProperty());
-        splashProgressBar.progressProperty().bind(task.progressProperty());
 
-        task.stateProperty().addListener((observable, oldState, newState) -> {
-
-            if (newState == Worker.State.SUCCEEDED) {
-                stage.toFront();
-                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1), splashVBoxLayout);
-                fadeSplash.setFromValue(1.0);
-                fadeSplash.setToValue(0.0);
-                fadeSplash.setOnFinished(actionEvent -> stage.hide());
-                fadeSplash.play();
-                initCompletionHandler.complete();
-
-            }
-        });
-
-        Scene splashScene = new Scene(splashVBoxLayout);
-        splashScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
-
-        splashScene.setFill(Color.WHITE);
-        splashVBoxLayout.setBackground(Background.EMPTY);
-
-
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setScene(splashScene);
-        stage.show();
-
-
-    }
 
 
     /**
@@ -278,7 +240,7 @@ public class TruDisp extends Application {
         mainTruDispStage = new Stage(StageStyle.DECORATED);
         mainTruDispStage.setOnCloseRequest(event1 -> {System.exit(0);});
 
-        truDispTable = new TruDispTable();
+        TDTable = new TDTable();
 
         truDispOpenSave = new TDOpenSave(mainTruDispStage);
 
@@ -358,12 +320,12 @@ public class TruDisp extends Application {
         trudispMenuCloseItem = new MenuItem("Exit");
         trudispMenuCloseItem.setOnAction(event -> System.exit(0));
         trudispMenuSaveItem = new MenuItem("Save Session");
-        trudispMenuSaveItem.setOnAction(event -> { truDispOpenSave.Save(truDispTable.getDataList());} );
+        trudispMenuSaveItem.setOnAction(event -> { truDispOpenSave.Save(TDTable.getDataList());} );
         trudispMenuOpenItem = new MenuItem("Open Session");
-        trudispMenuOpenItem.setOnAction(even-> truDispTable.setObservableList(truDispOpenSave.Open(statusPane)));
+        trudispMenuOpenItem.setOnAction(even-> TDTable.setObservableList(truDispOpenSave.Open(statusPane)));
         trudispMenuAboutItem = new MenuItem("About");
         trudispMenuAboutItem.setOnAction(event-> trudispTDDialogs.showAbout());
-        trudispMenu.getItems().addAll(trudispMenuAboutItem,trudispMenuOpenItem, trudispMenuSaveItem, trudispMenuCloseItem);
+        trudispMenu.getItems().addAll(trudispMenuAboutItem, trudispMenuOpenItem, trudispMenuSaveItem, trudispMenuCloseItem);
 
         methodsMenu = new Menu("Methods");
         method2CheckMenuItem = new CheckMenuItem("Method 2");
@@ -376,17 +338,16 @@ public class TruDisp extends Application {
 
         panelsMenu = new Menu("Panels");
         panelMenuHistoryItem = new MenuItem("History");
-        panelMenuHistoryItem.setOnAction(event -> {
-            truDispTable.show();
-        });
+        panelMenuHistoryItem.setOnAction(event -> TDTable.show());
         panelMenuInputItem = new MenuItem("Input");
-        panelMenuInputItem.setOnAction(event->
-        {
-            trudispTDDialogs.showInput();
-        });
+        panelMenuInputItem.setOnAction(event-> trudispTDDialogs.showInput());
         panelMenuOutputItem = new MenuItem("Output");
         panelMenuOutputItem.setOnAction(event-> trudispTDDialogs.showOutput());
-        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuInputItem,panelMenuOutputItem);
+
+        panelMenuLabelsItems = new MenuItem("Labels");
+        panelMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
+
+        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuLabelsItems,panelMenuInputItem,panelMenuOutputItem);
 
         menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu);
         mainBorderLayout.setTop(menuBar);
@@ -1358,10 +1319,6 @@ public class TruDisp extends Application {
 
     }
 
-    public interface InitCompletionHandler {
-        void complete();
-    }
-
     private void clearcomponents() {
         String angleErrorString = "± " + "0.0" + " º";
         String defaultValue = "0.0";
@@ -1582,7 +1539,7 @@ public class TruDisp extends Application {
                                                 if (data.isDataValidForCalcuating()) {
                                                     if (data.Calculate(1)) {
                                                         displayData(data);
-                                                        truDispTable.addData(data);
+                                                        TDTable.addData(data);
                                                     } else {
                                                         shakeStage();
                                                     }
@@ -1617,9 +1574,9 @@ public class TruDisp extends Application {
 
 
         /**Manejo de la tabla*/
-        truDispTable.getTable().setOnMouseClicked(event -> {
-            if (truDispTable.getTable().getSelectionModel().getSelectedItem() != null) {
-                TDData data = truDispTable.getTable().getSelectionModel().getSelectedItem().getTDData();
+        TDTable.getTable().setOnMouseClicked(event -> {
+            if (TDTable.getTable().getSelectionModel().getSelectedItem() != null) {
+                TDData data = TDTable.getTable().getSelectionModel().getSelectedItem().getTDData();
                 displayData(data);
             }
 
@@ -1864,36 +1821,55 @@ class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
 
 class TDDialogs {
 
-    private Stage stageinput,stageoutput,stageabout;
+    private Stage stageinput,stageoutput,stageabout,stagelabels;
     private VBox  box;
     private ImageView inputim,outputim;
     private Scene scene;
+    private ImageView im;
+    private TextArea txtarea;
 
     public TDDialogs()
     {
         stageinput = new Stage(StageStyle.DECORATED);
         stageoutput = new Stage(StageStyle.DECORATED);
         stageabout = new Stage(StageStyle.DECORATED);
+        stagelabels = new Stage(StageStyle.DECORATED);
+    }
 
-        ImageView im = new ImageView(new Image("Images/data.jpg"));
+    public void showInput()
+    {
+        im = new ImageView(new Image("Images/data.jpg"));
         im.fitWidthProperty().bind(stageinput.widthProperty());
         im.fitHeightProperty().bind(stageinput.heightProperty());
         im.setPreserveRatio(true);
         stageinput.setScene(new Scene(new VBox(im)));
+        stageinput.setTitle("Input Variables Diagram");
         stageinput.setWidth(500);
-
+        stageinput.setHeight(500*(im.getImage().getHeight()/im.getImage().getWidth()));
+        stageinput.show();
+        stageinput.requestFocus();
+    }
+    public void showOutput()
+    {
         im = new ImageView(new Image("Images/outcome.jpg"));
         im.fitWidthProperty().bind(stageoutput.widthProperty());
         im.fitHeightProperty().bind(stageoutput.heightProperty());
         im.setPreserveRatio(true);
         stageoutput.setScene(new Scene(new VBox(im)));
+        stageoutput.setTitle("Output Variables Diagram");
+        stageoutput.setHeight(500*(im.getImage().getHeight()/im.getImage().getWidth()));
         stageoutput.setWidth(500);
-
-        TextArea txtarea= new TextArea();
+        stageoutput.show();
+        stageoutput.requestFocus();
+    }
+    public void showAbout()
+    {
+        txtarea= new TextArea();
         txtarea.setWrapText(true);
         txtarea.setEditable(false);
         txtarea.setText(
-                "© (2013) Nieto-Samaniego A. F. and Xu S.-S.\n\nAuthored by:\n\nR. Nieto-Fuentes\n" +
+                "© (2013) Nieto-Samaniego A. F. and Xu S.-S." +
+                        "\n\nAuthored by:\n\nR. Nieto-Fuentes\n" +
                         "Universidad Nacional Autónoma de México, Centro de Física Aplicada y Tecnología Avanzada, " +
                         "Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n\n" +
                         "Nieto-Samaniego A. F., Xu S.-S., Alaniz-Alvarez, S. A.\n" +
@@ -1911,24 +1887,41 @@ class TDDialogs {
                         "The measuring tool is usually a compass or protractor. The angular data is in decimal degrees format. " +
                         "β, γ and φ are angles measured on the fault plane. For that reason they must be in the same, or in two opposite quadrants. \n"
         );
-        VBox.setVgrow(txtarea,Priority.ALWAYS);
+        VBox.setVgrow(txtarea, Priority.ALWAYS);
         stageabout.setScene(new Scene(new VBox(txtarea)));
+        stageabout.setTitle("About TruDisp");
         stageabout.setWidth(400);
         stageabout.setHeight(500);
         stageabout.centerOnScreen();
-    }
-
-    public void showInput()
-    {
-     stageinput.show();
-    }
-    public void showOutput()
-    {
-        stageoutput.show();
-    }
-    public void showAbout()
-    {
         stageabout.show();
+        stageabout.requestFocus();
+    }
+    public void showLables()
+    {
+        txtarea = new TextArea();
+        txtarea.setWrapText(true);
+        txtarea.setEditable(false);
+        txtarea.setText("  θ :      180 - (  β + γ  )  or  (  β - γ  )\n" +
+                "θnull:   180 - (  β + φ )  or  (  β + φ )\n  " +
+                "β :      Pitch of the cut-off marker\n  " +
+                "γ :      Pitch of the slip lineation (slickenline)\n  " +
+                "φ:      Pitch of the observation line\n  " +
+                "α :      Dip of the fault plane\n  " +
+                "Sm:    Apparent displacement along the observation line\n  " +
+                "Smd:  Apparent dip displacement (separation) along the dip line\n  " +
+                "Smh:  Apparent dip displacement (separation) along the strike line\n  " +
+                "S:       Total true displacement\n  " +
+                "St:      Horizontal displacement (heave)\n  " +
+                "Sv:     Vertical displacement (throw)\n  " +
+                "Sd:     Dip-slip displacement\n  " +
+                "Ss:     Strike-slip displacement");
+        VBox.setVgrow(txtarea, Priority.ALWAYS);
+        stagelabels.setScene(new Scene(new VBox(txtarea)));
+        stagelabels.setTitle("Labels");
+        stagelabels.setWidth(400);
+        stagelabels.setHeight(400);
+        stagelabels.show();
+        stagelabels.requestFocus();
     }
 
 }

@@ -21,20 +21,20 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 
-public class TruDispTable
+public class TDTable
 {
     private final TableView<TDDataWrapper> table;
     private ObservableList<TDDataWrapper> data;
-    private TableColumn expCol, sCol,notesCol,ssCol,sdCol,svCol,shCol, mapviewCol,betaCol, gammaCol, phiCol, alphaCol,smCol,smdCol,smhCol;
+    private TableColumn faultCol, sCol,notesCol,ssCol,sdCol,svCol,shCol, mapviewCol,betaCol, gammaCol, phiCol, alphaCol,smCol,smdCol,smhCol,thetaCol,thetanullCol;
     private TableColumn svlCol,seCol,ssvlCol,sseCol,sdvlCol,sdeCol,svvlCol,sveCol,shvlCol,sheCol,betavlCol,betaoCol,betaeCol,
                         gammavlCol,gammaeCol,gammaoCol,phivlCol,phieCol,phioCol,alphavlCol,alphaeCol,smvlCol,smeCol,smdvlCol,smdeCol, smhvlCol,smheCol;
 
     private Stage stage;
     private VBox  tableLayout = new VBox();
     private HBox buttonsLayout= new HBox();
-    private Button removeButton;
+    private Button removeButton,clearbutton;
 
-    public TruDispTable()
+    public TDTable()
     {
         // Historial de datos.
         data = FXCollections.observableArrayList();
@@ -42,25 +42,37 @@ public class TruDispTable
         // Iniciamos la tabla.
         table = new TableView<>();
         initMethod1Table();
-        table.getColumns().addAll(expCol, sCol, notesCol);
+        table.getColumns().addAll(faultCol, sCol,thetaCol,thetanullCol,notesCol);
         table.setEditable(true);
 
         // Definimos el tamaño Preferido de las celdas
-        table.getColumns().stream().forEach(item -> item.setPrefWidth(100));
+        table.getColumns().stream().forEach(item -> item.setPrefWidth(50));
+        table.getColumns().stream().forEach(item-> item.getColumns().stream().forEach(col-> col.setPrefWidth(50)));
+        faultCol.setPrefWidth(100);
+        notesCol.setPrefWidth(100);
+        table.setMinHeight(200);
+        table.setMinWidth(200);
 
         // Botones
         removeButton = new Button("Remove");
         removeButton.setOnAction(event -> {
-            if(table.getSelectionModel().getSelectedItem()!=null) {
+            if (table.getSelectionModel().getSelectedItem() != null) {
                 data.remove(table.getSelectionModel().getSelectedItem());
                 table.setItems(data);
             }
         });
-
+        removeButton.setMaxWidth(Double.MAX_VALUE);
+        clearbutton = new Button("Clear History");
+        clearbutton.setOnAction(event -> {
+            data.removeAll(data);
+            table.setItems(data);
+        });
         // Layouts
 
         VBox.setVgrow(table, Priority.ALWAYS);
-        tableLayout.getChildren().addAll(table, removeButton);
+        HBox.setHgrow(removeButton, Priority.ALWAYS);
+        HBox.setHgrow(clearbutton,Priority.ALWAYS);
+        tableLayout.getChildren().addAll(table, new HBox(removeButton, clearbutton));
 
         // Agragamos el contendor a la escena.
         Scene scene = new Scene(tableLayout);
@@ -71,7 +83,7 @@ public class TruDispTable
         stage.setTitle("History");
 
         stage.setScene(scene);
-        stage.setMaxWidth(400);
+        stage.setWidth(400);
         stage.show();
         stage.setX((Screen.getPrimary().getVisualBounds().getWidth()/2) + (stage.getWidth()/2));
         stage.setY((Screen.getPrimary().getVisualBounds().getHeight()/2) - (stage.getHeight()/2));
@@ -90,10 +102,7 @@ public class TruDispTable
     public void show()
     {
         stage.show();
-    }
-    public void hide()
-    {
-        stage.hide();
+        stage.requestFocus();
     }
 
     public ArrayList<TDData> getDataList()
@@ -107,10 +116,8 @@ public class TruDispTable
 
     public void setObservableList(ArrayList<TDData> td)
     {
-        data.removeAll();
-
+        data.removeAll(data);
         data.addAll(td.stream().map(t -> new TDDataWrapper(t)).collect(Collectors.toList()));
-
         table.setItems(data);
     }
 
@@ -230,15 +237,27 @@ public class TruDispTable
         mapviewCol.setCellValueFactory(new PropertyValueFactory<>("mapview"));
 
         // Experiment
-         expCol= new TableColumn("EXP");
-        expCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
-        expCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
+         faultCol = new TableColumn("Fault");
+        faultCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
+        faultCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
             @Override
             public void handle(CellEditEvent event) {
                 ((TDDataWrapper) event.getTableView().getItems().get(event.getTablePosition().getRow())).setExperiment(event.getNewValue().toString());
             }
         });
-        expCol.setCellValueFactory(new PropertyValueFactory<>("experiment"));
+        faultCol.setCellValueFactory(new PropertyValueFactory<>("experiment"));
+
+        //Theta
+        thetaCol = new TableColumn<>("θ");
+        thetaCol.setCellValueFactory(new PropertyValueFactory<>("theta"));
+
+
+        // Thetanill
+
+        thetanullCol = new TableColumn("θnull");
+        thetanullCol.setCellValueFactory(new PropertyValueFactory<>("thetanull"));
+
+
 
         // Notes
         notesCol = new TableColumn("Notes");
@@ -258,7 +277,8 @@ public class TruDispTable
 
     public static class TDDataWrapper{
 
-        private SimpleDoubleProperty beta,betaError,gamma,gammaError,phi,phiError,alpha,alphaError,sm,smError,smd,smdError,smh,smhError,s,sError,ss,ssError,sd,sdError,sv,svError,sh,shError;
+        private SimpleDoubleProperty beta,betaError,gamma,gammaError,phi,phiError,alpha,alphaError,sm,smError,smd,smdError,smh,smhError,
+                s,sError,ss,ssError,sd,sdError,sv,svError,sh,shError,theta,thetanull;
         private SimpleStringProperty betao,gammao,phio,mapview,experiment,notes;
 
         private TDData data;
@@ -300,6 +320,9 @@ public class TruDispTable
             sdError = new SimpleDoubleProperty(data.getSdError());
             sh = new SimpleDoubleProperty(data.getSh());
             shError = new SimpleDoubleProperty(data.getShError());
+
+            thetanull =new SimpleDoubleProperty(data.getThetaNull());
+            theta = new SimpleDoubleProperty(data.getTheta());
 
             mapview = new SimpleStringProperty(data.getMapView());
             experiment = new SimpleStringProperty(data.getExperiment());
@@ -371,12 +394,20 @@ public class TruDispTable
         public Double getSh()
         {return sh.get();}
         public Double getShError()
-        {return sh.get();}
+        {return shError.get();}
+
 
         public String getExperiment()
         {return experiment.get();}
         public String getNotes()
         {return notes.get();}
+
+        public Double getTheta()
+        {return theta.get();}
+
+        public Double getThetaNull()
+        {return thetanull.get();}
+
 
         // SEters
 
