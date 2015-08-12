@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.util.Duration;
+
+import java.awt.*;
 
 
 /**
@@ -44,8 +48,10 @@ public class TruDisp extends Application {
     private VBox mainVBox;
     private HBox methodsHBox;
     private MenuBar menuBar;
-    private Menu trudispMenu, methodsMenu, panelsMenu;
-    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem;
+    private Menu trudispMenu, methodsMenu, panelsMenu,helpMenu;
+    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,
+            panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem,
+            helpMenuHow2Use;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
     private Stage mainTruDispStage;
     private Scene mainScene;
@@ -136,6 +142,7 @@ public class TruDisp extends Application {
     public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
     public static final Double TRU_DISP_VERSION = 1.9;
     public static final String REPOSITORY ="beta";
+    public static final Integer N=0,E=1,D=2;
 
     /**
      * Imagenes
@@ -343,10 +350,16 @@ public class TruDisp extends Application {
         panelMenuOutputItem.setOnAction(event-> trudispTDDialogs.showOutput());
         panelMenuLabelsItems = new MenuItem("Labels");
         panelMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
-        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuLabelsItems,panelMenuInputItem,panelMenuOutputItem);
+        panelsMenu.getItems().addAll(panelMenuHistoryItem, panelMenuLabelsItems, panelMenuInputItem, panelMenuOutputItem);
+
+        // ?
+        helpMenu = new Menu("Help");
+        helpMenuHow2Use = new MenuItem("How2Use");
+        helpMenuHow2Use.setOnAction(event->trudispTDDialogs.showHelp());
+        helpMenu.getItems().addAll(helpMenuHow2Use);
 
         // Añadimos los menus.
-        menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu);
+        menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu,helpMenu);
         mainBorderLayout.setTop(menuBar);
 
 
@@ -514,7 +527,7 @@ public class TruDisp extends Application {
         fodLabel.getStyleClass().add(IOLABEL);
         fodLabel.setTooltip(new Tooltip("Dip"));
 
-        foddLabel = new Label("DD");
+        foddLabel = new Label("Stk");
         foddLabel.getStyleClass().add(IOLABEL);
         foddLabel.setTooltip(new Tooltip("DipDirection"));
 
@@ -538,7 +551,7 @@ public class TruDisp extends Application {
         opodLabel.getStyleClass().add(IOLABEL);
         opodLabel.setTooltip(new Tooltip("Dip"));
 
-        opoddLabel = new Label("DD");
+        opoddLabel = new Label("Stk");
         opoddLabel.getStyleClass().add(IOLABEL);
         opoddLabel.setTooltip(new Tooltip("Dip Direction"));
 
@@ -563,7 +576,7 @@ public class TruDisp extends Application {
         smo1dLabel.getStyleClass().add(IOLABEL);
         smo1dLabel.setTooltip(new Tooltip("Dip"));
 
-        smo1ddLabel = new Label("DD");
+        smo1ddLabel = new Label("Stk");
         smo1ddLabel.getStyleClass().add(IOLABEL);
         smo1ddLabel.setTooltip(new Tooltip("Dip Direction"));
 
@@ -583,7 +596,7 @@ public class TruDisp extends Application {
         smo2dLabel.getStyleClass().add(IOLABEL);
         smo2dLabel.setTooltip(new Tooltip("Dip"));
 
-        smo2ddLabel = new Label("DD");
+        smo2ddLabel = new Label("Stk");
         smo2ddLabel.getStyleClass().add(IOLABEL);
         smo2ddLabel.setTooltip(new Tooltip("Dip Direction"));
 
@@ -741,12 +754,13 @@ public class TruDisp extends Application {
         row = 8;
         GridPane.setConstraints(osLabel, 0, row, 6, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
         row = 9;
-        GridPane.setConstraints(osplunchLabel, 0, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
-        GridPane.setConstraints(osplunchTextField, 1, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
-        GridPane.setConstraints(osplunchErrorLabel, 2, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
-        GridPane.setConstraints(ostrendLabel, 3, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
-        GridPane.setConstraints(ostrendTextField, 4, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
-        GridPane.setConstraints(ostrendErrorLabel, 5, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(ostrendLabel, 0, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
+        GridPane.setConstraints(ostrendTextField, 1, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(ostrendErrorLabel, 2, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(osplunchLabel, 3, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
+        GridPane.setConstraints(osplunchTextField, 4, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(osplunchErrorLabel, 5, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+
 
 
         method2GridLayout.getChildren().addAll(method2TitleLabel
@@ -1554,7 +1568,7 @@ public class TruDisp extends Application {
                         {
                             if(data.setOpodd(opoddTextField.getText(),opoddErrorLabel.getText()))
                             {
-                                if(data.setSmo1d(smo1dTextField.getText(),smo1dLabel.getText()))
+                                if(data.setSmo1d(smo1dTextField.getText(),smo1dErrorLabel.getText()))
                                 {
                                     if(data.setSmo1dd(smo1ddTextField.getText(),smo1ddErrorLabel.getText()))
                                     {
@@ -1566,12 +1580,24 @@ public class TruDisp extends Application {
                                                 {
                                                     if(data.setOsPlunch(osplunchTextField.getText(),osplunchErrorLabel.getText()))
                                                     {
-                                                        if(data.isDataValidForCalcuating())
+                                                        if(data.setSm(smTextField.getText(),smErrorLabel.getText()))
                                                         {
-                                                            if(data.Calculate(2))
+                                                            if(data.setSmd(smdTextField.getText(),smdErrorLabel.getText()))
                                                             {
-                                                                displayData(data);
-                                                                TDTable.addData(data);
+                                                                if(data.setSmh(smhTextField.getText(),smhErrorLabel.getText()))
+                                                                {
+                                                                    if(data.setApha(alphaTextField.getText(),alphaErrorLabel.getText()))
+                                                                    {
+                                                                        if(data.isDataValidForCalcuating())
+                                                                        {
+                                                                            if(data.Calculate(2))
+                                                                            {
+                                                                                displayData(data);
+                                                                                TDTable.addData(data);
+                                                                            }else{shakeStage();}
+                                                                        }else{shakeStage();}
+                                                                    }else{shakeStage();}
+                                                                }else{shakeStage();}
                                                             }else{shakeStage();}
                                                         }else{shakeStage();}
                                                     }else{shakeStage();}
@@ -1895,7 +1921,7 @@ class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
 
 class TDDialogs {
 
-    private Stage stageinput,stageoutput,stageabout,stagelabels;
+    private Stage stageinput,stageoutput,stageabout,stagelabels,stagehelp;
     private VBox  box;
     private ImageView inputim,outputim;
     private Scene scene;
@@ -1908,6 +1934,7 @@ class TDDialogs {
         stageoutput = new Stage(StageStyle.DECORATED);
         stageabout = new Stage(StageStyle.DECORATED);
         stagelabels = new Stage(StageStyle.DECORATED);
+        stagehelp = new Stage(StageStyle.DECORATED);
     }
 
     public void showInput()
@@ -1916,7 +1943,8 @@ class TDDialogs {
         im.fitWidthProperty().bind(stageinput.widthProperty());
         im.fitHeightProperty().bind(stageinput.heightProperty());
         im.setPreserveRatio(true);
-        stageinput.setScene(new Scene(new VBox(im)));
+        StackPane.setAlignment(im, Pos.CENTER);
+        stageinput.setScene(new Scene(new StackPane(im)));
         stageinput.setTitle("Input Variables Diagram");
         stageinput.setWidth(500);
         stageinput.setHeight(500*(im.getImage().getHeight()/im.getImage().getWidth()));
@@ -1929,7 +1957,8 @@ class TDDialogs {
         im.fitWidthProperty().bind(stageoutput.widthProperty());
         im.fitHeightProperty().bind(stageoutput.heightProperty());
         im.setPreserveRatio(true);
-        stageoutput.setScene(new Scene(new VBox(im)));
+        StackPane.setAlignment(im, Pos.CENTER);
+        stageoutput.setScene(new Scene(new StackPane(im)));
         stageoutput.setTitle("Output Variables Diagram");
         stageoutput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
         stageoutput.setWidth(500);
@@ -1972,6 +2001,7 @@ class TDDialogs {
     }
     public void showLables()
     {
+        txtarea=null;
         txtarea = new TextArea();
         txtarea.setWrapText(true);
         txtarea.setEditable(false);
@@ -1992,6 +2022,29 @@ class TDDialogs {
         VBox.setVgrow(txtarea, Priority.ALWAYS);
         stagelabels.setScene(new Scene(new VBox(txtarea)));
         stagelabels.setTitle("Labels");
+        stagelabels.setWidth(400);
+        stagelabels.setHeight(400);
+        stagelabels.show();
+        stagelabels.requestFocus();
+    }
+
+    public void showHelp()
+    {
+        txtarea=null;
+        txtarea = new TextArea();
+        txtarea.setWrapText(true);
+        txtarea.setEditable(false);
+
+        txtarea.setText("The input fields activates according to selected option: “Map and Section” or “Arbitrary Line” " +
+                "\n\nAngles are in degrees and decimals. Minutes and seconds are not used." +
+                "\n\nAt least one of the displacements Sm, Smh or Smd must be introduced." +
+                "\n\nThe model considers that the fault plane is divided into two halves by the line at which the dip is " +
+                "measured; one half is located to the northerly strike direction, labeled \"northern half\" " +
+                "(N) and the other is labeled \"shouther half\" (S). See the figure of input data. \n");
+
+        VBox.setVgrow(txtarea, Priority.ALWAYS);
+        stagelabels.setScene(new Scene(new VBox(txtarea)));
+        stagelabels.setTitle("?");
         stagelabels.setWidth(400);
         stagelabels.setHeight(400);
         stagelabels.show();

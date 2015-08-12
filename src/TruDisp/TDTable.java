@@ -252,9 +252,9 @@ public class TDTable
         thetaCol.setCellValueFactory(new PropertyValueFactory<>("theta"));
 
 
-        // Thetanill
+        // Thetanull
 
-        thetanullCol = new TableColumn("θnull");
+        thetanullCol = new TableColumn("θ null");
         thetanullCol.setCellValueFactory(new PropertyValueFactory<>("thetanull"));
 
 
@@ -405,7 +405,7 @@ public class TDTable
         public Double getTheta()
         {return theta.get();}
 
-        public Double getThetaNull()
+        public Double getThetanull()
         {return thetanull.get();}
 
 

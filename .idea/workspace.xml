@@ -7,8 +7,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f6f3c80-6929-46e3-ba67-b993c6aa86cb" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDispStatusBar$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDispStatusBar.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TruDisp/TruDispStatusBar.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MethodsDisplayedChangeListener.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MethodsDisplayedChangeListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable$TDDataWrapper.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable$TDDataWrapper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp$1.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/ValueChangeScrollListener.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/ValueChangeScrollListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TDData.java" afterPath="$PROJECT_DIR$/src/TruDisp/TDData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TDTable.java" afterPath="$PROJECT_DIR$/src/TruDisp/TDTable.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" afterPath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TruDisp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,14 +52,13 @@
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1739" column="0" selection-start-line="1739" selection-start-column="0" selection-end-line="1739" selection-end-column="0" />
+              <caret line="1736" column="56" selection-start-line="1736" selection-start-column="56" selection-end-line="1736" selection-end-column="56" />
               <folding>
                 <element signature="docComment;class#TruDisp#0" expanded="false" />
                 <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-                <element signature="e#7457#7458#0" expanded="true" />
-                <element signature="e#7485#7486#0" expanded="true" />
+                <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#update#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-                <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -52,17 +66,29 @@
                 <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
                 <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-                <element signature="class#71776:72177" expanded="false" />
-                <element signature="method#handle#0;class#71776:72177" expanded="false" />
+                <element signature="class#73430:73831" expanded="false" />
+                <element signature="method#handle#0;class#73430:73831" expanded="false" />
                 <element signature="class#ValueChangeScrollListener#0" expanded="false" />
                 <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
                 <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
                 <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
                 <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
                 <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-                <element signature="class#TDDialogs#0" expanded="false" />
+                <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
                 <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-                <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TDTable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TruDisp/TDTable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="408" column="25" selection-start-line="408" selection-start-column="25" selection-end-line="408" selection-end-column="25" />
+              <folding>
+                <element signature="method#show#0;class#TDTable#0" expanded="false" />
+                <element signature="method#getDataList#0;class#TDTable#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -71,8 +97,8 @@
       <file leaf-file-name="TDData.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8474265">
-              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+            <state vertical-scroll-proportion="5.369655">
+              <caret line="1047" column="59" selection-start-line="1047" selection-start-column="59" selection-end-line="1047" selection-end-column="59" />
               <folding>
                 <element signature="method#TDData#1;class#TDData#0" expanded="false" />
                 <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
@@ -107,7 +133,6 @@
                 <element signature="method#setBpl#0;class#TDData#0" expanded="false" />
                 <element signature="method#setBpn#0;class#TDData#0" expanded="false" />
                 <element signature="method#setBpm#0;class#TDData#0" expanded="false" />
-                <element signature="method#setExperiment#0;class#TDData#0" expanded="false" />
                 <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
                 <element signature="docComment;method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
                 <element signature="method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
@@ -117,7 +142,8 @@
                 <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
                 <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
                 <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
-                <element signature="method#isAngleValid4Method2#0;class#TDData#0" expanded="false" />
+                <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
+                <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
                 <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
@@ -126,7 +152,10 @@
                 <element signature="method#calculateSh#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateDistance#0;class#TDData#0" expanded="false" />
                 <element signature="method#calculateErrors#0;class#TDData#0" expanded="false" />
-                <element signature="docComment;method#getS#0;class#TDData#0" expanded="false" />
+                <element signature="method#convertMethod2toDirCos#0;class#TDData#0" expanded="false" />
+                <element signature="method#convert2DirCos#0;class#TDData#0" expanded="false" />
+                <element signature="method#calculatePitch#0;class#TDData#0" expanded="false" />
+                <element signature="method#crossPruct#0;class#TDData#0" expanded="false" />
                 <element signature="method#getS#0;class#TDData#0" expanded="false" />
                 <element signature="method#getSError#0;class#TDData#0" expanded="false" />
                 <element signature="method#getSs#0;class#TDData#0" expanded="false" />
@@ -193,8 +222,8 @@
         <option value="$PROJECT_DIR$/src/TruDisp/TDOpenSave.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TruDispTable.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/Updater.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/TDTable.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/MyUpdater.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/TDTable.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TDData.java" />
       </list>
@@ -211,10 +240,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="130" />
-    <option name="y" value="23" />
-    <option name="width" value="1156" />
-    <option name="height" value="873" />
+    <option name="x" value="243" />
+    <option name="y" value="150" />
+    <option name="width" value="1083" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -239,9 +268,9 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -564,7 +593,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="130" y="23" width="1156" height="873" extended-state="0" />
+    <frame x="243" y="150" width="1083" height="1053" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -582,15 +611,15 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23788151" sideWeight="0.43529412" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26760563" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.063400574" sideWeight="0.43529412" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21644121" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.296" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -606,7 +635,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="36" />
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -615,11 +644,136 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1576" column="0" selection-start-line="1576" selection-start-column="0" selection-end-line="1576" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#TruDisp#0" expanded="false" />
+            <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#initDisplacementComponentsGrid#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
+            <element signature="class#ValueChangeScrollListener#0" expanded="false" />
+            <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
+            <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
+            <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
+            <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+            <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
+            <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="448" column="4" selection-start-line="448" selection-start-column="4" selection-end-line="448" selection-end-column="4" />
+          <folding>
+            <element signature="method#TDData#1;class#TDData#0" expanded="false" />
+            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#setPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApha#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#setMapView#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsTrend#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsPlunch#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
+            <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateDistance#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#convertMethod2toDirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#convert2DirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculatePitch#0;class#TDData#0" expanded="false" />
+            <element signature="method#crossPruct#0;class#TDData#0" expanded="false" />
+            <element signature="method#getS#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSsError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSvError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getShError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getTheta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getThetaNull#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlpha#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlphaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getsmdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmhError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getMapView#0;class#TDData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDispStyleSheet.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -630,10 +784,9 @@
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-            <element signature="e#7457#7458#0" expanded="true" />
-            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -641,17 +794,16 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71776:72177" expanded="false" />
-            <element signature="method#handle#0;class#71776:72177" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -660,7 +812,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="138" column="48" selection-start-line="138" selection-start-column="48" selection-end-line="138" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -671,10 +822,9 @@
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-            <element signature="e#7457#7458#0" expanded="true" />
-            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -682,17 +832,16 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71776:72177" expanded="false" />
-            <element signature="method#handle#0;class#71776:72177" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -702,8 +851,92 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="230" column="16" selection-start-line="230" selection-start-column="16" selection-end-line="230" selection-end-column="16" />
           <folding>
-            <element signature="method#TDData#0;class#TDData#0" expanded="false" />
-            <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
+            <element signature="method#TDData#1;class#TDData#0" expanded="false" />
+            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#setPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApha#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#setMapView#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsTrend#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsPlunch#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
+            <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateDistance#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#convertMethod2toDirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#convert2DirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculatePitch#0;class#TDData#0" expanded="false" />
+            <element signature="method#crossPruct#0;class#TDData#0" expanded="false" />
+            <element signature="method#getS#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSsError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSvError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getShError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getTheta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getThetaNull#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlpha#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlphaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getsmdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmhError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getMapView#0;class#TDData#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -713,9 +946,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="53" column="66" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="66" />
           <folding>
+            <element signature="method#show#0;class#TDTable#0" expanded="false" />
             <element signature="method#getDataList#0;class#TDTable#0" expanded="false" />
-            <element signature="e#4275#4276#0" expanded="false" />
-            <element signature="e#4303#4304#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -724,7 +956,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="138" column="41" selection-start-line="138" selection-start-column="41" selection-end-line="138" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -735,10 +966,9 @@
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-            <element signature="e#7457#7458#0" expanded="true" />
-            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -746,17 +976,16 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71776:72177" expanded="false" />
-            <element signature="method#handle#0;class#71776:72177" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -766,8 +995,92 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="method#TDData#0;class#TDData#0" expanded="false" />
-            <element signature="method#Calculate#0;class#TDData#0" expanded="false" />
+            <element signature="method#TDData#1;class#TDData#0" expanded="false" />
+            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#setGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#setPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApha#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#setMapView#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpod#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpodd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo1dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2d#0;class#TDData#0" expanded="false" />
+            <element signature="method#setSmo2dd#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsTrend#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOsPlunch#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setFpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setOpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setApm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpl#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpn#0;class#TDData#0" expanded="false" />
+            <element signature="method#setBpm#0;class#TDData#0" expanded="false" />
+            <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
+            <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
+            <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
+            <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateDistance#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculateErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#convertMethod2toDirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#convert2DirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculatePitch#0;class#TDData#0" expanded="false" />
+            <element signature="method#crossPruct#0;class#TDData#0" expanded="false" />
+            <element signature="method#getS#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSs#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSsError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSv#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSvError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getShError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getTheta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getThetaNull#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBeta#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getBetaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGamma#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getGammaOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhi#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getPhiOrientation#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlpha#0;class#TDData#0" expanded="false" />
+            <element signature="method#getAlphaError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSm#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmd#0;class#TDData#0" expanded="false" />
+            <element signature="method#getsmdError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmh#0;class#TDData#0" expanded="false" />
+            <element signature="method#getSmhError#0;class#TDData#0" expanded="false" />
+            <element signature="method#getMapView#0;class#TDData#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -783,14 +1096,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDispStatusBar.java">
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDispStyleSheet.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#setStatus#1;class#TruDispStatusBar#0" expanded="false" />
-          </folding>
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -798,7 +1107,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -806,15 +1114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDispStyleSheet.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -822,7 +1121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -830,7 +1128,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -838,7 +1135,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -849,10 +1145,9 @@
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-            <element signature="e#7457#7458#0" expanded="true" />
-            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -860,17 +1155,16 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71776:72177" expanded="false" />
-            <element signature="method#handle#0;class#71776:72177" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -932,17 +1226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDispStatusBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#setStatus#1;class#TruDispStatusBar#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TDOpenSave.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23971377">
@@ -957,20 +1240,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/TDTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.0055249">
-          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-          <folding>
-            <element signature="method#show#0;class#TDTable#0" expanded="false" />
-            <element signature="method#getDataList#0;class#TDTable#0" expanded="false" />
-            <element signature="method#initMethod1Table#0;class#TDTable#0" expanded="false" />
-            <element signature="class#TDDataWrapper#0;class#TDTable#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -978,7 +1247,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33258426">
           <caret line="1426" column="0" selection-start-line="1426" selection-start-column="0" selection-end-line="1426" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1011,7 +1279,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.03125">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1019,21 +1286,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/TDTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="408" column="25" selection-start-line="408" selection-start-column="25" selection-end-line="408" selection-end-column="25" />
+          <folding>
+            <element signature="method#show#0;class#TDTable#0" expanded="false" />
+            <element signature="method#getDataList#0;class#TDTable#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1739" column="0" selection-start-line="1739" selection-start-column="0" selection-end-line="1739" selection-end-column="0" />
+          <caret line="1736" column="56" selection-start-line="1736" selection-start-column="56" selection-end-line="1736" selection-end-column="56" />
           <folding>
             <element signature="docComment;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainBorderLayout#0;class#TruDisp#0" expanded="false" />
-            <element signature="e#7457#7458#0" expanded="true" />
-            <element signature="e#7485#7486#0" expanded="true" />
+            <element signature="method#start#0;class#TruDisp#0" expanded="false" />
+            <element signature="method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod3ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1041,25 +1317,24 @@
             <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="class#71776:72177" expanded="false" />
-            <element signature="method#handle#0;class#71776:72177" expanded="false" />
+            <element signature="class#73430:73831" expanded="false" />
+            <element signature="method#handle#0;class#73430:73831" expanded="false" />
             <element signature="class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
             <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
+            <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showLables#0;class#TDDialogs#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8474265">
-          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+        <state vertical-scroll-proportion="5.369655">
+          <caret line="1047" column="59" selection-start-line="1047" selection-start-column="59" selection-end-line="1047" selection-end-column="59" />
           <folding>
             <element signature="method#TDData#1;class#TDData#0" expanded="false" />
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
@@ -1094,7 +1369,6 @@
             <element signature="method#setBpl#0;class#TDData#0" expanded="false" />
             <element signature="method#setBpn#0;class#TDData#0" expanded="false" />
             <element signature="method#setBpm#0;class#TDData#0" expanded="false" />
-            <element signature="method#setExperiment#0;class#TDData#0" expanded="false" />
             <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
             <element signature="docComment;method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
             <element signature="method#isDataValidForCalcuating#0;class#TDData#0" expanded="false" />
@@ -1104,7 +1378,8 @@
             <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
-            <element signature="method#isAngleValid4Method2#0;class#TDData#0" expanded="false" />
+            <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDirCosineValid#0;class#TDData#0" expanded="false" />
             <element signature="docComment;method#calculateMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateSs#0;class#TDData#0" expanded="false" />
@@ -1113,7 +1388,10 @@
             <element signature="method#calculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateDistance#0;class#TDData#0" expanded="false" />
             <element signature="method#calculateErrors#0;class#TDData#0" expanded="false" />
-            <element signature="docComment;method#getS#0;class#TDData#0" expanded="false" />
+            <element signature="method#convertMethod2toDirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#convert2DirCos#0;class#TDData#0" expanded="false" />
+            <element signature="method#calculatePitch#0;class#TDData#0" expanded="false" />
+            <element signature="method#crossPruct#0;class#TDData#0" expanded="false" />
             <element signature="method#getS#0;class#TDData#0" expanded="false" />
             <element signature="method#getSError#0;class#TDData#0" expanded="false" />
             <element signature="method#getSs#0;class#TDData#0" expanded="false" />

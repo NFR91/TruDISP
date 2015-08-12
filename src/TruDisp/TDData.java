@@ -5,18 +5,13 @@
 
 package TruDisp;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
-import javax.xml.crypto.Data;
-
 
 public class TDData {
 
     // Variables
     private final int DATA=0,ERROR=1;
-    private final int DD=0,D=1;
-    private Double PRECITION=10.0;
+    private final Double PRECITION=10.0;
+    private final Double DIR_COS_PRECITION=10000.0;
     private TruDispStatusPane statusPane;
     private final Double MINANGLE=0.00157; //.1 grados
     private final Double MAXANGLE=1.5691; //89.9 grados
@@ -122,6 +117,9 @@ public class TDData {
                 case 2:
                 {
                     //TODO
+                    convertMethod2toDirCos();
+                    convertDirCos2Method1();
+                    break;
                 }
             }
             return true;
@@ -320,7 +318,7 @@ public class TDData {
 
     public Boolean setFod(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isAngleValid(data))
         {
             fod[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -336,7 +334,7 @@ public class TDData {
     }
     public Boolean setFodd(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isStrikeAngleValid(data))
         {
             fodd[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -352,7 +350,7 @@ public class TDData {
     }
     public Boolean setOpod(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isAngleValid(data))
         {
             opod[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -367,7 +365,7 @@ public class TDData {
     }
     public Boolean setOpodd(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isStrikeAngleValid(data))
         {
             opodd[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -382,7 +380,7 @@ public class TDData {
     }
     public Boolean setSmo1d(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isAngleValid(data))
         {
             smo1d[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -398,7 +396,7 @@ public class TDData {
     public Boolean setSmo1dd(String data, String error)
     {
 
-        if(isAngleValid4Method2(data))
+        if(isStrikeAngleValid(data))
         {
             smo1dd[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -414,7 +412,7 @@ public class TDData {
     public Boolean setSmo2d(String data, String error)
     {
 
-        if(isAngleValid4Method2(data))
+        if(isAngleValid(data))
         {
             smo2d[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -430,7 +428,7 @@ public class TDData {
     public Boolean setSmo2dd(String data, String error)
     {
 
-        if(isAngleValid4Method2(data))
+        if(isStrikeAngleValid(data))
         {
             smo2dd[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -446,7 +444,7 @@ public class TDData {
     public Boolean setOsTrend(String data,String error)
     {
 
-        if(isAngleValid4Method2(data))
+        if(isStrikeAngleValid(data))
         {
             ostrend[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -461,7 +459,7 @@ public class TDData {
     }
     public Boolean setOsPlunch(String data, String error)
     {
-        if(isAngleValid4Method2(data))
+        if(isAngleValid(data))
         {
             osplunch[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
@@ -775,9 +773,9 @@ public class TDData {
         return true;
     }
 
-    public Boolean isAngleValid4Method2(String data)
+    public Boolean isStrikeAngleValid(String data)
     {
-        return (isNumber(data)) ? ((Double.parseDouble(data)<0||Double.parseDouble(data)>180)? false:true):false;
+        return (isNumber(data)) ? ((Double.parseDouble(data)<0||Double.parseDouble(data)>360)? false:true):false;
     }
 
     public Boolean isDirCosineValid(String data)
@@ -1009,6 +1007,78 @@ public class TDData {
 
     }
 
+    // Método 2
+
+    public void convertMethod2toDirCos()
+    {
+        Double[] temp = convert2DirCos(fodd[DATA], fod[DATA]);
+        fpl[DATA] = temp[TruDisp.E];
+        fpm[DATA] = temp[TruDisp.N];
+        fpn[DATA] = temp[TruDisp.D];
+
+        temp = convert2DirCos(opodd[DATA], opod[DATA]);
+        opl[DATA]=temp[TruDisp.E];
+        opm[DATA]=temp[TruDisp.N];
+        opn[DATA]=temp[TruDisp.D];
+
+        temp = convert2DirCos(smo1dd[DATA], smo1d[DATA]);
+        apl[DATA]=temp[TruDisp.E];
+        apm[DATA]=temp[TruDisp.N];
+        apn[DATA]=temp[TruDisp.D];
+
+        temp = convert2DirCos(smo2dd[DATA], smo2d[DATA]);
+        bpl[DATA]=temp[TruDisp.E];
+        bpm[DATA]=temp[TruDisp.N];
+        bpn[DATA]=temp[TruDisp.D];
+
+
+    }
+
+    public void convertDirCos2Method1()
+    {
+        // Obtenmos los pitch;
+
+        Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};
+        Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]};
+        Double[] striae = convert2DirCos(ostrend[DATA],osplunch[DATA]);
+        Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]};
+
+        beta[DATA] = calculatePitch(crossPruct(fp,mrkr),striae);
+        gamma[DATA] = calculatePitch(fp,striae);
+        phi[DATA] = calculatePitch(crossPruct(fp,op),striae);
+
+
+
+
+    }
+
+    public Double[] convert2DirCos(Double trend, Double plunge)
+    {
+        Double[] temp= new Double[] {0.0,0.0,0.0};
+
+        temp[TruDisp.N] = Math.cos(trend)*Math.cos(plunge);
+        temp[TruDisp.E] = Math.sin(trend)*Math.cos(plunge);
+        temp[TruDisp.D] = Math.sqrt(1-((temp[0]*temp[0])+(temp[1]*temp[1])));
+
+        return temp;
+    }
+
+    public Double calculatePitch(Double[] a,Double[] b){
+        // Calculamos con el prodcuto punto el pitch.
+
+        return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
+    }
+
+    public Double[] crossPruct(Double[] a, Double[] b)
+    {
+        Double[] axb = new Double[3];
+
+        axb[0] = a[1]*b[2] - a[2]*b[1];
+        axb[1] = a[2]*b[0] - a[0]*b[2];
+        axb[2] = a[0]*b[1] - a[1]*b[0];
+
+        return axb;
+    }
     /**Metodos Get*/
 
     public Double getS()
@@ -1121,56 +1191,56 @@ public class TDData {
     public Double getOsPlunch()
     {return Math.round(Math.toDegrees(osplunch[DATA])*PRECITION)/PRECITION;}
     public Double getOsPlunchError()
-    {return Math.round(Math.toDegrees(osplunch[DATA])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(osplunch[ERROR])*PRECITION)/PRECITION;}
 
     // Metodo 3
 
     public Double getFpl()
-    {return Math.round(fpl[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(fpl[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getFplError()
     {return Math.round(fpl[ERROR]*PRECITION)/PRECITION;}
     public Double getFpn()
-    {return Math.round(fpn[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(fpn[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getFpnError()
     {return Math.round(fpn[ERROR]*PRECITION)/PRECITION;}
     public Double getFpm()
-    {return Math.round(fpm[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(fpm[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getFpmError()
     {return Math.round(fpm[ERROR]*PRECITION)/PRECITION;}
     public Double getOpl()
-    {return Math.round(opl[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(opl[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getOplError()
     {return Math.round(opl[ERROR]*PRECITION)/PRECITION;}
     public Double getOpm()
-    {return Math.round(opm[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(opm[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getOpmError()
     {return Math.round(opm[ERROR]*PRECITION)/PRECITION;}
     public Double getOpn()
-    {return Math.round(opn[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(opn[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getOpnError()
     {return Math.round(opn[ERROR]*PRECITION)/PRECITION;}
     public Double getApl()
-    {return Math.round(apl[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(apl[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getAplError()
     {return Math.round(apl[ERROR]*PRECITION)/PRECITION;}
     public Double getApn()
-    {return Math.round(apn[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(apn[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getApnError()
     {return Math.round(apn[ERROR]*PRECITION)/PRECITION;}
     public Double getApm()
-    {return Math.round(apm[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(apm[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getApmError()
     {return Math.round(apm[ERROR]*PRECITION)/PRECITION;}
     public Double getBpl()
-    {return Math.round(bpl[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(bpl[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getBplError()
     {return Math.round(bpl[ERROR]*PRECITION)/PRECITION;}
     public Double getBpn()
-    {return Math.round(bpn[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(bpn[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getBpnError()
     {return Math.round(bpn[ERROR]*PRECITION)/PRECITION;}
     public Double getBpm()
-    {return Math.round(bpm[DATA]*PRECITION)/PRECITION;}
+    {return Math.round(bpm[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getBpmError()
     {return Math.round(bpm[ERROR]*PRECITION)/PRECITION;}
 
