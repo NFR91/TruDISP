@@ -6,7 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
@@ -15,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.control.TableColumn.CellEditEvent;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -41,6 +43,7 @@ public class TDTable
 
         // Iniciamos la tabla.
         table = new TableView<>();
+        table.setItems(data);
         initMethod1Table();
         table.getColumns().addAll(faultCol, sCol,thetaCol,thetanullCol,notesCol);
         table.setEditable(true);
@@ -58,14 +61,12 @@ public class TDTable
         removeButton.setOnAction(event -> {
             if (table.getSelectionModel().getSelectedItem() != null) {
                 data.remove(table.getSelectionModel().getSelectedItem());
-                table.setItems(data);
             }
         });
         removeButton.setMaxWidth(Double.MAX_VALUE);
         clearbutton = new Button("Clear History");
         clearbutton.setOnAction(event -> {
-            data.removeAll(data);
-            table.setItems(data);
+            data.clear();
         });
         // Layouts
 
@@ -91,11 +92,9 @@ public class TDTable
 
     public void addData(TDData dt)
     {
-        dt.setExperiment(String.valueOf(data.size()+1));
+        dt.setExperiment(String.valueOf(data.size() + 1));
         dt.setNotes("-");
         data.add(new TDDataWrapper(dt));
-
-        table.setItems(data);
 
     }
 
@@ -116,9 +115,8 @@ public class TDTable
 
     public void setObservableList(ArrayList<TDData> td)
     {
-        data.removeAll(data);
+        data.clear();
         data.addAll(td.stream().map(t -> new TDDataWrapper(t)).collect(Collectors.toList()));
-        table.setItems(data);
     }
 
     public TableView<TDDataWrapper> getTable()
@@ -236,16 +234,6 @@ public class TDTable
          mapviewCol= new TableColumn("View");
         mapviewCol.setCellValueFactory(new PropertyValueFactory<>("mapview"));
 
-        // Experiment
-         faultCol = new TableColumn("Fault");
-        faultCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
-        faultCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
-            @Override
-            public void handle(CellEditEvent event) {
-                ((TDDataWrapper) event.getTableView().getItems().get(event.getTablePosition().getRow())).setExperiment(event.getNewValue().toString());
-            }
-        });
-        faultCol.setCellValueFactory(new PropertyValueFactory<>("experiment"));
 
         //Theta
         thetaCol = new TableColumn<>("θ");
@@ -258,18 +246,28 @@ public class TDTable
         thetanullCol.setCellValueFactory(new PropertyValueFactory<>("thetanull"));
 
 
+        // Experiment
+         faultCol = new TableColumn("Fault");
+        faultCol.setCellValueFactory(new PropertyValueFactory<>("experiment"));
+        faultCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
+        faultCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
+            @Override
+            public void handle(CellEditEvent t) {
+                ((TDDataWrapper) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExperiment(t.getNewValue().toString());
+            }
+        });
+
 
         // Notes
         notesCol = new TableColumn("Notes");
+        notesCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
         notesCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
         notesCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
             @Override
-            public void handle(CellEditEvent event) {
-                ((TDDataWrapper) event.getTableView().getItems().get(event.getTablePosition().getRow())).setNotes(event.getNewValue().toString());
-
+            public void handle(CellEditEvent t) {
+                ((TDDataWrapper) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNotes(t.getNewValue().toString());
             }
         });
-        notesCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
 
 
     }
@@ -281,59 +279,59 @@ public class TDTable
                 s,sError,ss,ssError,sd,sdError,sv,svError,sh,shError,theta,thetanull;
         private SimpleStringProperty betao,gammao,phio,mapview,experiment,notes;
 
-        private TDData data;
+        private TDData tdData;
 
         private TDDataWrapper(TDData dt)
         {
-            data = dt;
+            tdData = dt;
 
-            beta = new SimpleDoubleProperty(data.getBeta());
-            betaError = new SimpleDoubleProperty(data.getBetaError());
-            betao = new SimpleStringProperty(data.getBetaOrientation());
+            beta = new SimpleDoubleProperty(tdData.getBeta());
+            betaError = new SimpleDoubleProperty(tdData.getBetaError());
+            betao = new SimpleStringProperty(tdData.getBetaOrientation());
 
-            gamma = new SimpleDoubleProperty(data.getGamma());
-            gammaError = new SimpleDoubleProperty(data.getGammaError());
-            gammao = new SimpleStringProperty(data.getGammaOrientation());
+            gamma = new SimpleDoubleProperty(tdData.getGamma());
+            gammaError = new SimpleDoubleProperty(tdData.getGammaError());
+            gammao = new SimpleStringProperty(tdData.getGammaOrientation());
 
-            phi = new SimpleDoubleProperty(data.getPhi());
-            phiError = new SimpleDoubleProperty(data.getPhiError());
-            phio = new SimpleStringProperty(data.getPhiOrientation());
+            phi = new SimpleDoubleProperty(tdData.getPhi());
+            phiError = new SimpleDoubleProperty(tdData.getPhiError());
+            phio = new SimpleStringProperty(tdData.getPhiOrientation());
 
-            alpha = new SimpleDoubleProperty(data.getAlpha());
-            alphaError = new SimpleDoubleProperty(data.getAlphaError());
+            alpha = new SimpleDoubleProperty(tdData.getAlpha());
+            alphaError = new SimpleDoubleProperty(tdData.getAlphaError());
 
-            sm = new SimpleDoubleProperty(data.getSm());
-            smError = new SimpleDoubleProperty(data.getSmError());
-            smd = new SimpleDoubleProperty(data.getSmd());
-            smdError = new SimpleDoubleProperty(data.getsmdError());
-            smh= new SimpleDoubleProperty(data.getSmh());
-            smhError = new SimpleDoubleProperty(data.getSmhError());
+            sm = new SimpleDoubleProperty(tdData.getSm());
+            smError = new SimpleDoubleProperty(tdData.getSmError());
+            smd = new SimpleDoubleProperty(tdData.getSmd());
+            smdError = new SimpleDoubleProperty(tdData.getsmdError());
+            smh= new SimpleDoubleProperty(tdData.getSmh());
+            smhError = new SimpleDoubleProperty(tdData.getSmhError());
 
-            s = new SimpleDoubleProperty(data.getS());
-            sError= new SimpleDoubleProperty(data.getSError());
+            s = new SimpleDoubleProperty(tdData.getS());
+            sError= new SimpleDoubleProperty(tdData.getSError());
 
-            ss = new SimpleDoubleProperty(data.getSs());
-            ssError = new SimpleDoubleProperty(data.getSsError());
-            sv = new SimpleDoubleProperty(data.getSv());
-            svError = new SimpleDoubleProperty(data.getSvError());
-            sd = new SimpleDoubleProperty(data.getSd());
-            sdError = new SimpleDoubleProperty(data.getSdError());
-            sh = new SimpleDoubleProperty(data.getSh());
-            shError = new SimpleDoubleProperty(data.getShError());
+            ss = new SimpleDoubleProperty(tdData.getSs());
+            ssError = new SimpleDoubleProperty(tdData.getSsError());
+            sv = new SimpleDoubleProperty(tdData.getSv());
+            svError = new SimpleDoubleProperty(tdData.getSvError());
+            sd = new SimpleDoubleProperty(tdData.getSd());
+            sdError = new SimpleDoubleProperty(tdData.getSdError());
+            sh = new SimpleDoubleProperty(tdData.getSh());
+            shError = new SimpleDoubleProperty(tdData.getShError());
 
-            thetanull =new SimpleDoubleProperty(data.getThetaNull());
-            theta = new SimpleDoubleProperty(data.getTheta());
+            thetanull =new SimpleDoubleProperty(tdData.getThetaNull());
+            theta = new SimpleDoubleProperty(tdData.getTheta());
 
-            mapview = new SimpleStringProperty(data.getMapView());
-            experiment = new SimpleStringProperty(data.getExperiment());
+            mapview = new SimpleStringProperty(tdData.getMapView());
+            experiment = new SimpleStringProperty(tdData.getExperiment());
 
-            notes = new SimpleStringProperty(data.getNotes());
+            notes = new SimpleStringProperty(tdData.getNotes());
 
 
         }
 
         public TDData getTDData()
-        { return data;}
+        { return tdData;}
 
 
         public String getMapview()
@@ -412,13 +410,17 @@ public class TDTable
         // SEters
 
         public void setExperiment(String vl)
-        {experiment.set(vl); data.setExperiment(vl);}
+        {experiment.set(vl); tdData.setExperiment(vl);}
         public void setNotes(String nts)
-        {notes.setValue(nts); data.setNotes(nts);}
-
-
-
+        {notes.setValue(nts); tdData.setNotes(nts);}
 
     }
+
+
 }
+
+
+
+
+
 

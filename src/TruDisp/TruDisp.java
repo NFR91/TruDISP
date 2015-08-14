@@ -2,32 +2,24 @@ package TruDisp;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.*;
-
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.*;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.*;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
-
-import java.awt.*;
 
 
 /**
@@ -37,6 +29,9 @@ import java.awt.*;
 // Inicio de la clase;
 public class TruDisp extends Application {
 
+    public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
+    public static final Double TRU_DISP_VERSION = 1.92;
+    public static final String REPOSITORY ="beta";
     /** Variables*/
 
 
@@ -44,6 +39,8 @@ public class TruDisp extends Application {
      * Constantes de la interfaz
      */
 
+    private Stage mainTruDispStage;
+    private Scene mainScene;
     private BorderPane mainBorderLayout;
     private VBox mainVBox;
     private HBox methodsHBox;
@@ -53,12 +50,10 @@ public class TruDisp extends Application {
             panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem,
             helpMenuHow2Use;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
-    private Stage mainTruDispStage;
-    private Scene mainScene;
+
     private TDTable TDTable;
     private TDOpenSave truDispOpenSave;
     private Boolean shakeStageFlag = true;
-    private Integer methodFlag = 0;
     private TDDialogs trudispTDDialogs;
 
 
@@ -121,37 +116,30 @@ public class TruDisp extends Application {
      * Constantes
      */
 
+    // Styles
+    public static final String TRUDISP_STYLE_SHEET = "TruDisp/TruDispStyleSheet.css";
     private static final String IO_ERROR_LABEL = "ioerrorlabel";
-    private static final String IOTEXTFIELD = "iotextfield";
-    private static final String IOCOMBOBOX = "iocombobox";
-    private static final String TITLELABEL = "titlelabel";
+    private static final String IO_TEXT_FIELD = "iotextfield";
+    private static final String IO_COMBO_BOX = "iocombobox";
+    private static final String TITLE_LABEL = "titlelabel";
     private static final String SPLASH_PROGRESS_TEXT = "splashprogresstext";
     private static final String SPLASH_PROGRESS_BAR = "splashprogressbar";
+    private static final String SUB_TITLE_LABEL = "subtitlelabel";
+    private static final String IO_HBOX = "iohbox";
+    private static final String IO_VBOX = "iovbox";
+    private static final String IO_LABEL = "iolabel";
+    private static final String IO_GRID_PANE = "iogridpane";
 
-    private static final String SUBTITLELABEL = "subtitlelabel";
-    private static final String IOHBOX = "iohbox";
-    private static final String IOVBOX = "iovbox";
-
-    private static final String IOLABEL = "iolabel";
-    private static final String IOGRIDPANE = "iogridpane";
-
-    private static final Integer METHOD1 = 1, METHOD2 = 2, METHOD3 = 3;
-    private static final String VERSION = " v: 2.0";
-
-    public static final String TRUDISP_STYLE_SHEET = "TruDisp/TruDispStyleSheet.css";
-    public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
-    public static final Double TRU_DISP_VERSION = 1.9;
-    public static final String REPOSITORY ="beta";
+    // Methods
+    public static final Integer METHOD_1 = 1, METHOD_2 = 2, METHOD_3 = 3;
     public static final Integer N=0,E=1,D=2;
 
-    /**
-     * Imagenes
-     */
-    public static final String WELCOMEICON = "Icons/welcomeicon.png";
+    // Icons;
+    public static final String WELCOME_ICON = "Icons/welcomeicon.png";
     public static final String ADVICE_ICON = "Icons/adviceicon.png";
     public static final String CALCULATING_ICON = "Icons/calculatingicon.png";
-    public static final String WARNING_ICON = WELCOMEICON;
-    public static final String ERROR_ICON = WELCOMEICON;
+    public static final String WARNING_ICON = WELCOME_ICON;
+    public static final String ERROR_ICON = WELCOME_ICON;
 
 
     @Override
@@ -221,7 +209,8 @@ public class TruDisp extends Application {
         this.initcomponents();
 
         // Titulo
-        mainTruDispStage.setTitle("TruDISP" + VERSION);
+        mainTruDispStage.setTitle("TruDISP" + TRU_DISP_VERSION);
+
         // Agregamos el contenido
         mainTruDispStage.setScene(mainScene);
         mainTruDispStage.setMinHeight(700);
@@ -259,13 +248,13 @@ public class TruDisp extends Application {
         mainBorderLayout = new BorderPane();
         // Contenedor de metodos, distancias y resultados, asi como de la barra de estado
         mainVBox = new VBox();
-        mainVBox.getStyleClass().add(IOVBOX);
+        mainVBox.getStyleClass().add(IO_VBOX);
         // Cotenedor expandible de métodos
         methodsHBox = new HBox();
-        methodsHBox.getStyleClass().add(IOHBOX);
+        methodsHBox.getStyleClass().add(IO_HBOX);
         // Barra de estado
         statusPane = new TruDispStatusPane();
-        statusPane.setStatus("Bienvenido a TruDISP", WELCOMEICON);
+        statusPane.setStatus("Bienvenido a TruDISP", WELCOME_ICON);
 
         /** Método 1 */
         initMethod1ComponentsGrid();
@@ -312,7 +301,7 @@ public class TruDisp extends Application {
 
         /**Colocamos las acciones de los diferentes botones de la interface*/
         initGUIActions();
-        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOMEICON);
+        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOME_ICON);
     }
 
     private  void initMenuBar()
@@ -371,12 +360,12 @@ public class TruDisp extends Application {
 
         //Titulo
         method1TitleLabel = new Label("Method 1");
-        method1TitleLabel.getStyleClass().add(TITLELABEL);
+        method1TitleLabel.getStyleClass().add(TITLE_LABEL);
         method1TitleLabel.setMaxWidth(Double.MAX_VALUE);
 
         // Beta;
         betaLabel = new Label("β");
-        betaLabel.getStyleClass().add(IOLABEL);
+        betaLabel.getStyleClass().add(IO_LABEL);
         betaLabel.setTooltip(new Tooltip("Pitch of the cut-off marker"));
 
 
@@ -387,7 +376,7 @@ public class TruDisp extends Application {
 
         // Gamma
         gammaLabel = new Label("γ");
-        gammaLabel.getStyleClass().add(IOLABEL);
+        gammaLabel.getStyleClass().add(IO_LABEL);
         gammaLabel.setTooltip(new Tooltip("Pitch of the slip lineation (slickenline)"));
 
 
@@ -398,7 +387,7 @@ public class TruDisp extends Application {
 
         //Phi
         phiLabel = new Label("φ");
-        phiLabel.getStyleClass().add(IOLABEL);
+        phiLabel.getStyleClass().add(IO_LABEL);
         phiLabel.setTooltip(new Tooltip("Pitch of the observation line"));
 
 
@@ -413,19 +402,19 @@ public class TruDisp extends Application {
         // Beta
         betaTextField = new TextField();
         betaTextField.setOnScroll(new ValueChangeScrollListener(betaTextField));
-        betaTextField.getStyleClass().add(IOTEXTFIELD);
+        betaTextField.getStyleClass().add(IO_TEXT_FIELD);
         betaTextField.setTooltip(new Tooltip("β input"));
 
         // Gamma
         gammaTextField = new TextField();
         gammaTextField.setOnScroll(new ValueChangeScrollListener(gammaTextField));
-        gammaTextField.getStyleClass().add(IOTEXTFIELD);
+        gammaTextField.getStyleClass().add(IO_TEXT_FIELD);
         gammaTextField.setTooltip(new Tooltip("γ input"));
 
         // Phi
         phiTextField = new TextField();
         phiTextField.setOnScroll(new ValueChangeScrollListener(phiTextField));
-        phiTextField.getStyleClass().add(IOTEXTFIELD);
+        phiTextField.getStyleClass().add(IO_TEXT_FIELD);
         phiTextField.setTooltip(new Tooltip("φ input"));
 
 
@@ -435,21 +424,21 @@ public class TruDisp extends Application {
         betaComboBox = new ComboBox<>();
         betaComboBox.getItems().addAll("N", "S");
         betaComboBox.setMaxWidth(Double.MAX_VALUE);
-        betaComboBox.getStyleClass().add(IOCOMBOBOX);
+        betaComboBox.getStyleClass().add(IO_COMBO_BOX);
         betaComboBox.setTooltip(new Tooltip("β orientation"));
 
         // Gamma
         gammaComboBox = new ComboBox();
         gammaComboBox.getItems().addAll("N", "S");
         gammaComboBox.setMaxWidth(Double.MAX_VALUE);
-        gammaComboBox.getStyleClass().add(IOCOMBOBOX);
+        gammaComboBox.getStyleClass().add(IO_COMBO_BOX);
         gammaComboBox.setTooltip(new Tooltip("γ orientation"));
 
         // Phi
         phiComboBox = new ComboBox();
         phiComboBox.getItems().addAll("N", "S");
         phiComboBox.setMaxWidth(Double.MAX_VALUE);
-        phiComboBox.getStyleClass().add(IOCOMBOBOX);
+        phiComboBox.getStyleClass().add(IO_COMBO_BOX);
         phiComboBox.setTooltip(new Tooltip("φ orientation"));
 
         /**Botones*/
@@ -505,7 +494,7 @@ public class TruDisp extends Application {
 
 
         // Le damos las características deseadas a la malla;
-        method1GridLayout.getStyleClass().add(IOGRIDPANE);
+        method1GridLayout.getStyleClass().add(IO_GRID_PANE);
 
     }
 
@@ -515,20 +504,20 @@ public class TruDisp extends Application {
 
         // Titulo
         method2TitleLabel = new Label("Method 2");
-        method2TitleLabel.getStyleClass().add(TITLELABEL);
+        method2TitleLabel.getStyleClass().add(TITLE_LABEL);
         method2TitleLabel.setMaxWidth(Double.MAX_VALUE);
 
 
         // Fault Orientation
         foLabel = new Label("Fault Orientation");
-        foLabel.getStyleClass().add(SUBTITLELABEL);
+        foLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         fodLabel = new Label("D");
-        fodLabel.getStyleClass().add(IOLABEL);
+        fodLabel.getStyleClass().add(IO_LABEL);
         fodLabel.setTooltip(new Tooltip("Dip"));
 
         foddLabel = new Label("Stk");
-        foddLabel.getStyleClass().add(IOLABEL);
+        foddLabel.getStyleClass().add(IO_LABEL);
         foddLabel.setTooltip(new Tooltip("DipDirection"));
 
 
@@ -545,14 +534,14 @@ public class TruDisp extends Application {
 
         // Observation Plane Orientation
         opoLabel = new Label("Observation Plane Orientation");
-        opoLabel.getStyleClass().add(SUBTITLELABEL);
+        opoLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         opodLabel = new Label("D");
-        opodLabel.getStyleClass().add(IOLABEL);
+        opodLabel.getStyleClass().add(IO_LABEL);
         opodLabel.setTooltip(new Tooltip("Dip"));
 
         opoddLabel = new Label("Stk");
-        opoddLabel.getStyleClass().add(IOLABEL);
+        opoddLabel.getStyleClass().add(IO_LABEL);
         opoddLabel.setTooltip(new Tooltip("Dip Direction"));
 
 
@@ -570,14 +559,14 @@ public class TruDisp extends Application {
         // Statigraphic marker orientation
 
         smoLabel = new Label("Stratigraphic Marker Orientation");
-        smoLabel.getStyleClass().add(SUBTITLELABEL);
+        smoLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         smo1dLabel = new Label("D");
-        smo1dLabel.getStyleClass().add(IOLABEL);
+        smo1dLabel.getStyleClass().add(IO_LABEL);
         smo1dLabel.setTooltip(new Tooltip("Dip"));
 
         smo1ddLabel = new Label("Stk");
-        smo1ddLabel.getStyleClass().add(IOLABEL);
+        smo1ddLabel.getStyleClass().add(IO_LABEL);
         smo1ddLabel.setTooltip(new Tooltip("Dip Direction"));
 
 
@@ -593,11 +582,11 @@ public class TruDisp extends Application {
         smo1ddErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         smo2dLabel = new Label("D");
-        smo2dLabel.getStyleClass().add(IOLABEL);
+        smo2dLabel.getStyleClass().add(IO_LABEL);
         smo2dLabel.setTooltip(new Tooltip("Dip"));
 
         smo2ddLabel = new Label("Stk");
-        smo2ddLabel.getStyleClass().add(IOLABEL);
+        smo2ddLabel.getStyleClass().add(IO_LABEL);
         smo2ddLabel.setTooltip(new Tooltip("Dip Direction"));
 
 
@@ -614,14 +603,14 @@ public class TruDisp extends Application {
 
         // Orientation of Striae;
         osLabel = new Label("Orientation Of Striae");
-        osLabel.getStyleClass().add(SUBTITLELABEL);
+        osLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         ostrendLabel = new Label("Trnd");
-        ostrendLabel.getStyleClass().add(IOLABEL);
+        ostrendLabel.getStyleClass().add(IO_LABEL);
         ostrendLabel.setTooltip(new Tooltip("Trend"));
 
         osplunchLabel = new Label("Plng");
-        osplunchLabel.getStyleClass().add(IOLABEL);
+        osplunchLabel.getStyleClass().add(IO_LABEL);
         osplunchLabel.setTooltip(new Tooltip("Plng"));
 
 
@@ -642,65 +631,65 @@ public class TruDisp extends Application {
         // FaultOrientation
         fodTextField = new TextField();
         fodTextField.setOnScroll(new ValueChangeScrollListener(fodTextField));
-        fodTextField.getStyleClass().add(IOTEXTFIELD);
+        fodTextField.getStyleClass().add(IO_TEXT_FIELD);
         fodTextField.setTooltip(new Tooltip("Fault Dip Input"));
 
         foddTextField = new TextField();
         foddTextField.setOnScroll(new ValueChangeScrollListener(foddTextField));
-        foddTextField.getStyleClass().add(IOTEXTFIELD);
+        foddTextField.getStyleClass().add(IO_TEXT_FIELD);
         foddTextField.setTooltip(new Tooltip("Fault Dip Direction Input"));
 
         // Observation Plane Orientation
 
         opodTextField = new TextField();
         opodTextField.setOnScroll(new ValueChangeScrollListener(opodTextField));
-        opodTextField.getStyleClass().add(IOTEXTFIELD);
+        opodTextField.getStyleClass().add(IO_TEXT_FIELD);
         opodTextField.setTooltip(new Tooltip("Observation Plane Dip Input"));
 
         opoddTextField = new TextField();
         opoddTextField.setOnScroll(new ValueChangeScrollListener(opoddTextField));
-        opoddTextField.getStyleClass().add(IOTEXTFIELD);
+        opoddTextField.getStyleClass().add(IO_TEXT_FIELD);
         opoddTextField.setTooltip(new Tooltip("Observation Plane Dip DDirection Input"));
 
         // Statigraphic marker orientation
 
         smo1dTextField = new TextField();
         smo1dTextField.setOnScroll(new ValueChangeScrollListener(smo1dTextField));
-        smo1dTextField.getStyleClass().add(IOTEXTFIELD);
+        smo1dTextField.getStyleClass().add(IO_TEXT_FIELD);
         smo1dTextField.setTooltip(new Tooltip("Marker 1 Dip Input"));
 
         smo1ddTextField = new TextField();
         smo1ddTextField.setOnScroll(new ValueChangeScrollListener(smo1ddTextField));
-        smo1ddTextField.getStyleClass().add(IOTEXTFIELD);
+        smo1ddTextField.getStyleClass().add(IO_TEXT_FIELD);
         smo1ddTextField.setTooltip(new Tooltip("Marker 1 Dip Direction Input"));
 
         smo2dTextField = new TextField();
         smo2dTextField.setOnScroll(new ValueChangeScrollListener(smo2dTextField));
-        smo2dTextField.getStyleClass().add(IOTEXTFIELD);
+        smo2dTextField.getStyleClass().add(IO_TEXT_FIELD);
         smo2dTextField.setTooltip(new Tooltip("Marker 2 Dip Input"));
 
         smo2ddTextField = new TextField();
         smo2ddTextField.setOnScroll(new ValueChangeScrollListener(smo2ddTextField));
-        smo2ddTextField.getStyleClass().add(IOTEXTFIELD);
+        smo2ddTextField.getStyleClass().add(IO_TEXT_FIELD);
         smo2ddTextField.setTooltip(new Tooltip("Marker 2 Dip Direction Input"));
 
         // Orientation of Striae
 
         ostrendTextField = new TextField();
         ostrendTextField.setOnScroll(new ValueChangeScrollListener(ostrendTextField));
-        ostrendTextField.getStyleClass().add(IOTEXTFIELD);
+        ostrendTextField.getStyleClass().add(IO_TEXT_FIELD);
         ostrendTextField.setTooltip(new Tooltip("Trend Input"));
 
         osplunchTextField = new TextField();
         osplunchTextField.setOnScroll(new ValueChangeScrollListener(osplunchTextField));
-        osplunchTextField.getStyleClass().add(IOTEXTFIELD);
+        osplunchTextField.getStyleClass().add(IO_TEXT_FIELD);
         osplunchTextField.setTooltip(new Tooltip("Plunch Input"));
 
 
         /**Malla*/
 
         method2GridLayout = new GridPane();
-        method2GridLayout.getStyleClass().add(IOGRIDPANE);
+        method2GridLayout.getStyleClass().add(IO_GRID_PANE);
 
         // Title
         Integer row = 0;
@@ -771,7 +760,7 @@ public class TruDisp extends Application {
                 , osLabel, ostrendLabel, ostrendTextField, ostrendErrorLabel, osplunchLabel, osplunchTextField, osplunchErrorLabel
         );
 
-        method2GridLayout.getStyleClass().add(IOGRIDPANE);
+        method2GridLayout.getStyleClass().add(IO_GRID_PANE);
 
     }
 
@@ -780,23 +769,23 @@ public class TruDisp extends Application {
 
         // Title
         method3TitleLabel = new Label("Method 3");
-        method3TitleLabel.getStyleClass().add(TITLELABEL);
+        method3TitleLabel.getStyleClass().add(TITLE_LABEL);
         method3TitleLabel.setMaxWidth(Double.MAX_VALUE);
 
         // F Plane
         fpLabel = new Label("F Plane");
-        fpLabel.getStyleClass().add(SUBTITLELABEL);
+        fpLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         fpmLabel = new Label("m(fp)");
-        fpmLabel.getStyleClass().add(IOLABEL);
+        fpmLabel.getStyleClass().add(IO_LABEL);
         fpmLabel.setTooltip(new Tooltip("F Plane m"));
 
         fpnLabel = new Label("n(fp)");
-        fpnLabel.getStyleClass().add(IOLABEL);
+        fpnLabel.getStyleClass().add(IO_LABEL);
         fpnLabel.setTooltip(new Tooltip("F Plane n"));
 
         fplLabel = new Label("l(fp)");
-        fplLabel.getStyleClass().add(IOLABEL);
+        fplLabel.getStyleClass().add(IO_LABEL);
         fplLabel.setTooltip(new Tooltip("F Plane l"));
 
 
@@ -819,18 +808,18 @@ public class TruDisp extends Application {
 
         // O Plane
         opLabel = new Label("O Plane");
-        opLabel.getStyleClass().add(SUBTITLELABEL);
+        opLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         opmLabel = new Label("m(op)");
-        opmLabel.getStyleClass().add(IOLABEL);
+        opmLabel.getStyleClass().add(IO_LABEL);
         opmLabel.setTooltip(new Tooltip("O Plane m"));
 
         opnLabel = new Label("n(op)");
-        opnLabel.getStyleClass().add(IOLABEL);
+        opnLabel.getStyleClass().add(IO_LABEL);
         opnLabel.setTooltip(new Tooltip("O Plane n"));
 
         oplLabel = new Label("l(op)");
-        oplLabel.getStyleClass().add(IOLABEL);
+        oplLabel.getStyleClass().add(IO_LABEL);
         oplLabel.setTooltip(new Tooltip("O Plane l"));
 
 
@@ -853,18 +842,18 @@ public class TruDisp extends Application {
 
         // A Plane
         apLabel = new Label("A Plane");
-        apLabel.getStyleClass().add(SUBTITLELABEL);
+        apLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         apmLabel = new Label("m(ap)");
-        apmLabel.getStyleClass().add(IOLABEL);
+        apmLabel.getStyleClass().add(IO_LABEL);
         apmLabel.setTooltip(new Tooltip("A Plane m"));
 
         apnLabel = new Label("n(ap)");
-        apnLabel.getStyleClass().add(IOLABEL);
+        apnLabel.getStyleClass().add(IO_LABEL);
         apnLabel.setTooltip(new Tooltip("A Plane n"));
 
         aplLabel = new Label("l(ap)");
-        aplLabel.getStyleClass().add(IOLABEL);
+        aplLabel.getStyleClass().add(IO_LABEL);
         aplLabel.setTooltip(new Tooltip("A Plane l"));
 
 
@@ -887,18 +876,18 @@ public class TruDisp extends Application {
 
         // B Plane
         bpLabel = new Label("B Plane");
-        bpLabel.getStyleClass().add(SUBTITLELABEL);
+        bpLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         bpmLabel = new Label("m(bp)");
-        bpmLabel.getStyleClass().add(IOLABEL);
+        bpmLabel.getStyleClass().add(IO_LABEL);
         bpmLabel.setTooltip(new Tooltip("B Plane m"));
 
         bpnLabel = new Label("n(bp)");
-        bpnLabel.getStyleClass().add(IOLABEL);
+        bpnLabel.getStyleClass().add(IO_LABEL);
         bpnLabel.setTooltip(new Tooltip("B Plane n"));
 
         bplLabel = new Label("l(bp)");
-        bplLabel.getStyleClass().add(IOLABEL);
+        bplLabel.getStyleClass().add(IO_LABEL);
         bplLabel.setTooltip(new Tooltip("B Plane l"));
 
 
@@ -924,71 +913,71 @@ public class TruDisp extends Application {
         // F Plane
         fpmTextField = new TextField();
         fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField));
-        fpmTextField.getStyleClass().add(IOTEXTFIELD);
+        fpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpmTextField.setTooltip(new Tooltip("FOD D input"));
 
         fpnTextField = new TextField();
         fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField));
-        fpnTextField.getStyleClass().add(IOTEXTFIELD);
+        fpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         fplTextField = new TextField();
         fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField));
-        fplTextField.getStyleClass().add(IOTEXTFIELD);
+        fplTextField.getStyleClass().add(IO_TEXT_FIELD);
         fplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // O Plane
         opmTextField = new TextField();
         opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField));
-        opmTextField.getStyleClass().add(IOTEXTFIELD);
+        opmTextField.getStyleClass().add(IO_TEXT_FIELD);
         opmTextField.setTooltip(new Tooltip("FOD D input"));
 
         opnTextField = new TextField();
         opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField));
-        opnTextField.getStyleClass().add(IOTEXTFIELD);
+        opnTextField.getStyleClass().add(IO_TEXT_FIELD);
         opnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         oplTextField = new TextField();
         oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField));
-        oplTextField.getStyleClass().add(IOTEXTFIELD);
+        oplTextField.getStyleClass().add(IO_TEXT_FIELD);
         oplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // A Plane
         apmTextField = new TextField();
         apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField));
-        apmTextField.getStyleClass().add(IOTEXTFIELD);
+        apmTextField.getStyleClass().add(IO_TEXT_FIELD);
         apmTextField.setTooltip(new Tooltip("FOD D input"));
 
         apnTextField = new TextField();
         apnTextField.setOnScroll(new ValueChangeScrollListener(apnTextField));
-        apnTextField.getStyleClass().add(IOTEXTFIELD);
+        apnTextField.getStyleClass().add(IO_TEXT_FIELD);
         apnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         aplTextField = new TextField();
         aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField));
-        aplTextField.getStyleClass().add(IOTEXTFIELD);
+        aplTextField.getStyleClass().add(IO_TEXT_FIELD);
         aplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // B Plane
         bpmTextField = new TextField();
         bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField));
-        bpmTextField.getStyleClass().add(IOTEXTFIELD);
+        bpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpmTextField.setTooltip(new Tooltip("FOD D input"));
 
         bpnTextField = new TextField();
         bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField));
-        bpnTextField.getStyleClass().add(IOTEXTFIELD);
+        bpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         bplTextField = new TextField();
         bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField));
-        bplTextField.getStyleClass().add(IOTEXTFIELD);
+        bplTextField.getStyleClass().add(IO_TEXT_FIELD);
         bplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         /** Malla */
 
         method3GridLayout = new GridPane();
-        method3GridLayout.getStyleClass().add(IOGRIDPANE);
+        method3GridLayout.getStyleClass().add(IO_GRID_PANE);
 
         // Title
         Integer row = 0;
@@ -1068,7 +1057,7 @@ public class TruDisp extends Application {
 
         // Alpha;
         alphaLabel = new Label("α");
-        alphaLabel.getStyleClass().add(IOLABEL);
+        alphaLabel.getStyleClass().add(IO_LABEL);
         alphaLabel.setTooltip(new Tooltip("Dip of fault plane"));
 
 
@@ -1079,7 +1068,7 @@ public class TruDisp extends Application {
 
         // Sm;
         smLabel = new Label("Sm");
-        smLabel.getStyleClass().add(IOLABEL);
+        smLabel.getStyleClass().add(IO_LABEL);
         smLabel.setTooltip(new Tooltip("Apparent displacement along observation line"));
 
 
@@ -1090,7 +1079,7 @@ public class TruDisp extends Application {
 
         // Smh;
         smhLabel = new Label("Smh");
-        smhLabel.getStyleClass().add(IOLABEL);
+        smhLabel.getStyleClass().add(IO_LABEL);
         smhLabel.setTooltip(new Tooltip("Apparent dip displacement (separation) along strike line"));
 
 
@@ -1101,7 +1090,7 @@ public class TruDisp extends Application {
 
         // Smd;
         smdLabel = new Label("Smd");
-        smdLabel.getStyleClass().add(IOLABEL);
+        smdLabel.getStyleClass().add(IO_LABEL);
         smdLabel.setTooltip(new Tooltip("Apparent dip displacement (separation) along dip line"));
 
 
@@ -1115,32 +1104,32 @@ public class TruDisp extends Application {
         // Alpha
         alphaTextField = new TextField();
         alphaTextField.setOnScroll(new ValueChangeScrollListener(alphaTextField));
-        alphaTextField.getStyleClass().add(IOTEXTFIELD);
+        alphaTextField.getStyleClass().add(IO_TEXT_FIELD);
         alphaTextField.setTooltip(new Tooltip("α input"));
 
         // Sm
         smTextField = new TextField();
         smTextField.setOnScroll(new ValueChangeScrollListener(smTextField));
-        smTextField.getStyleClass().add(IOTEXTFIELD);
+        smTextField.getStyleClass().add(IO_TEXT_FIELD);
         smTextField.setTooltip(new Tooltip("Sm input"));
 
         // Smh
         smhTextField = new TextField();
         smhTextField.setOnScroll(new ValueChangeScrollListener(smhTextField));
-        smhTextField.getStyleClass().add(IOTEXTFIELD);
+        smhTextField.getStyleClass().add(IO_TEXT_FIELD);
         smhTextField.setTooltip(new Tooltip("Sm input"));
 
         // Smd
         smdTextField = new TextField();
         smdTextField.setOnScroll(new ValueChangeScrollListener(smdTextField));
-        smdTextField.getStyleClass().add(IOTEXTFIELD);
+        smdTextField.getStyleClass().add(IO_TEXT_FIELD);
         smdTextField.setTooltip(new Tooltip("Sm input"));
 
 
         /**Malla*/
 
         displacementGridLayout = new GridPane();
-        displacementGridLayout.getStyleClass().add(IOGRIDPANE);
+        displacementGridLayout.getStyleClass().add(IO_GRID_PANE);
 
 
         Integer row = 0;
@@ -1179,71 +1168,71 @@ public class TruDisp extends Application {
 
         // Titulo
         resultTitleLabel = new Label("Result");
-        resultTitleLabel.getStyleClass().add(TITLELABEL);
+        resultTitleLabel.getStyleClass().add(TITLE_LABEL);
         // S
         sLabel = new Label("S");
-        sLabel.getStyleClass().add(IOLABEL);
+        sLabel.getStyleClass().add(IO_LABEL);
         sLabel.setId("slabel");
 
         sErrorLabel = new Label();
         sErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         // sv
         svLabel = new Label("Sv");
-        svLabel.getStyleClass().add(IOLABEL);
+        svLabel.getStyleClass().add(IO_LABEL);
 
         svErrorLabel = new Label();
         svErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         // sd
         sdLabel = new Label("Sd");
-        sdLabel.getStyleClass().add(IOLABEL);
+        sdLabel.getStyleClass().add(IO_LABEL);
 
         sdErrorLabel = new Label();
         sdErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         // sh
         shLabel = new Label("Sh");
-        shLabel.getStyleClass().add(IOLABEL);
+        shLabel.getStyleClass().add(IO_LABEL);
 
         shErrorLabel = new Label();
         shErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         // ss
         ssLabel = new Label("Ss");
-        ssLabel.getStyleClass().add(IOLABEL);
+        ssLabel.getStyleClass().add(IO_LABEL);
 
         ssErrorLabel = new Label();
         ssErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         // theta
         thetaLabel = new Label("θ");
-        thetaLabel.getStyleClass().add(IOLABEL);
+        thetaLabel.getStyleClass().add(IO_LABEL);
         // thetanull
         thetanullLabel = new Label("θnull");
-        thetanullLabel.getStyleClass().add(IOLABEL);
+        thetanullLabel.getStyleClass().add(IO_LABEL);
 
 
         /**Text Fields*/
 
         // S
         sTextField = new TextField();
-        sTextField.getStyleClass().add(IOTEXTFIELD);
+        sTextField.getStyleClass().add(IO_TEXT_FIELD);
         // sv
         svTextField = new TextField();
-        svTextField.getStyleClass().add(IOTEXTFIELD);
+        svTextField.getStyleClass().add(IO_TEXT_FIELD);
         //sh
         shTextField = new TextField();
-        shTextField.getStyleClass().add(IOTEXTFIELD);
+        shTextField.getStyleClass().add(IO_TEXT_FIELD);
         //Sd
         sdTextField = new TextField();
-        sdTextField.getStyleClass().add(IOTEXTFIELD);
+        sdTextField.getStyleClass().add(IO_TEXT_FIELD);
         //Sh
         ssTextField = new TextField();
-        ssTextField.getStyleClass().add(IOTEXTFIELD);
+        ssTextField.getStyleClass().add(IO_TEXT_FIELD);
         //theta
         thetaTextField = new TextField();
         thetaTextField.setId("thetatextfield");
-        thetaTextField.getStyleClass().add(IOTEXTFIELD);
+        thetaTextField.getStyleClass().add(IO_TEXT_FIELD);
         //thetanull
         thetanullTextField = new TextField();
         thetanullTextField.setMaxWidth(100);
-        thetanullTextField.getStyleClass().add(IOTEXTFIELD);
+        thetanullTextField.getStyleClass().add(IO_TEXT_FIELD);
         thetanullTextField.setId("thetanulltextfield");
 
         /**Botones*/
@@ -1257,7 +1246,7 @@ public class TruDisp extends Application {
         /**Malla*/
 
         resultGridLayout = new GridPane();
-        resultGridLayout.getStyleClass().add(IOGRIDPANE);
+        resultGridLayout.getStyleClass().add(IO_GRID_PANE);
 
 
         // Theta y Thetanull
@@ -1496,30 +1485,39 @@ public class TruDisp extends Application {
             }
 
             method1GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-            method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
-            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
+            method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+            smdTextField.setDisable(false);smdErrorLabel.setDisable(false);smdLabel.setDisable(false);
 
         });
 
         method2TitleLabel.setOnMouseClicked(event1 -> {
 
             method2GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-            method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
-            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
+            method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+
+            smhErrorLabel.setDisable(true);smhTextField.setDisable(true);smhLabel.setDisable(true);
+            smErrorLabel.setDisable(false);smTextField.setDisable(false);smLabel.setDisable(false);
+            smdErrorLabel.setDisable(true);smdTextField.setDisable(true);smdLabel.setDisable(true);
 
         });
 
         method3TitleLabel.setOnMouseClicked(event1 -> {
 
             method3GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-            method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
-            method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
+            method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+            method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+
+            smhErrorLabel.setDisable(true);smhTextField.setDisable(true);smhLabel.setDisable(true);
+            smErrorLabel.setDisable(false);smTextField.setDisable(false);smLabel.setDisable(false);
+            smdErrorLabel.setDisable(true);smdTextField.setDisable(true);smdLabel.setDisable(true);
 
         });
 
         method1GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-        method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
-        method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLELABEL)).forEach(item -> item.setDisable(true));
+        method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+        method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
 
         //
 
@@ -1543,7 +1541,7 @@ public class TruDisp extends Application {
                                         if (data.setSmh(smhTextField.getText(), smhErrorLabel.getText())) {
                                             if (data.setMapView((mapSectionToggleButton.isSelected()) ? mapSectionToggleButton.getText() : arbitraryLineToggleButton.getText())) {
                                                 if (data.isDataValidForCalcuating()) {
-                                                    if (data.Calculate(1)) {
+                                                    if (data.Calculate(METHOD_1)) {
                                                         displayData(data);
                                                         TDTable.addData(data);
                                                     } else {shakeStage();}
@@ -1582,21 +1580,12 @@ public class TruDisp extends Application {
                                                     {
                                                         if(data.setSm(smTextField.getText(),smErrorLabel.getText()))
                                                         {
-                                                            if(data.setSmd(smdTextField.getText(),smdErrorLabel.getText()))
+                                                            if(data.setApha(alphaTextField.getText(),alphaErrorLabel.getText()))
                                                             {
-                                                                if(data.setSmh(smhTextField.getText(),smhErrorLabel.getText()))
+                                                                if(data.Calculate(METHOD_2))
                                                                 {
-                                                                    if(data.setApha(alphaTextField.getText(),alphaErrorLabel.getText()))
-                                                                    {
-                                                                        if(data.isDataValidForCalcuating())
-                                                                        {
-                                                                            if(data.Calculate(2))
-                                                                            {
-                                                                                displayData(data);
-                                                                                TDTable.addData(data);
-                                                                            }else{shakeStage();}
-                                                                        }else{shakeStage();}
-                                                                    }else{shakeStage();}
+                                                                    displayData(data);
+                                                                    TDTable.addData(data);
                                                                 }else{shakeStage();}
                                                             }else{shakeStage();}
                                                         }else{shakeStage();}
@@ -1639,17 +1628,13 @@ public class TruDisp extends Application {
 
     public void shakeStage() {
 
-        Timeline timelineX = new Timeline(new KeyFrame(Duration.seconds(0.1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-
-                if (shakeStageFlag) {
-                    mainTruDispStage.setX(mainTruDispStage.getX() + 10);
-                } else {
-                    mainTruDispStage.setX(mainTruDispStage.getX() - 10);
-                }
-                shakeStageFlag = !shakeStageFlag;
+        Timeline timelineX = new Timeline(new KeyFrame(Duration.seconds(0.1), t -> {
+            if (shakeStageFlag) {
+                mainTruDispStage.setX(mainTruDispStage.getX() + 10);
+            } else {
+                mainTruDispStage.setX(mainTruDispStage.getX() - 10);
             }
+            shakeStageFlag = !shakeStageFlag;
         }));
 
         timelineX.setCycleCount(10);
@@ -1763,7 +1748,6 @@ public class TruDisp extends Application {
         bpmErrorLabel.setText("± "+ data.getBpmError());
         bpnTextField.setText(data.getBpn().toString());
         bpnErrorLabel.setText("± "+ data.getBpnError());
-
     }
 
 }
@@ -1922,9 +1906,6 @@ class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
 class TDDialogs {
 
     private Stage stageinput,stageoutput,stageabout,stagelabels,stagehelp;
-    private VBox  box;
-    private ImageView inputim,outputim;
-    private Scene scene;
     private ImageView im;
     private TextArea txtarea;
 

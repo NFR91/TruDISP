@@ -109,16 +109,25 @@ public class TDData {
             switch (method) {
                 case 1:
                 {
-                    s[DATA] = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
-                    calculateDistance();
-                    calculateErrors();
+                    s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+                    method1CalculateDistance();
+                    calculateDistanceErrors();
                     break;
                 }
                 case 2:
                 {
                     //TODO
-                    convertMethod2toDirCos();
-                    convertDirCos2Method1();
+                    method2CalculateDirCosOfPlanes();
+                    method2ConvertDirCos2Method1();
+                    method2CalculateMethod1Orientations();
+
+                    if(isDataValidForCalcuating())
+                    {
+                        s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+                        method1CalculateDistance();
+                    }
+                    else{return false;}
+
                     break;
                 }
             }
@@ -672,6 +681,24 @@ public class TDData {
     public Boolean setNotes(String nts)
     {notes=nts; return true;}
 
+    public Double dotProduct(Double[] a, Double[] b){
+        // Calculamos con el prodcuto punto el pitch.
+
+        return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
+    }
+
+    public Double[] crossProduct(Double[] a, Double[] b)
+    {
+        Double[] axb = new Double[3];
+
+        axb[0] = a[1]*b[2] - a[2]*b[1];
+        axb[1] = a[2]*b[0] - a[0]*b[2];
+        axb[2] = a[0]*b[1] - a[1]*b[0];
+
+        return axb;
+    }
+
+
 
     /**Métodos de validación*/
 
@@ -786,7 +813,7 @@ public class TDData {
 
 
     // Método 1
-    public Double calculateMethod1(Double beta,Double gamma,Double phi,Double sm, Double smd, Double smh)
+    public Double method1Calculate(Double beta, Double gamma, Double phi, Double sm, Double smd, Double smh)
     {
         switch (MapView)
         {
@@ -895,56 +922,56 @@ public class TDData {
         }
         return 0.0;
     }
-    public Double calculateSs(Double s,Double gamma)
+    public Double method1CalculateSs(Double s, Double gamma)
     { return s*Math.cos(gamma);}
-    public Double calculateSd(Double s, Double gamma)
+    public Double method1CalculateSd(Double s, Double gamma)
     {return s*Math.sin(gamma);}
-    public Double calculateSv(Double s, Double gamma, Double alpha)
+    public Double method1CalculateSv(Double s, Double gamma, Double alpha)
     {return s*Math.sin(gamma)*Math.sin(alpha);}
-    public Double calculateSh(Double s, Double gamma, Double alpha)
+    public Double method1CalculateSh(Double s, Double gamma, Double alpha)
     {return s*Math.sin(gamma)*Math.cos(alpha);}
 
-    public void calculateDistance()
+    public void method1CalculateDistance()
     {
-        ss[DATA] = calculateSs(s[DATA],gamma[DATA]);
-        sd[DATA] = calculateSd(s[DATA], gamma[DATA]);
-        sv[DATA] = calculateSv(s[DATA],gamma[DATA],alpha[DATA]);
-        sh[DATA] = calculateSh(s[DATA], gamma[DATA], alpha[DATA]);
+        ss[DATA] = method1CalculateSs(s[DATA], gamma[DATA]);
+        sd[DATA] = method1CalculateSd(s[DATA], gamma[DATA]);
+        sv[DATA] = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA]);
+        sh[DATA] = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA]);
     }
 
-    public void calculateErrors()
+    public void calculateDistanceErrors()
     {
         Double h=0.001,f,i,pdbeta,pdgamma,pdphi,pdsm,pdsmd,pdsmh;
 
 
         // Derivada parcial  ds/db
-        f = calculateMethod1(beta[DATA]+h,gamma[DATA],phi[DATA],sm[DATA],smd[DATA],smh[DATA]);
-        i = calculateMethod1(beta[DATA] - h, gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA] + h, gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA] - h, gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
         pdbeta= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dgamma
-        f = calculateMethod1(beta[DATA],gamma[DATA]+h,phi[DATA],sm[DATA],smd[DATA],smh[DATA]);
-        i = calculateMethod1(beta[DATA], gamma[DATA] - h, phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA] + h, phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA] - h, phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
         pdgamma= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dphi
-        f = calculateMethod1(beta[DATA],gamma[DATA],phi[DATA]+h,sm[DATA],smd[DATA],smh[DATA]);
-        i = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA] - h, sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] + h, sm[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] - h, sm[DATA], smd[DATA], smh[DATA]);
         pdphi = Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsm
-        f = calculateMethod1(beta[DATA],gamma[DATA],phi[DATA],sm[DATA]+h,smd[DATA],smh[DATA]);
-        i = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA] - h, smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA] + h, smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA] - h, smd[DATA], smh[DATA]);
         pdsm= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsmd
-        f = calculateMethod1(beta[DATA],gamma[DATA],phi[DATA],sm[DATA],smd[DATA]+h,smh[DATA]);
-        i = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA] - h, smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA] + h, smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA] - h, smh[DATA]);
         pdsmd= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsmh
-        f = calculateMethod1(beta[DATA],gamma[DATA],phi[DATA],sm[DATA],smd[DATA],smh[DATA]+h);
-        i = calculateMethod1(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA] - h);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA] + h);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA] - h);
         pdsmh= Math.abs((f - i) / (2 * h));
 
 
@@ -954,53 +981,53 @@ public class TDData {
         Double pds,pdalpha;
 
         // Derivada parcial dss/ds
-        f = calculateSs(s[DATA]+h, gamma[DATA]);
-        i = calculateSs(s[DATA]-h, gamma[DATA]);
+        f = method1CalculateSs(s[DATA] + h, gamma[DATA]);
+        i = method1CalculateSs(s[DATA] - h, gamma[DATA]);
         pds = Math.abs((f - i) / (2 * h));
         // Derivada parcial dss/dgamma
-        f = calculateSs(s[DATA],gamma[DATA]+h);
-        i = calculateSs(s[DATA],gamma[DATA]-h);
+        f = method1CalculateSs(s[DATA], gamma[DATA] + h);
+        i = method1CalculateSs(s[DATA], gamma[DATA] - h);
         pdgamma = Math.abs((f - i) / (2 * h));
 
         ss[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
 
         // Derivada parcial dsd/ds
-        f = calculateSd(s[DATA] + h, gamma[DATA]);
-        i = calculateSd(s[DATA] - h, gamma[DATA]);
+        f = method1CalculateSd(s[DATA] + h, gamma[DATA]);
+        i = method1CalculateSd(s[DATA] - h, gamma[DATA]);
         pds = Math.abs((f - i) / (2 * h));
         // Derivada parcial dsd/dgamma
-        f = calculateSd(s[DATA], gamma[DATA] + h);
-        i = calculateSd(s[DATA], gamma[DATA] - h);
+        f = method1CalculateSd(s[DATA], gamma[DATA] + h);
+        i = method1CalculateSd(s[DATA], gamma[DATA] - h);
         pdgamma = Math.abs((f - i) / (2 * h));
 
         sd[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
 
         // Derivada parcial dsv/ds
-        f = calculateSv(s[DATA] + h, gamma[DATA], alpha[DATA]);
-        i = calculateSv(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        f = method1CalculateSv(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        i = method1CalculateSv(s[DATA] - h, gamma[DATA], alpha[DATA]);
         pds = Math.abs((f - i) / (2 * h));
         // Derivada parcial dsv/dgamma
-        f = calculateSv(s[DATA], gamma[DATA] + h,alpha[DATA]);
-        i = calculateSv(s[DATA], gamma[DATA] - h,alpha[DATA]);
+        f = method1CalculateSv(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        i = method1CalculateSv(s[DATA], gamma[DATA] - h, alpha[DATA]);
         pdgamma = Math.abs((f - i) / (2 * h));
         // Derivada parcial dsv/dalpha
-        f = calculateSv(s[DATA], gamma[DATA],alpha[DATA]+h);
-        i = calculateSv(s[DATA], gamma[DATA],alpha[DATA]-h);
+        f = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] + h);
+        i = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] - h);
         pdalpha = Math.abs((f - i) / (2 * h));
 
         sv[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
 
         // Derivada parcial dsh/ds
-        f = calculateSh(s[DATA] + h, gamma[DATA], alpha[DATA]);
-        i = calculateSh(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        f = method1CalculateSh(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        i = method1CalculateSh(s[DATA] - h, gamma[DATA], alpha[DATA]);
         pds = Math.abs((f - i) / (2 * h));
         // Derivada parcial dsh/dgamma
-        f = calculateSh(s[DATA], gamma[DATA] + h, alpha[DATA]);
-        i = calculateSh(s[DATA], gamma[DATA] - h, alpha[DATA]);
+        f = method1CalculateSh(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        i = method1CalculateSh(s[DATA], gamma[DATA] - h, alpha[DATA]);
         pdgamma = Math.abs((f - i) / (2 * h));
         // Derivada parcial dsh/dalpha
-        f = calculateSh(s[DATA], gamma[DATA], alpha[DATA] + h);
-        i = calculateSh(s[DATA], gamma[DATA], alpha[DATA] - h);
+        f = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] + h);
+        i = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] - h);
         pdalpha = Math.abs((f - i) / (2 * h));
 
         sh[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
@@ -1009,24 +1036,24 @@ public class TDData {
 
     // Método 2
 
-    public void convertMethod2toDirCos()
+    public void method2CalculateDirCosOfPlanes()
     {
-        Double[] temp = convert2DirCos(fodd[DATA], fod[DATA]);
+        Double[] temp = method2CalculateDirCos(fodd[DATA], fod[DATA]);
         fpl[DATA] = temp[TruDisp.E];
         fpm[DATA] = temp[TruDisp.N];
         fpn[DATA] = temp[TruDisp.D];
 
-        temp = convert2DirCos(opodd[DATA], opod[DATA]);
+        temp = method2CalculateDirCos(opodd[DATA], opod[DATA]);
         opl[DATA]=temp[TruDisp.E];
         opm[DATA]=temp[TruDisp.N];
         opn[DATA]=temp[TruDisp.D];
 
-        temp = convert2DirCos(smo1dd[DATA], smo1d[DATA]);
+        temp = method2CalculateDirCos(smo1dd[DATA], smo1d[DATA]);
         apl[DATA]=temp[TruDisp.E];
         apm[DATA]=temp[TruDisp.N];
         apn[DATA]=temp[TruDisp.D];
 
-        temp = convert2DirCos(smo2dd[DATA], smo2d[DATA]);
+        temp = method2CalculateDirCos(smo2dd[DATA], smo2d[DATA]);
         bpl[DATA]=temp[TruDisp.E];
         bpm[DATA]=temp[TruDisp.N];
         bpn[DATA]=temp[TruDisp.D];
@@ -1034,51 +1061,53 @@ public class TDData {
 
     }
 
-    public void convertDirCos2Method1()
+    public void method2ConvertDirCos2Method1()
     {
         // Obtenmos los pitch;
 
         Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};
+        Double[] stk = new Double[]{fpm[DATA],1-fpm[DATA],0.0};
+        Double[] striae = method2CalculateDirCos(ostrend[DATA], osplunch[DATA]);
         Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]};
-        Double[] striae = convert2DirCos(ostrend[DATA],osplunch[DATA]);
         Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]};
 
-        beta[DATA] = calculatePitch(crossPruct(fp,mrkr),striae);
-        gamma[DATA] = calculatePitch(fp,striae);
-        phi[DATA] = calculatePitch(crossPruct(fp,op),striae);
+        beta[DATA] = dotProduct(crossProduct(fp, mrkr), stk);
+        gamma[DATA] = dotProduct(striae, stk);
+        phi[DATA] = dotProduct(crossProduct(fp, op), stk);
+        alpha[DATA] = fod[DATA];
 
 
 
 
     }
 
-    public Double[] convert2DirCos(Double trend, Double plunge)
+    public Double[] method2CalculateDirCos(Double stk, Double d)
     {
         Double[] temp= new Double[] {0.0,0.0,0.0};
 
-        temp[TruDisp.N] = Math.cos(trend)*Math.cos(plunge);
-        temp[TruDisp.E] = Math.sin(trend)*Math.cos(plunge);
-        temp[TruDisp.D] = Math.sqrt(1-((temp[0]*temp[0])+(temp[1]*temp[1])));
+        temp[TruDisp.N] = Math.cos(stk)*Math.cos(d);
+        temp[TruDisp.E] = Math.sin(stk)*Math.cos(d);
+        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
 
         return temp;
     }
 
-    public Double calculatePitch(Double[] a,Double[] b){
-        // Calculamos con el prodcuto punto el pitch.
-
-        return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
-    }
-
-    public Double[] crossPruct(Double[] a, Double[] b)
+    public void method2CalculateMethod1Orientations()
     {
-        Double[] axb = new Double[3];
+        Double stk = fodd[DATA];
+        betaO = (stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((beta[DATA]>(Math.PI/2))? "S":"N"):((beta[DATA]>(Math.PI/2))? "N":"S");
+        beta[DATA]=(beta[DATA]>(Math.PI/2))? (Math.PI-beta[DATA]):(beta[DATA]);
 
-        axb[0] = a[1]*b[2] - a[2]*b[1];
-        axb[1] = a[2]*b[0] - a[0]*b[2];
-        axb[2] = a[0]*b[1] - a[1]*b[0];
+        gammaO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((gamma[DATA]>(Math.PI/2))? "S":"N"):((gamma[DATA]>(Math.PI/2))? "N":"S");
+        gamma[DATA]=(gamma[DATA]>(Math.PI/2))? (Math.PI-gamma[DATA]):(gamma[DATA]);
 
-        return axb;
+        phiO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((phi[DATA]>(Math.PI/2))? "S":"N"):((phi[DATA]>(Math.PI/2))? "N":"S");
+        phi[DATA]=(phi[DATA]>(Math.PI/2))? (Math.PI-phi[DATA]):(phi[DATA]);
+
+        MapView = "Arbitrary Line";
+
     }
+
     /**Metodos Get*/
 
     public Double getS()

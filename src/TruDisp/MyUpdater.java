@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -77,7 +76,7 @@ import java.nio.file.StandardCopyOption;
                 URL source = new URL(checkupdates.get());
                 if(source!=null)
                 {
-                    Files.copy(source.openStream(), filetowrite.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(source.openStream(), filetowrite.toPath(),StandardCopyOption.REPLACE_EXISTING);
                     updateMessage("Se ha descargado la actualización");
                 }
                 else{cancel();}

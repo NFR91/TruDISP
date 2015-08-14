@@ -11,14 +11,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-import java.util.NavigableMap;
-
 /**
  * Created by Nieto on 05/08/15.
  */
 public class TruDispStatusPane extends StackPane{
 
-    private HBox statusBar;
+    private HBox statusBar,notification;
     private VBox notificationsLayout;
     private Label statusLabel;
     private ImageView iconView;
@@ -117,7 +115,7 @@ public class TruDispStatusPane extends StackPane{
     public void setNotification(String not,String im)
     {
 
-        notificationTimer = new Task<Integer>() {
+        Task notificationTimer = new Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
 
@@ -138,6 +136,12 @@ public class TruDispStatusPane extends StackPane{
         Label notificationLabel = new Label(not);
         notificationLabel.getStyleClass().add("notificationlabel");
         notificationLabel.setMaxWidth(Double.MAX_VALUE);
+        Button notificationCloseButton= new Button("X");
+        notificationCloseButton.setMaxHeight(Double.MAX_VALUE);
+        notificationCloseButton.setOnAction(event1 -> notificationTimer.cancel());
+
+        HBox notificationBox = new HBox();
+        notificationBox.getChildren().addAll(notificationLabel, notificationCloseButton);
 
         if(im!=null) {
             ImageView notificationicon = new ImageView(new Image(im));
@@ -151,20 +155,25 @@ public class TruDispStatusPane extends StackPane{
 
             if (newValue == Worker.State.SCHEDULED) {
 
-                notificationsLayout.getChildren().add(notificationLabel);
-                FadeTransition ft = new FadeTransition(Duration.millis(1000), notificationLabel);
+                notificationsLayout.getChildren().add(notificationBox);
+                FadeTransition ft = new FadeTransition(Duration.millis(1000), notificationBox);
                 ft.setFromValue(0.0);
                 ft.setToValue(1.0);
                 ft.play();
             }
             if (newValue == Worker.State.SUCCEEDED) {
-                FadeTransition ft = new FadeTransition(Duration.millis(1000), notificationLabel);
+                FadeTransition ft = new FadeTransition(Duration.millis(1000), notificationBox);
                 ft.setFromValue(1.0);
                 ft.setToValue(0.0);
                 ft.play();
                 ft.setOnFinished(event -> {
-                    notificationsLayout.getChildren().remove(notificationLabel);
+                    notificationsLayout.getChildren().remove(notificationBox);
                 });
+            }
+
+            if(newValue == Worker.State.CANCELLED)
+            {
+                notificationsLayout.getChildren().remove(notificationBox);
             }
 
         });
