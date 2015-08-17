@@ -48,10 +48,11 @@ public class TruDisp extends Application {
     private Menu trudispMenu, methodsMenu, panelsMenu,helpMenu;
     private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,
             panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem,
-            helpMenuHow2Use;
+            helpMenuHow2Use,panelMenuFaultViewrItem;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
 
     private TDTable TDTable;
+    private FaultViewer TDFaultV;
     private TDOpenSave truDispOpenSave;
     private Boolean shakeStageFlag = true;
     private TDDialogs trudispTDDialogs;
@@ -242,6 +243,8 @@ public class TruDisp extends Application {
         truDispOpenSave = new TDOpenSave(mainTruDispStage);
         // Dialogos de entradas, salidas e información
         trudispTDDialogs = new TDDialogs();
+        // Visor;
+        TDFaultV = new FaultViewer();
 
         /** Cuerpo de la aplicación*/
         // Cuerpo Principal
@@ -339,7 +342,9 @@ public class TruDisp extends Application {
         panelMenuOutputItem.setOnAction(event-> trudispTDDialogs.showOutput());
         panelMenuLabelsItems = new MenuItem("Labels");
         panelMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
-        panelsMenu.getItems().addAll(panelMenuHistoryItem, panelMenuLabelsItems, panelMenuInputItem, panelMenuOutputItem);
+        panelMenuFaultViewrItem = new MenuItem("Fault Viewer");
+        panelMenuFaultViewrItem.setOnAction(event-> {TDFaultV.show();TDFaultV.requestFocus();});
+        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuFaultViewrItem, panelMenuLabelsItems, panelMenuInputItem, panelMenuOutputItem);
 
         // ?
         helpMenu = new Menu("Help");
