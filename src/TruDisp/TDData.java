@@ -681,7 +681,7 @@ public class TDData {
     public Boolean setNotes(String nts)
     {notes=nts; return true;}
 
-    public Double dotProduct(Double[] a, Double[] b){
+    public Double dotProductAngle(Double[] a, Double[] b){
         // Calculamos con el prodcuto punto el pitch.
 
         return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
@@ -1071,9 +1071,9 @@ public class TDData {
         Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]};
         Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]};
 
-        beta[DATA] = dotProduct(crossProduct(fp, mrkr), stk);
-        gamma[DATA] = dotProduct(striae, stk);
-        phi[DATA] = dotProduct(crossProduct(fp, op), stk);
+        beta[DATA] = dotProductAngle(crossProduct(fp, mrkr), stk);
+        gamma[DATA] = dotProductAngle(striae, stk);
+        phi[DATA] = dotProductAngle(crossProduct(fp, op), stk);
         alpha[DATA] = fod[DATA];
 
 
@@ -1085,8 +1085,8 @@ public class TDData {
     {
         Double[] temp= new Double[] {0.0,0.0,0.0};
 
-        temp[TruDisp.N] = Math.cos(stk)*Math.cos(d);
-        temp[TruDisp.E] = Math.sin(stk)*Math.cos(d);
+        temp[TruDisp.N] = Math.sin(stk)*Math.sin(d);
+        temp[TruDisp.E] = -Math.cos(stk)*Math.sin(d);
         temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
 
         return temp;

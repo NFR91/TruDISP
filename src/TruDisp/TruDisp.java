@@ -30,7 +30,7 @@ import javafx.util.Duration;
 public class TruDisp extends Application {
 
     public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
-    public static final Double TRU_DISP_VERSION = 1.92;
+    public static final Double TRU_DISP_VERSION = 1.93;
     public static final String REPOSITORY ="beta";
     /** Variables*/
 
@@ -48,7 +48,7 @@ public class TruDisp extends Application {
     private Menu trudispMenu, methodsMenu, panelsMenu,helpMenu;
     private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,
             panelMenuOutputItem,panelMenuInputItem,panelMenuLabelsItems,trudispMenuAboutItem,
-            helpMenuHow2Use,panelMenuFaultViewrItem;
+            helpMenuHow2Use,panelMenuFaultViewrItem,panelMenuLMNCoordItem;
     private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem, method3CheckMenuItem;
 
     private TDTable TDTable;
@@ -344,7 +344,9 @@ public class TruDisp extends Application {
         panelMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
         panelMenuFaultViewrItem = new MenuItem("Fault Viewer");
         panelMenuFaultViewrItem.setOnAction(event-> {TDFaultV.show();TDFaultV.requestFocus();});
-        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuFaultViewrItem, panelMenuLabelsItems, panelMenuInputItem, panelMenuOutputItem);
+        panelMenuLMNCoordItem = new MenuItem("Director Cosines");
+        panelMenuLMNCoordItem.setOnAction(event->trudispTDDialogs.showLMNCoord());
+        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuFaultViewrItem, panelMenuLabelsItems, panelMenuInputItem, panelMenuOutputItem,panelMenuLMNCoordItem);
 
         // ?
         helpMenu = new Menu("Help");
@@ -795,19 +797,19 @@ public class TruDisp extends Application {
 
 
         fpnErrorLabel = new Label();
-        fpnErrorLabel.setOnScroll(new ValueChangeScrollListener(fpnErrorLabel));
+        fpnErrorLabel.setOnScroll(new ValueChangeScrollListener(fpnErrorLabel,METHOD_3));
         fpnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         fpnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         fpmErrorLabel = new Label();
-        fpmErrorLabel.setOnScroll(new ValueChangeScrollListener(fpmErrorLabel));
+        fpmErrorLabel.setOnScroll(new ValueChangeScrollListener(fpmErrorLabel,METHOD_3));
         fpmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         fpmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         fplErrorLabel = new Label();
-        fplErrorLabel.setOnScroll(new ValueChangeScrollListener(fplErrorLabel));
+        fplErrorLabel.setOnScroll(new ValueChangeScrollListener(fplErrorLabel,METHOD_3));
         fplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         fplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -829,19 +831,19 @@ public class TruDisp extends Application {
 
 
         opnErrorLabel = new Label();
-        opnErrorLabel.setOnScroll(new ValueChangeScrollListener(opnErrorLabel));
+        opnErrorLabel.setOnScroll(new ValueChangeScrollListener(opnErrorLabel,METHOD_3));
         opnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         opnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         opmErrorLabel = new Label();
-        opmErrorLabel.setOnScroll(new ValueChangeScrollListener(opmErrorLabel));
+        opmErrorLabel.setOnScroll(new ValueChangeScrollListener(opmErrorLabel,METHOD_3));
         opmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         opmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         oplErrorLabel = new Label();
-        oplErrorLabel.setOnScroll(new ValueChangeScrollListener(oplErrorLabel));
+        oplErrorLabel.setOnScroll(new ValueChangeScrollListener(oplErrorLabel,METHOD_3));
         oplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         oplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -863,19 +865,19 @@ public class TruDisp extends Application {
 
 
         apnErrorLabel = new Label();
-        apnErrorLabel.setOnScroll(new ValueChangeScrollListener(apnErrorLabel));
+        apnErrorLabel.setOnScroll(new ValueChangeScrollListener(apnErrorLabel,METHOD_3));
         apnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         apnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         apmErrorLabel = new Label();
-        apmErrorLabel.setOnScroll(new ValueChangeScrollListener(apmErrorLabel));
+        apmErrorLabel.setOnScroll(new ValueChangeScrollListener(apmErrorLabel,METHOD_3));
         apmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         apmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         aplErrorLabel = new Label();
-        aplErrorLabel.setOnScroll(new ValueChangeScrollListener(aplErrorLabel));
+        aplErrorLabel.setOnScroll(new ValueChangeScrollListener(aplErrorLabel,METHOD_3));
         aplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         aplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -897,19 +899,19 @@ public class TruDisp extends Application {
 
 
         bpnErrorLabel = new Label();
-        bpnErrorLabel.setOnScroll(new ValueChangeScrollListener(bpnErrorLabel));
+        bpnErrorLabel.setOnScroll(new ValueChangeScrollListener(bpnErrorLabel,METHOD_3));
         bpnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         bpnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         bpmErrorLabel = new Label();
-        bpmErrorLabel.setOnScroll(new ValueChangeScrollListener(bpmErrorLabel));
+        bpmErrorLabel.setOnScroll(new ValueChangeScrollListener(bpmErrorLabel,METHOD_3));
         bpmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         bpmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         bplErrorLabel = new Label();
-        bplErrorLabel.setOnScroll(new ValueChangeScrollListener(bplErrorLabel));
+        bplErrorLabel.setOnScroll(new ValueChangeScrollListener(bplErrorLabel,METHOD_3));
         bplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         bplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -917,65 +919,65 @@ public class TruDisp extends Application {
 
         // F Plane
         fpmTextField = new TextField();
-        fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField));
+        fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField,METHOD_3));
         fpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpmTextField.setTooltip(new Tooltip("FOD D input"));
 
         fpnTextField = new TextField();
-        fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField));
+        fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField,METHOD_3));
         fpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         fplTextField = new TextField();
-        fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField));
+        fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField,METHOD_3));
         fplTextField.getStyleClass().add(IO_TEXT_FIELD);
         fplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // O Plane
         opmTextField = new TextField();
-        opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField));
+        opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField,METHOD_3));
         opmTextField.getStyleClass().add(IO_TEXT_FIELD);
         opmTextField.setTooltip(new Tooltip("FOD D input"));
 
         opnTextField = new TextField();
-        opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField));
+        opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField,METHOD_3));
         opnTextField.getStyleClass().add(IO_TEXT_FIELD);
         opnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         oplTextField = new TextField();
-        oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField));
+        oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField,METHOD_3));
         oplTextField.getStyleClass().add(IO_TEXT_FIELD);
         oplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // A Plane
         apmTextField = new TextField();
-        apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField));
+        apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField,METHOD_3));
         apmTextField.getStyleClass().add(IO_TEXT_FIELD);
         apmTextField.setTooltip(new Tooltip("FOD D input"));
 
         apnTextField = new TextField();
-        apnTextField.setOnScroll(new ValueChangeScrollListener(apnTextField));
+        apnTextField.setOnScroll(new ValueChangeScrollListener(apnTextField,METHOD_3));
         apnTextField.getStyleClass().add(IO_TEXT_FIELD);
         apnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         aplTextField = new TextField();
-        aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField));
+        aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField,METHOD_3));
         aplTextField.getStyleClass().add(IO_TEXT_FIELD);
         aplTextField.setTooltip(new Tooltip("FOD DD input"));
 
         // B Plane
         bpmTextField = new TextField();
-        bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField));
+        bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField,METHOD_3));
         bpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpmTextField.setTooltip(new Tooltip("FOD D input"));
 
         bpnTextField = new TextField();
-        bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField));
+        bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField,METHOD_3));
         bpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpnTextField.setTooltip(new Tooltip("FOD DD input"));
 
         bplTextField = new TextField();
-        bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField));
+        bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField,METHOD_3));
         bplTextField.getStyleClass().add(IO_TEXT_FIELD);
         bplTextField.setTooltip(new Tooltip("FOD DD input"));
 
@@ -1762,6 +1764,7 @@ class ValueChangeScrollListener implements EventHandler<ScrollEvent>
 
      private Label label;
      private Double value;
+    private  int method;
      private TextField textfield;
      private String[] error;
 
@@ -1772,10 +1775,14 @@ class ValueChangeScrollListener implements EventHandler<ScrollEvent>
 
     }
 
-     public ValueChangeScrollListener(TextField tf)
+    public ValueChangeScrollListener(Label l,int met){label=l;method=met; value=0.0;}
+
+    public ValueChangeScrollListener(TextField tf)
      {
         textfield = tf;
      }
+
+    public ValueChangeScrollListener(TextField tf,int met){textfield=tf; method=met;}
 
     @Override
     public void handle(ScrollEvent event) {
@@ -1784,8 +1791,11 @@ class ValueChangeScrollListener implements EventHandler<ScrollEvent>
         {
             // Eveneto de scroll que le el valor de la etiqueta y le aimenta el desplaamiento para los errores
                 error = label.getText().split(" ");
-                value = (double) Math.round((Double.parseDouble(error[1]) - event.getDeltaY()/10) * 10) / 10;
-                if (value >= 0)
+            if(method==3)
+            {value = (double) Math.round((Double.parseDouble(error[1]) - (event.getDeltaY()/Math.abs(event.getDeltaY()))*0.01) * 1000) / 1000;}
+            else {value = (double) Math.round((Double.parseDouble(error[1]) - (event.getDeltaY()/Math.abs(event.getDeltaY()))*0.1) * 10) / 10;}
+
+            if (value >= 0)
                 {
                     if(error.length==3)
                     {label.setText(error[0]+" "+value.toString()+" "+error[2]);}
@@ -1796,13 +1806,17 @@ class ValueChangeScrollListener implements EventHandler<ScrollEvent>
         }
         else
         {
-
             // Evento de scroll que lee el valor de la etiqueta y le aumenta el desplazamiento para los campos de entrada
-            Double vl = (double) Math.round((Double.parseDouble(textfield.getText()) - event.getDeltaY() / 10) * 10) / 10;
-            if (vl >= 0)
+            Double vl = 0.0;
+
+            if (method == 3)
+            {vl = (double) Math.round((Double.parseDouble(textfield.getText()) - (event.getDeltaY()/Math.abs(event.getDeltaY())/ 100)) * 1000) / 1000;}
+            else{vl= (double) Math.round((Double.parseDouble(textfield.getText()) - (event.getDeltaY()/Math.abs(event.getDeltaY())/10)) * 10) / 10;}
+
+
+            if (vl >= 0) {
                 textfield.setText(vl.toString());
-
-
+            }
         }
 
 
@@ -1910,7 +1924,7 @@ class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
 
 class TDDialogs {
 
-    private Stage stageinput,stageoutput,stageabout,stagelabels,stagehelp;
+    private Stage stageinput,stageoutput,stageabout,stagelabels,stagehelp,stageLMNCoord;
     private ImageView im;
     private TextArea txtarea;
 
@@ -1921,6 +1935,7 @@ class TDDialogs {
         stageabout = new Stage(StageStyle.DECORATED);
         stagelabels = new Stage(StageStyle.DECORATED);
         stagehelp = new Stage(StageStyle.DECORATED);
+        stageLMNCoord = new Stage(StageStyle.DECORATED);
     }
 
     public void showInput()
@@ -2029,14 +2044,27 @@ class TDDialogs {
                 "(N) and the other is labeled \"shouther half\" (S). See the figure of input data. \n");
 
         VBox.setVgrow(txtarea, Priority.ALWAYS);
-        stagelabels.setScene(new Scene(new VBox(txtarea)));
-        stagelabels.setTitle("?");
-        stagelabels.setWidth(400);
-        stagelabels.setHeight(400);
-        stagelabels.show();
-        stagelabels.requestFocus();
+        stagehelp.setScene(new Scene(new VBox(txtarea)));
+        stagehelp.setTitle("?");
+        stagehelp.setWidth(400);
+        stagehelp.setHeight(400);
+        stagehelp.show();
+        stagehelp.requestFocus();
     }
-
+public void showLMNCoord()
+{
+    im = new ImageView(new Image("Images/lmn.jpg"));
+    im.fitWidthProperty().bind(stageLMNCoord.widthProperty());
+    im.fitHeightProperty().bind(stageLMNCoord.heightProperty());
+    im.setPreserveRatio(true);
+    StackPane.setAlignment(im, Pos.CENTER);
+    stageLMNCoord.setScene(new Scene(new StackPane(im)));
+    stageLMNCoord.setTitle("Output Variables Diagram");
+    stageLMNCoord.setHeight(550 * (im.getImage().getHeight() / im.getImage().getWidth()));
+    stageLMNCoord.setWidth(500);
+    stageLMNCoord.show();
+    stageLMNCoord.requestFocus();
+}
 }
 
 
