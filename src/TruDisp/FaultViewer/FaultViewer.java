@@ -1,4 +1,4 @@
-package TruDisp;
+package TruDisp.FaultViewer;
 
 import javafx.animation.FadeTransition;
 import javafx.concurrent.Task;
@@ -19,14 +19,16 @@ import java.util.ArrayList;
  * Created by Nieto on 17/08/15.
  */
 public class FaultViewer extends Stage {
-
     private Canvas canvas;
     private Double xold=0.0,yold=0.0;
     private Task<Double> task;
-    private My3DObject block;
-    private Double[] p0,p1,p2,p3;
+    private FaultBlock3D block;
+    private Plane3D plane;
+    private Arrow3D arrow3D;
+    private ArrayList<Double[]> points;
     private ArrayList<My3DObject> objects;
     private HBox rotCtrl;
+    private GraphicsContext gc;
 
     Button rxpos,rxneg,rypos,ryneg,rzpos,rzneg;
 
@@ -41,13 +43,59 @@ public class FaultViewer extends Stage {
         this.setWidth(300);
         this.setHeight(300);
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
 
 
-        block = new My3DObject();
+        block = new FaultBlock3D();
+        plane = new Plane3D();
+        Plane3D p2 = new Plane3D();
+        p2.setObjFaceColor(Color.rgb(0, 0, 255, 0.3));
+        p2.setNormalVector(new Double[]{Math.cos(Math.toRadians(90)), Math.cos(Math.toRadians(30)), Math.toRadians(40)});
+        p2.setContainer(block);
+        p2.intersectPlaneWidthContainer();
+        plane.setContainer(block);
+        plane.intersectPlaneWidthContainer();
+        plane.setObjFaceColor(Color.rgb(0, 255, 0, 0.3));
+        arrow3D = new Arrow3D();
+
+
         objects = new ArrayList<>();
-        objects.add(0,block);
+        objects.add(plane);
+        objects.add(p2);
+        objects.add(arrow3D);
+        objects.add(block);
+
         drawScene(gc, objects);
+
+        initFVControls();
+
+        this.setScene(new Scene(new StackPane(canvas, rotCtrl)));
+        this.show();
+
+    }
+
+    public void setPlanes(Double[] fp,Double[] op, Double[] ap,Double[] bp)
+    {
+        Plane3D faultPlane, observationPlane, marker1Plane, marker2Plane;
+
+        faultPlane = new Plane3D(fp,Color.rgb(200,0,0,.3),block);
+        observationPlane = new Plane3D(op,Color.rgb(0,200,0,.3),block);
+        marker1Plane = new Plane3D(ap,Color.rgb(200,0,200,.3),block);
+        marker2Plane = new Plane3D(bp,Color.rgb(0,200,200,.3),block);
+
+        objects.clear();
+        objects.add(faultPlane);
+        objects.add(observationPlane);
+        objects.add(marker1Plane);
+        objects.add(marker2Plane);
+        objects.add(arrow3D);
+        objects.add(block);
+
+        drawScene(gc,objects);
+
+    }
+    public void initFVControls()
+    {
 
         canvas.widthProperty().addListener(observable -> {
             drawScene(gc, objects);
@@ -270,9 +318,6 @@ public class FaultViewer extends Stage {
             drawScene(gc, objects);
         });
 
-        this.setScene(new Scene(new StackPane(canvas, rotCtrl)));
-        //this.show();
-
     }
 
     public void drawScene(GraphicsContext gc,ArrayList<My3DObject> objects)
@@ -283,58 +328,43 @@ public class FaultViewer extends Stage {
         Double[] min = getMinVal(objects);
         Double[] max = getMaxVal(objects);
 
-        //max = new Double[]{2.0,2.0};
-        //min = new Double[]{-2.0,-2.0};
+        max = new Double[]{2.0,2.0};
+        min = new Double[]{-2.0,-2.0};
 
-        gc.setFill(Color.grayRgb(200, .8));
-        gc.setLineWidth(1);
+        gc.setLineWidth(2);
         gc.clearRect(0, 0, w, h);
 
 
         gc.setStroke(Color.BLACK);
 
 
+        for(int i=0;i<objects.size();i++)
+        {
+            for(int j=0;j<objects.get(i).getObjFace().size();j++)
+            {
+                points = new ArrayList<>();
 
-        objects.stream().forEach(obj -> obj.getObjFace().stream().forEach(face -> {
+                for(int n=0;n<objects.get(i).getObjFace().get(j).length;n++)
+                {
+                    points.add(n,getCanvasPoint(objects.get(i).getProjection().get(objects.get(i).getObjFace().get(j)[n]),max,min,w,h));
+                }
+                double[] xs = new double[points.size()], ys = new double[points.size()];
 
-            p0 = getCanvasPoint(obj.getProjection().get(face[0]), max, min, w, h);
-            p1 = getCanvasPoint(obj.getProjection().get(face[1]), max, min, w, h);
-            p2 = getCanvasPoint(obj.getProjection().get(face[2]), max, min, w, h);
-            p3 = getCanvasPoint(obj.getProjection().get(face[3]), max, min, w, h);
+                for (int l=0;l<points.size();l++)
+                {
+                    xs[l] = points.get(l)[My3DObject.X];
+                    ys[l] = points.get(l)[My3DObject.Y];
+                }
+                //gc.setStroke(objects.get(i).getObjFaceColor().get(j));
+                gc.strokePolygon(xs, ys, points.size());
+                gc.setFill(objects.get(i).getObjFaceColor().get(j));
+                gc.fillPolygon(xs,ys,points.size());
 
-            gc.strokeLine(p0[obj.X], p0[obj.Y], p1[obj.X], p1[obj.Y]);
-            gc.strokeLine(p1[obj.X], p1[obj.Y], p2[obj.X], p2[obj.Y]);
-            gc.strokeLine(p2[obj.X], p2[obj.Y], p3[obj.X], p3[obj.Y]);
-            gc.strokeLine(p3[obj.X], p3[obj.Y], p0[obj.X], p0[obj.Y]);
-        }));
-
-        objects.stream().forEach(obj -> obj.getObjFace().stream().forEach(face -> {
-
-            p0 = getCanvasPoint(obj.getProjection().get(face[0]), max, min, w, h);
-            p1 = getCanvasPoint(obj.getProjection().get(face[1]), max, min, w, h);
-            p2 = getCanvasPoint(obj.getProjection().get(face[2]), max, min, w, h);
-            p3 = getCanvasPoint(obj.getProjection().get(face[3]), max, min, w, h);
-
-            gc.fillPolygon(new double[]{p0[obj.X], p1[obj.X], p2[obj.X], p3[obj.X]}, new double[]{p0[obj.Y], p1[obj.Y], p2[obj.Y], p3[obj.Y]}, 4);
-
-        }));
+            }
+        }
 
 
-
-        // Draw Axis
-
-        objects.stream().forEach(obj -> {
-
-            Double[] zero = getCanvasPoint(obj.getObjPos(), max, min, w, h);
-
-            obj.getObjAxisProj().stream().forEach(axis -> {
-                Double[] p = getCanvasPoint(axis,max,min,w,h);
-                gc.strokeLine(zero[obj.X], zero[obj.Y], p[obj.X], p[obj.Y]);
-            });
-
-        });
-
-        // Draw Origin
+        // Draw Coordinates
 
         Double[] zero = getCanvasPoint(min, max, min, w, h);
         gc.setStroke(Color.RED);
@@ -399,7 +429,4 @@ public class FaultViewer extends Stage {
         return  new Double[]{x*w,y*h};
 
     }
-
-
-
 }

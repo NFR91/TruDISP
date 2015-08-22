@@ -1274,6 +1274,15 @@ public class TDData {
     {return Math.round(bpm[ERROR]*PRECITION)/PRECITION;}
 
 
+    public Double[] getFaultPlane()
+    {return new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};}
+    public Double[] getObservationPlane()
+    {return new Double[]{opm[DATA],opl[DATA],opn[DATA]};}
+    public Double[] getPlaneA()
+    {return  new Double[]{apm[DATA],apl[DATA],apn[DATA]};}
+    public Double[] getPlaneB()
+    {return  new Double[]{bpm[DATA],bpl[DATA],bpn[DATA]};}
+
     /**To String*/
 
 

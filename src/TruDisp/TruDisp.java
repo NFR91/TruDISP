@@ -1,5 +1,6 @@
 package TruDisp;
 
+import TruDisp.FaultViewer.FaultViewer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -1755,6 +1756,10 @@ public class TruDisp extends Application {
         bpmErrorLabel.setText("± "+ data.getBpmError());
         bpnTextField.setText(data.getBpn().toString());
         bpnErrorLabel.setText("± "+ data.getBpnError());
+
+
+        // Fault Vier
+        TDFaultV.setPlanes(data.getFaultPlane(),data.getObservationPlane(),data.getPlaneA(),data.getPlaneB());
     }
 
 }
