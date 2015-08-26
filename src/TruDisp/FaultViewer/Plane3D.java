@@ -66,17 +66,17 @@ public class Plane3D extends My3DObject {
             {
                 if(j==obj.getObjFace().get(i).length-1)
                 {
-                    l[X]=obj.getObjVert().get(obj.getObjFace().get(i)[0])[X]-obj.getObjVert().get(obj.getObjFace().get(i)[j])[X];
-                    l[Y]=obj.getObjVert().get(obj.getObjFace().get(i)[0])[Y]-obj.getObjVert().get(obj.getObjFace().get(i)[j])[Y];
-                    l[Z]=obj.getObjVert().get(obj.getObjFace().get(i)[0])[Z]-obj.getObjVert().get(obj.getObjFace().get(i)[j])[Z];
+                    l[X]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[X]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[X];
+                    l[Y]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[Y]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Y];
+                    l[Z]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[Z]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Z];
                 }
                 else
                 {
-                    l[X] = obj.getObjVert().get(obj.getObjFace().get(i)[j + 1])[X] - obj.getObjVert().get(obj.getObjFace().get(i)[j])[X];
-                    l[Y] = obj.getObjVert().get(obj.getObjFace().get(i)[j + 1])[Y] - obj.getObjVert().get(obj.getObjFace().get(i)[j])[Y];
-                    l[Z] = obj.getObjVert().get(obj.getObjFace().get(i)[j + 1])[Z] - obj.getObjVert().get(obj.getObjFace().get(i)[j])[Z];
+                    l[X] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[X] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[X];
+                    l[Y] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Y] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Y];
+                    l[Z] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Z] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Z];
                 }
-                linePoint = obj.getObjVert().get(obj.getObjFace().get(i)[j]);
+                linePoint = obj.getObjTVert().get(obj.getObjFace().get(i)[j]);
 
                 po_pl[X]= planeOrigin[X]-linePoint[X]; po_pl[Y]=planeOrigin[Y]-linePoint[Y]; po_pl[Z]=planeOrigin[Z]-linePoint[Z];
 

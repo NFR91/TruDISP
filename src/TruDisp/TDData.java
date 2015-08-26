@@ -18,7 +18,7 @@ public class TDData {
     private String[] errorValue;
     private String experiment;
     private String notes;
-    private Double[] alpha,smh,smd,sm,s,sv,sd,ss,sh;
+    private Double[] alpha,smh,smd, smA,smB,dAB,s,sv,sd,ss,sh;
     private Double theta,thetanull;
     private String sO;
 
@@ -28,7 +28,7 @@ public class TDData {
 
 
     // Metodo 2
-    private Double[] fod,fodd,opod,opodd,smo1d,smo1dd,smo2d,smo2dd,ostrend,osplunch;
+    private Double[] fod,fostk,opod, opostk,smo1d, smo1stk,smo2d, smo2stk,ostrend, osplunge;
 
     // Metodo 3
     private Double[] fpm,fpn,fpl,opm,opn,opl,apm,apn,apl,bpm,bpn,bpl;
@@ -60,7 +60,7 @@ public class TDData {
         phi =new Double[] {Double.parseDouble(buffer[7]),Double.parseDouble(buffer[8])};
         gammaO = buffer[9];
         alpha = new Double[] {Double.parseDouble(buffer[10]),Double.parseDouble(buffer[1])};
-        sm =new Double[] {Double.parseDouble(buffer[12]),Double.parseDouble(buffer[13])};
+        smA =new Double[] {Double.parseDouble(buffer[12]),Double.parseDouble(buffer[13])};
         smd= new Double[] {Double.parseDouble(buffer[14]),Double.parseDouble(buffer[15])};
         smh =new Double[] {Double.parseDouble(buffer[16]),Double.parseDouble(buffer[17])};
         s =  new Double[] {Double.parseDouble(buffer[18]),Double.parseDouble(buffer[19])};
@@ -72,32 +72,33 @@ public class TDData {
         thetanull = Double.parseDouble(buffer[29]);
 
         fod = new Double[] {Double.parseDouble(buffer[30]),Double.parseDouble(buffer[31])};
-        fodd = new Double[] {Double.parseDouble(buffer[32]),Double.parseDouble(buffer[33])};
+        fostk = new Double[] {Double.parseDouble(buffer[32]),Double.parseDouble(buffer[33])};
         opod = new Double[] {Double.parseDouble(buffer[34]),Double.parseDouble(buffer[35])};
-        opodd = new Double[] {Double.parseDouble(buffer[36]),Double.parseDouble(buffer[37])};
+        opostk = new Double[] {Double.parseDouble(buffer[36]),Double.parseDouble(buffer[37])};
         smo1d = new Double[] {Double.parseDouble(buffer[38]),Double.parseDouble(buffer[39])};
-        smo1dd = new Double[] {Double.parseDouble(buffer[40]),Double.parseDouble(buffer[41])};
+        smo1stk = new Double[] {Double.parseDouble(buffer[40]),Double.parseDouble(buffer[41])};
         smo2d = new Double[] {Double.parseDouble(buffer[42]),Double.parseDouble(buffer[43])};
-        smo2dd = new Double[] {Double.parseDouble(buffer[44]),Double.parseDouble(buffer[45])};
+        smo2stk = new Double[] {Double.parseDouble(buffer[44]),Double.parseDouble(buffer[45])};
         ostrend = new Double[] {Double.parseDouble(buffer[46]),Double.parseDouble(buffer[47])};
-        osplunch= new Double[] {Double.parseDouble(buffer[48]),Double.parseDouble(buffer[49])};
+        osplunge = new Double[] {Double.parseDouble(buffer[48]),Double.parseDouble(buffer[49])};
 
-        fpl = new Double[] {Double.parseDouble(buffer[50]),Double.parseDouble(buffer[51])};
-        fpm = new Double[] {Double.parseDouble(buffer[52]),Double.parseDouble(buffer[53])};
-        fpn = new Double[] {Double.parseDouble(buffer[54]),Double.parseDouble(buffer[55])};
-        opl = new Double[] {Double.parseDouble(buffer[56]),Double.parseDouble(buffer[57])};
-        opm = new Double[] {Double.parseDouble(buffer[58]),Double.parseDouble(buffer[59])};
-        opn = new Double[] {Double.parseDouble(buffer[60]),Double.parseDouble(buffer[61])};
-        apl = new Double[] {Double.parseDouble(buffer[62]),Double.parseDouble(buffer[63])};
-        apm = new Double[] {Double.parseDouble(buffer[64]),Double.parseDouble(buffer[65])};
-        apn = new Double[] {Double.parseDouble(buffer[66]),Double.parseDouble(buffer[67])};
-        bpl = new Double[] {Double.parseDouble(buffer[68]),Double.parseDouble(buffer[69])};
-        bpn = new Double[] {Double.parseDouble(buffer[70]),Double.parseDouble(buffer[71])};
-        bpm = new Double[] {Double.parseDouble(buffer[72]),Double.parseDouble(buffer[73])};
+        smB = new Double[] {Double.parseDouble(buffer[50]),Double.parseDouble(buffer[51])};
+        dAB = new Double[] {Double.parseDouble(buffer[52]),Double.parseDouble(buffer[53])};
 
-        setNotes(buffer[74]);
+        fpl = new Double[] {Double.parseDouble(buffer[54]),Double.parseDouble(buffer[55])};
+        fpm = new Double[] {Double.parseDouble(buffer[56]),Double.parseDouble(buffer[57])};
+        fpn = new Double[] {Double.parseDouble(buffer[58]),Double.parseDouble(buffer[59])};
+        opl = new Double[] {Double.parseDouble(buffer[60]),Double.parseDouble(buffer[61])};
+        opm = new Double[] {Double.parseDouble(buffer[62]),Double.parseDouble(buffer[63])};
+        opn = new Double[] {Double.parseDouble(buffer[64]),Double.parseDouble(buffer[65])};
+        apl = new Double[] {Double.parseDouble(buffer[66]),Double.parseDouble(buffer[67])};
+        apm = new Double[] {Double.parseDouble(buffer[68]),Double.parseDouble(buffer[69])};
+        apn = new Double[] {Double.parseDouble(buffer[70]),Double.parseDouble(buffer[71])};
+        bpl = new Double[] {Double.parseDouble(buffer[72]),Double.parseDouble(buffer[73])};
+        bpn = new Double[] {Double.parseDouble(buffer[74]),Double.parseDouble(buffer[75])};
+        bpm = new Double[] {Double.parseDouble(buffer[76]),Double.parseDouble(buffer[77])};
 
-
+        setNotes(buffer[78]);
     }
 
 
@@ -109,25 +110,34 @@ public class TDData {
             switch (method) {
                 case 1:
                 {
-                    s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+                    s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
                     method1CalculateDistance();
                     calculateDistanceErrors();
                     break;
                 }
                 case 2:
                 {
-                    //TODO
                     method2CalculateDirCosOfPlanes();
                     method2ConvertDirCos2Method1();
-                    method2CalculateMethod1Orientations();
-
-                    if(isDataValidForCalcuating())
+                    if(bpn[DATA]!=1 && apn[DATA]!=1)
                     {
-                        s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+                        System.out.println("Calculamos con el método tres.");
+                    }
+                    else if(isDataValidForCalcuating())
+                    {
+                        if(!isPlungeValid())
+                        {statusPane.setNotification("La estria esta fuera del plano !!!!!",TruDisp.WARNING_ICON);}
+
+                        s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
                         method1CalculateDistance();
+                        calculateDistanceErrors();
                     }
                     else{return false;}
 
+                    break;
+                }
+                case 3:
+                {
                     break;
                 }
             }
@@ -151,7 +161,7 @@ public class TDData {
         phiO= new String();
 
         alpha= new Double[ ] {0.0,0.0};
-        sm= new Double[ ] {0.0,0.0};
+        smA = new Double[ ] {0.0,0.0};
         smd= new Double[ ] {0.0,0.0};
         smh= new Double[ ] {0.0,0.0};
 
@@ -168,17 +178,20 @@ public class TDData {
 
         /**Método 2*/
         fod = new Double[ ] {0.0,0.0};
-        fodd = new Double[ ] {0.0,0.0};
+        fostk = new Double[ ] {0.0,0.0};
 
         opod= new Double[ ] {0.0,0.0};
-        opodd= new Double[ ] {0.0,0.0};
+        opostk = new Double[ ] {0.0,0.0};
         smo1d= new Double[ ] {0.0,0.0};
-        smo1dd= new Double[ ] {0.0,0.0};
+        smo1stk = new Double[ ] {0.0,0.0};
         smo2d= new Double[ ] {0.0,0.0};
-        smo2dd= new Double[ ] {0.0,0.0};
+        smo2stk = new Double[ ] {0.0,0.0};
 
-        osplunch = new Double[ ] {0.0,0.0};
+        osplunge = new Double[ ] {0.0,0.0};
         ostrend = new Double[ ] {0.0,0.0};
+
+        smB = new Double[ ] {0.0,0.0};
+        dAB =  new Double[ ] {0.0,0.0};
 
         /**Método 3*/
         fpn  = new Double[ ] {0.0,0.0};
@@ -269,13 +282,13 @@ public class TDData {
         }
 
     }
-    public Boolean setSm(String data,String error)
+    public Boolean setSmA(String data, String error)
     {
         if(isDisplacementValid(data))
         {
-            sm[DATA]=Double.parseDouble(data);
+            smA[DATA]=Double.parseDouble(data);
             errorValue = error.split(" ");
-            sm[ERROR]=Double.parseDouble(errorValue[1]);
+            smA[ERROR]=Double.parseDouble(errorValue[1]);
             return true;
         }
         else
@@ -341,13 +354,13 @@ public class TDData {
         }
 
     }
-    public Boolean setFodd(String data, String error)
+    public Boolean setFoStk(String data, String error)
     {
         if(isStrikeAngleValid(data))
         {
-            fodd[DATA] = Math.toRadians(Double.parseDouble(data));
+            fostk[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
-            fodd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            fostk[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
             return true;
         }
         else
@@ -372,13 +385,13 @@ public class TDData {
             return false;
         }
     }
-    public Boolean setOpodd(String data, String error)
+    public Boolean setOpoStk(String data, String error)
     {
         if(isStrikeAngleValid(data))
         {
-            opodd[DATA] = Math.toRadians(Double.parseDouble(data));
+            opostk[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
-            opodd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            opostk[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
             return true;
         }
         else
@@ -402,14 +415,14 @@ public class TDData {
             return false;
         }
     }
-    public Boolean setSmo1dd(String data, String error)
+    public Boolean setSmo1Stk(String data, String error)
     {
 
         if(isStrikeAngleValid(data))
         {
-            smo1dd[DATA] = Math.toRadians(Double.parseDouble(data));
+            smo1stk[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
-            smo1dd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            smo1stk[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
             return true;
         }
         else
@@ -434,14 +447,14 @@ public class TDData {
             return false;
         }
     }
-    public Boolean setSmo2dd(String data, String error)
+    public Boolean setSmo2Stk(String data, String error)
     {
 
         if(isStrikeAngleValid(data))
         {
-            smo2dd[DATA] = Math.toRadians(Double.parseDouble(data));
+            smo2stk[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
-            smo2dd[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            smo2stk[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
             return true;
         }
         else
@@ -466,13 +479,13 @@ public class TDData {
             return false;
         }
     }
-    public Boolean setOsPlunch(String data, String error)
+    public Boolean setOsPlunge(String data, String error)
     {
         if(isAngleValid(data))
         {
-            osplunch[DATA] = Math.toRadians(Double.parseDouble(data));
+            osplunge[DATA] = Math.toRadians(Double.parseDouble(data));
             errorValue = error.split(" ");
-            osplunch[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
+            osplunge[ERROR]= Math.toRadians(Double.parseDouble(errorValue[1]));
             return true;
         }
         else
@@ -482,6 +495,36 @@ public class TDData {
         }
     }
 
+    public Boolean setSmB(String data,String error)
+    {
+        if(isDisplacementValid(data))
+        {
+            smB[DATA]=Double.parseDouble(data);
+            errorValue = error.split(" ");
+            smB[ERROR]=Double.parseDouble(errorValue[1]);
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR distance SmB is not valid", TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+    public Boolean setdAB(String data,String error)
+    {
+        if(isDisplacementValid(data))
+        {
+            dAB[DATA]=Double.parseDouble(data);
+            errorValue = error.split(" ");
+            dAB[ERROR]=Double.parseDouble(errorValue[1]);
+            return true;
+        }
+        else
+        {
+            statusPane.setStatus("ERROR distance dAB is not valid", TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
 
     // Método 3
 
@@ -704,7 +747,7 @@ public class TDData {
 
     public Boolean isDataValidForCalcuating()
     {
-        if((sm[DATA] != 0)||(smh[DATA] !=0)||(smd[DATA]!=0) )
+        if((smA[DATA] != 0)||(smh[DATA] !=0)||(smd[DATA]!=0) )
         {
             orientationIndeterminated();
 
@@ -809,6 +852,18 @@ public class TDData {
     {
         return (isNumber(data))? ((Double.parseDouble(data)<0||Double.parseDouble(data)>1)? false:true ):false;
     }
+
+    public Boolean isPlungeValid()
+    {
+        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.PI / 2) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+
+        if( Math.abs(osplunge[DATA]-plunge)> Math.toRadians(4))
+        {return false;}
+        else
+        {return  true;}
+    }
+
     /**Métodos de procesamiento de datos.*/
 
 
@@ -945,37 +1000,37 @@ public class TDData {
 
 
         // Derivada parcial  ds/db
-        f = method1Calculate(beta[DATA] + h, gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA] - h, gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA] + h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA] - h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
         pdbeta= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dgamma
-        f = method1Calculate(beta[DATA], gamma[DATA] + h, phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA] - h, phi[DATA], sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA] + h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA] - h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
         pdgamma= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dphi
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] + h, sm[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] - h, sm[DATA], smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] + h, smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] - h, smA[DATA], smd[DATA], smh[DATA]);
         pdphi = Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsm
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA] + h, smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA] - h, smd[DATA], smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] + h, smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] - h, smd[DATA], smh[DATA]);
         pdsm= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsmd
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA] + h, smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA] - h, smh[DATA]);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] + h, smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] - h, smh[DATA]);
         pdsmd= Math.abs((f - i) / (2 * h));
 
         // Derivada parcial ds/dsmh
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA] + h);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], sm[DATA], smd[DATA], smh[DATA] - h);
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] + h);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] - h);
         pdsmh= Math.abs((f - i) / (2 * h));
 
 
-        s[ERROR] = (pdbeta*beta[ERROR])+(pdgamma*gamma[ERROR])+(pdphi*phi[ERROR])+(pdsm*sm[ERROR])+(pdsmd*smd[ERROR])+(pdsmh*smh[ERROR]);
+        s[ERROR] = (pdbeta*beta[ERROR])+(pdgamma*gamma[ERROR])+(pdphi*phi[ERROR])+(pdsm* smA[ERROR])+(pdsmd*smd[ERROR])+(pdsmh*smh[ERROR]);
 
         //
         Double pds,pdalpha;
@@ -1038,22 +1093,22 @@ public class TDData {
 
     public void method2CalculateDirCosOfPlanes()
     {
-        Double[] temp = method2CalculateDirCos(fodd[DATA], fod[DATA]);
+        Double[] temp = method2CalculateDirCosPlane(fostk[DATA], fod[DATA]);
         fpl[DATA] = temp[TruDisp.E];
         fpm[DATA] = temp[TruDisp.N];
         fpn[DATA] = temp[TruDisp.D];
 
-        temp = method2CalculateDirCos(opodd[DATA], opod[DATA]);
+        temp = method2CalculateDirCosPlane(opostk[DATA], opod[DATA]);
         opl[DATA]=temp[TruDisp.E];
         opm[DATA]=temp[TruDisp.N];
         opn[DATA]=temp[TruDisp.D];
 
-        temp = method2CalculateDirCos(smo1dd[DATA], smo1d[DATA]);
+        temp = method2CalculateDirCosPlane(smo1stk[DATA], smo1d[DATA]);
         apl[DATA]=temp[TruDisp.E];
         apm[DATA]=temp[TruDisp.N];
         apn[DATA]=temp[TruDisp.D];
 
-        temp = method2CalculateDirCos(smo2dd[DATA], smo2d[DATA]);
+        temp = method2CalculateDirCosPlane(smo2stk[DATA], smo2d[DATA]);
         bpl[DATA]=temp[TruDisp.E];
         bpm[DATA]=temp[TruDisp.N];
         bpn[DATA]=temp[TruDisp.D];
@@ -1065,48 +1120,60 @@ public class TDData {
     {
         // Obtenmos los pitch;
 
-        Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};
-        Double[] stk = new Double[]{fpm[DATA],1-fpm[DATA],0.0};
-        Double[] striae = method2CalculateDirCos(ostrend[DATA], osplunch[DATA]);
-        Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]};
-        Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]};
+        Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}; // Cosenos Directores del plano de Falla (Fault Plane)
+        Double[] stkLine = new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0}; // Cosenos Directores de línea de strike del Plano de falla;
+        Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]}; // Cosenos Directores del plano A (Marcador 1)
+        Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]}; // Cosenos Directores del plano de observación.(Obsevation Plane)
 
-        beta[DATA] = dotProductAngle(crossProduct(fp, mrkr), stk);
-        gamma[DATA] = dotProductAngle(striae, stk);
-        phi[DATA] = dotProductAngle(crossProduct(fp, op), stk);
+        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.PI / 2) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+        Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge); // Cosenos directores de linea de la estria.
+
+        Double stk = fostk[DATA];   // Dirección de la linea stk en grados, con la que se compara si esta hacia el norte o el sur
+
+        beta[DATA] = dotProductAngle(crossProduct(fp, mrkr), stkLine);
+        betaO = (stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((beta[DATA]>(Math.PI/2))? "S":"N"):((beta[DATA]>(Math.PI/2))? "N":"S");
+        beta[DATA]=(beta[DATA]>(Math.PI/2))? (Math.PI-beta[DATA]):(beta[DATA]);
+
+        phi[DATA] = dotProductAngle(crossProduct(fp, op), stkLine);
+        phiO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((phi[DATA]>(Math.PI/2))? "S":"N"):((phi[DATA]>(Math.PI/2))? "N":"S");
+        phi[DATA]=(phi[DATA]>(Math.PI/2))? (Math.PI-phi[DATA]):(phi[DATA]);
+
         alpha[DATA] = fod[DATA];
 
+        if(gamma[DATA]==0) // Necesitamos calcular gamma.
+        {
+            gamma[DATA] = dotProductAngle(striae, stkLine);
+            gammaO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((gamma[DATA]>(Math.PI/2))? "S":"N"):((gamma[DATA]>(Math.PI/2))? "N":"S");
+            gamma[DATA]=(gamma[DATA]>(Math.PI/2))? (Math.PI-gamma[DATA]):(gamma[DATA]);
+        }
 
-
+        MapView = "Arbitrary Line";
 
     }
 
-    public Double[] method2CalculateDirCos(Double stk, Double d)
+    public Double[] method2CalculateDirCosPlane(Double strike, Double dip)
     {
         Double[] temp= new Double[] {0.0,0.0,0.0};
 
-        temp[TruDisp.N] = Math.sin(stk)*Math.sin(d);
-        temp[TruDisp.E] = -Math.cos(stk)*Math.sin(d);
+        temp[TruDisp.N] = Math.sin(strike)*Math.sin(dip);
+        temp[TruDisp.E] = -Math.cos(strike)*Math.sin(dip);
         temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
 
         return temp;
     }
 
-    public void method2CalculateMethod1Orientations()
+    public Double[] method2CalculateDirCosLine(Double trend, Double plunge)
     {
-        Double stk = fodd[DATA];
-        betaO = (stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((beta[DATA]>(Math.PI/2))? "S":"N"):((beta[DATA]>(Math.PI/2))? "N":"S");
-        beta[DATA]=(beta[DATA]>(Math.PI/2))? (Math.PI-beta[DATA]):(beta[DATA]);
+        Double[] temp= new Double[] {0.0,0.0,0.0};
 
-        gammaO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((gamma[DATA]>(Math.PI/2))? "S":"N"):((gamma[DATA]>(Math.PI/2))? "N":"S");
-        gamma[DATA]=(gamma[DATA]>(Math.PI/2))? (Math.PI-gamma[DATA]):(gamma[DATA]);
+        temp[TruDisp.N] = Math.cos(trend)*Math.cos(plunge);
+        temp[TruDisp.E] = Math.sin(trend)*Math.cos(plunge);
+        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
 
-        phiO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((phi[DATA]>(Math.PI/2))? "S":"N"):((phi[DATA]>(Math.PI/2))? "N":"S");
-        phi[DATA]=(phi[DATA]>(Math.PI/2))? (Math.PI-phi[DATA]):(phi[DATA]);
-
-        MapView = "Arbitrary Line";
-
+        return temp;
     }
+
 
     /**Metodos Get*/
 
@@ -1159,10 +1226,10 @@ public class TDData {
     {return (double)Math.round(Math.toDegrees(alpha[DATA])*PRECITION)/PRECITION;}
     public Double getAlphaError()
     {return (double)Math.round(Math.toDegrees(alpha[ERROR])*PRECITION)/PRECITION;}
-    public Double getSm()
-    {return (double)Math.round(sm[DATA]*PRECITION)/PRECITION;}
-    public Double getSmError()
-    {return (double)Math.round(sm[ERROR]*PRECITION)/PRECITION;}
+    public Double getSmA()
+    {return (double)Math.round(smA[DATA]*PRECITION)/PRECITION;}
+    public Double getSmAError()
+    {return (double)Math.round(smA[ERROR]*PRECITION)/PRECITION;}
     public Double getSmd()
     {return (double)Math.round(smd[DATA]*PRECITION)/PRECITION;}
     public Double getsmdError()
@@ -1185,42 +1252,50 @@ public class TDData {
     {return Math.round(Math.toDegrees(fod[DATA])*PRECITION)/PRECITION;}
     public Double getFodError()
     {return Math.round(Math.toDegrees(fod[ERROR])*PRECITION)/PRECITION;}
-    public Double getFodd()
-    {return Math.round(Math.toDegrees(fodd[DATA])*PRECITION)/PRECITION;}
+    public Double getFostk()
+    {return Math.round(Math.toDegrees(fostk[DATA])*PRECITION)/PRECITION;}
     public Double getFoddError()
-    {return Math.round(Math.toDegrees(fodd[ERROR])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(fostk[ERROR])*PRECITION)/PRECITION;}
     public Double getOpod()
     {return Math.round(Math.toDegrees(opod[DATA])*PRECITION)/PRECITION;}
     public Double getOpodError()
     {return Math.round(Math.toDegrees(opod[ERROR])*PRECITION)/PRECITION;}
-    public Double getOpodd()
-    {return Math.round(Math.toDegrees(opodd[DATA])*PRECITION)/PRECITION;}
+    public Double getOpostk()
+    {return Math.round(Math.toDegrees(opostk[DATA])*PRECITION)/PRECITION;}
     public Double getOpoddError()
-    {return Math.round(Math.toDegrees(opodd[ERROR])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(opostk[ERROR])*PRECITION)/PRECITION;}
     public Double getSmo1d()
     {return Math.round(Math.toDegrees(smo1d[DATA])*PRECITION)/PRECITION;}
     public Double getSmo1dError()
     {return Math.round(Math.toDegrees(smo1d[ERROR])*PRECITION)/PRECITION;}
-    public Double getSmo1dd()
-    {return Math.round(Math.toDegrees(smo1dd[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo1stk()
+    {return Math.round(Math.toDegrees(smo1stk[DATA])*PRECITION)/PRECITION;}
     public Double getSmo1ddError()
-    {return Math.round(Math.toDegrees(smo1dd[ERROR])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(smo1stk[ERROR])*PRECITION)/PRECITION;}
     public Double getSmo2d()
     {return Math.round(Math.toDegrees(smo2d[DATA])*PRECITION)/PRECITION;}
     public Double getSmo2dError()
     {return Math.round(Math.toDegrees(smo2d[ERROR])*PRECITION)/PRECITION;}
-    public Double getSmo2dd()
-    {return Math.round(Math.toDegrees(smo2dd[DATA])*PRECITION)/PRECITION;}
+    public Double getSmo2stk()
+    {return Math.round(Math.toDegrees(smo2stk[DATA])*PRECITION)/PRECITION;}
     public Double getSmo2ddError()
-    {return Math.round(Math.toDegrees(smo2dd[ERROR])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(smo2stk[ERROR])*PRECITION)/PRECITION;}
     public Double getOsTrend()
     {return Math.round(Math.toDegrees(ostrend[DATA])*PRECITION)/PRECITION;}
     public Double getOsTrendError()
     {return Math.round(Math.toDegrees(ostrend[ERROR])*PRECITION)/PRECITION;}
     public Double getOsPlunch()
-    {return Math.round(Math.toDegrees(osplunch[DATA])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(osplunge[DATA])*PRECITION)/PRECITION;}
     public Double getOsPlunchError()
-    {return Math.round(Math.toDegrees(osplunch[ERROR])*PRECITION)/PRECITION;}
+    {return Math.round(Math.toDegrees(osplunge[ERROR])*PRECITION)/PRECITION;}
+    public Double getSmB()
+    {return Math.round(smB[DATA]*PRECITION)/PRECITION;}
+    public Double getSmBError()
+    {return Math.round(smB[ERROR]*PRECITION)/PRECITION;}
+    public Double getdAB()
+    {return Math.round(dAB[DATA]*PRECITION)/PRECITION;}
+    public Double getdABError()
+    {return Math.round(dAB[ERROR]*PRECITION)/PRECITION;}
 
     // Metodo 3
 
@@ -1296,7 +1371,7 @@ public class TDData {
                 getGamma()      +sp+ getGammaError()    +sp+ getGammaOrientation()+sp+
                 getPhi()        +sp+ getPhiError()      +sp+ getPhiError()        +sp+
                 getAlpha()      +sp+ getAlphaError()    +sp+
-                getSm()         +sp+ getSmError()       +sp+
+                getSmA()         +sp+ getSmAError()       +sp+
                 getSmd()        +sp+ getsmdError()      +sp+
                 getSmh()        +sp+ getSmhError()      +sp+
                 getS()          +sp+ getSError()        +sp+
@@ -1307,15 +1382,17 @@ public class TDData {
                 getTheta()      +sp+
                 getThetaNull()  +sp+
                 getFod()        +sp+ getFodError()      +sp+
-                getFodd()       +sp+ getFoddError()     +sp+
+                getFostk()       +sp+ getFoddError()     +sp+
                 getOpod()       +sp+ getOpodError()     +sp+
-                getOpodd()      +sp+ getOpoddError()    +sp+
+                getOpostk()      +sp+ getOpoddError()    +sp+
                 getSmo1d()      +sp+ getSmo1dError()    +sp+
-                getSmo1dd()     +sp+getSmo1ddError()    +sp+
+                getSmo1stk()     +sp+getSmo1ddError()    +sp+
                 getSmo2d()      +sp+ getSmo2dError()    +sp+
-                getSmo2dd()     +sp+getSmo2ddError()    +sp+
+                getSmo2stk()     +sp+getSmo2ddError()    +sp+
                 getOsTrend()    +sp+getOsTrendError()   +sp+
                 getOsPlunch()   +sp+getOsPlunchError()  +sp+
+                getSmB()        +sp+ getSmBError()      +sp+
+                getdAB()        +sp+ getdABError()      +sp+
                 getFpl()        +sp+ getFplError()      +sp+
                 getFpm()        +sp+ getFpmError()      +sp+
                 getFpn()        +sp+ getFpnError()      +sp+

@@ -1,10 +1,8 @@
 package TruDisp.FaultViewer;
 
-import TruDisp.TruDisp;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by Nieto on 17/08/15.
@@ -12,6 +10,7 @@ import java.util.Comparator;
 public abstract class My3DObject {
 
     private ArrayList<Double[]> objVert;
+    private ArrayList<Double[]> objTVert;
     private ArrayList<int[]> objFace;
     private ArrayList<Double[]> objProj;
     private ArrayList<Double[]> objnormVect;
@@ -42,10 +41,10 @@ public abstract class My3DObject {
     {
         rotMatrix = matrixPxN(rotMatrix,matrixRotUpdate(xd,yd,zd));
 
-        ArrayList<Double[]> rotated = new ArrayList<>(objVert.size());
+        ArrayList<Double[]> rotated = new ArrayList<>(objTVert.size());
 
-        for(int i=0; i< objVert.size();i++)
-        {rotated.add(i,rotate(rotMatrix,objVert.get(i)));}
+        for(int i=0; i< objTVert.size();i++)
+        {rotated.add(i,rotate(rotMatrix, objTVert.get(i)));}
 
         objProj = projection(rotated);
 
@@ -111,7 +110,8 @@ public abstract class My3DObject {
     public void reset()
     {
         rotMatrix = new Double[]{1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0};
-        objProj= projection(objVert);
+        objTVert = new ArrayList<>(objVert);
+        objProj= projection(objTVert);
         objPos = new Double[]{0.0,0.0,0.0};
     }
     public ArrayList<Double[]> getProjection()
@@ -131,11 +131,12 @@ public abstract class My3DObject {
 
     public void setObject(ArrayList<Double[]> vert,ArrayList<int[]> face,ArrayList<Color> faceColor)
     {
-        objVert = vert;
+        objTVert = vert;
+        objVert = new ArrayList<>(vert);
         objFace = face;
         objFaceColor = faceColor;
-        objnormVect = setNormalVect(objVert, objFace);
-        objProj = projection(objVert);
+        objnormVect = setNormalVect(objTVert, objFace);
+        objProj = projection(objTVert);
     }
 
     public void setRotMatrix(Double[]rotm)
@@ -210,7 +211,7 @@ public abstract class My3DObject {
         return n;
     }
 
-    public ArrayList<Double[]> getObjVert(){return objVert;}
+    public ArrayList<Double[]> getObjTVert(){return objTVert;}
 
     public int[] planeOrderVertices(ArrayList<Double[]> vert, Double[] nv,Double[] pos)
     {
@@ -270,7 +271,7 @@ public abstract class My3DObject {
     public void setObjPos(Double[] objPos) {
         this.objPos = objPos;
 
-        objVert.stream().forEach(vert -> {
+        objTVert.stream().forEach(vert -> {
             vert[X] += objPos[X];
             vert[Y] += objPos[Y];
             vert[Z] += objPos[Z];
@@ -286,6 +287,6 @@ public abstract class My3DObject {
 
     public void projectObject()
     {
-        objProj = projection(objVert);
+        objProj = projection(objTVert);
     }
 }

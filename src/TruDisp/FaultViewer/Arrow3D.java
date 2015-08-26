@@ -14,11 +14,11 @@ public class Arrow3D extends My3DObject {
         super();
 
         ArrayList objVert = new ArrayList<>();
-        objVert.add(0, new Double[]{-.05, -.05, -.25});
-        objVert.add(1, new Double[]{-.05, .05, -.25});
-        objVert.add(2, new Double[]{.05, .05, -.25});
-        objVert.add(3, new Double[]{.05, -.05, -.25});
-        objVert.add(4, new Double[]{0.0, 0.0, .25});
+        objVert.add(0, new Double[]{-.05, -.05, -.5});
+        objVert.add(1, new Double[]{-.05, .05, -.5});
+        objVert.add(2, new Double[]{.05, .05, -.5});
+        objVert.add(3, new Double[]{.05, -.05, -.5});
+        objVert.add(4, new Double[]{0.0, 0.0, .5});
 
 
         ArrayList objFace = new ArrayList();
@@ -42,7 +42,7 @@ public class Arrow3D extends My3DObject {
 
         setNormalVect(setNormalVect(objVert, objFace));
 
-        this.setObjPos(new Double[]{1.0, 0., 0.0});
+        this.setObjPos(new Double[]{1.5, 1.0, 0.0});
 
         projectObject();
     }

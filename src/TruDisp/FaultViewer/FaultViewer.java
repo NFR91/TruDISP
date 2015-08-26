@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class FaultViewer extends Stage {
     private Canvas canvas;
     private Double xold=0.0,yold=0.0;
+    private Long SLEEP_TIME= 20l;
     private Task<Double> task;
     private FaultBlock3D block;
     private Plane3D plane;
@@ -128,7 +129,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(0.01, 0.0, 0.0));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -153,7 +154,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(-0.01, 0.0, 0.0));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -183,7 +184,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(0.0, 0.01, 0.0));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -207,7 +208,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(0.0, -0.01, 0.0));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -238,7 +239,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(0.0, 0.0, 0.01));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -262,7 +263,7 @@ public class FaultViewer extends Stage {
                         while (!isCancelled()) {
                             objects.stream().forEach(obj -> obj.rotateObject(0.0, 0.0, -0.01));
                             drawScene(gc, objects);
-                            Thread.sleep(10);
+                            Thread.sleep(SLEEP_TIME);
                         }
 
                         return null;
@@ -336,6 +337,7 @@ public class FaultViewer extends Stage {
 
 
         gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
 
 
         for(int i=0;i<objects.size();i++)

@@ -171,8 +171,8 @@ public class TDTable
          smvlCol = new TableColumn();
          smeCol = new TableColumn("±");
         smCol.getColumns().addAll(smvlCol, smeCol);
-        smvlCol.setCellValueFactory(new PropertyValueFactory<>("sm"));
-        smeCol.setCellValueFactory(new PropertyValueFactory<>("smError"));
+        smvlCol.setCellValueFactory(new PropertyValueFactory<>("smA"));
+        smeCol.setCellValueFactory(new PropertyValueFactory<>("smAError"));
 
         // Smd
          smdCol = new TableColumn("Smd");
@@ -275,7 +275,7 @@ public class TDTable
 
     public static class TDDataWrapper{
 
-        private SimpleDoubleProperty beta,betaError,gamma,gammaError,phi,phiError,alpha,alphaError,sm,smError,smd,smdError,smh,smhError,
+        private SimpleDoubleProperty beta,betaError,gamma,gammaError,phi,phiError,alpha,alphaError, smA, smAError,smd,smdError,smh,smhError,
                 s,sError,ss,ssError,sd,sdError,sv,svError,sh,shError,theta,thetanull;
         private SimpleStringProperty betao,gammao,phio,mapview,experiment,notes;
 
@@ -300,8 +300,8 @@ public class TDTable
             alpha = new SimpleDoubleProperty(tdData.getAlpha());
             alphaError = new SimpleDoubleProperty(tdData.getAlphaError());
 
-            sm = new SimpleDoubleProperty(tdData.getSm());
-            smError = new SimpleDoubleProperty(tdData.getSmError());
+            smA = new SimpleDoubleProperty(tdData.getSmA());
+            smAError = new SimpleDoubleProperty(tdData.getSmAError());
             smd = new SimpleDoubleProperty(tdData.getSmd());
             smdError = new SimpleDoubleProperty(tdData.getsmdError());
             smh= new SimpleDoubleProperty(tdData.getSmh());
@@ -359,10 +359,10 @@ public class TDTable
         {return alpha.get();}
         public Double getAlphaError()
         {return alphaError.get();}
-        public Double getSm()
-        {return sm.get();}
-        public Double getSmError()
-        {return smError.get();}
+        public Double getSmA()
+        {return smA.get();}
+        public Double getSmAError()
+        {return smAError.get();}
         public Double getSmd()
         {return smd.get();}
         public Double getSmdError()
