@@ -60,10 +60,11 @@ public class Plane3D extends My3DObject {
         Double[] po_pl= new Double[3];  // Diferencia entre el punto del plano y el de la recta.
         Double a,num,den;
 
-        for (int i=0;i<obj.getObjFace().size();i++)
+        for (int i=0;i<obj.getObjFace().size();i++) // Para cada cara del contenedor.
         {
-            for(int j=0;j<obj.getObjFace().get(i).length;j++)
+            for(int j=0;j<obj.getObjFace().get(i).length;j++) // Para cada vertice del contenedor
             {
+                // Obtenemos la arista
                 if(j==obj.getObjFace().get(i).length-1)
                 {
                     l[X]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[X]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[X];
@@ -76,8 +77,11 @@ public class Plane3D extends My3DObject {
                     l[Y] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Y] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Y];
                     l[Z] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Z] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Z];
                 }
+
+                // obtenemos un punto de la arista.
                 linePoint = obj.getObjTVert().get(obj.getObjFace().get(i)[j]);
 
+                // punto del plano - punto de la arista.
                 po_pl[X]= planeOrigin[X]-linePoint[X]; po_pl[Y]=planeOrigin[Y]-linePoint[Y]; po_pl[Z]=planeOrigin[Z]-linePoint[Z];
 
                 num = dotProduct(po_pl,nv);
@@ -85,12 +89,13 @@ public class Plane3D extends My3DObject {
 
                 if(den!=0 && num !=0)
                 {
-                    a = num/den;
-                    val = new Double[]{linePoint[X]+(a*l[X]),linePoint[Y]+(a*l[Y]),linePoint[Z]+(a*l[Z])};
+                    a = num/den;    // Obtenemos el escalar que nos da la intersección de la arista con el plano.
+                    val = new Double[]{linePoint[X]+(a*l[X]),linePoint[Y]+(a*l[Y]),linePoint[Z]+(a*l[Z])}; // Obtenemos el punto de intersección.
 
                     boolean addval = true;
                     for (int n =0;n<vert.size();n++)
                     {
+                        // revisamos si no esta repetido el vertice.
                         if(normOfVector(new Double[]{vert.get(n)[X] - val[X], vert.get(n)[Y] - val[Y], vert.get(n)[Z] - val[Z]})==0)
                         {
                             addval=false;
@@ -102,6 +107,7 @@ public class Plane3D extends My3DObject {
                     if(normOfVector(val)>Math.sqrt(3)+.1)
                         addval =false;
 
+                    // Agregamos el nuevo vertice del plano.
                     if (addval) { vert.add(val);}
                 }
             }

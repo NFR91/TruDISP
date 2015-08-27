@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -14,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -221,7 +224,7 @@ public class TruDisp extends Application {
         mainTruDispStage.setWidth(550);
 
 
-        mainTruDispStage.setX((Screen.getPrimary().getVisualBounds().getWidth() / 2) - (500));
+        mainTruDispStage.setX((Screen.getPrimary().getVisualBounds().getWidth() / 2) - (550));
         mainTruDispStage.setY((Screen.getPrimary().getVisualBounds().getHeight() / 2) - (mainTruDispStage.getHeight() / 2));
 
         mainTruDispStage.show();
@@ -284,7 +287,7 @@ public class TruDisp extends Application {
         /** Establemcemos los componentes en sus contenedres*/
 
         // Agregamos los métodos
-        methodsHBox.getChildren().addAll(method1GridLayout);
+        methodsHBox.getChildren().addAll(method2GridLayout);
         // Agregamos los métodos y los desplazamientos
         mainVBox.getChildren().addAll(methodsHBox, displacementGridLayout, resultGridLayout);
 
@@ -325,9 +328,10 @@ public class TruDisp extends Application {
 
         // Métodos
         methodsMenu = new Menu("Methods");
-        method2CheckMenuItem = new CheckMenuItem("Method 2");
-        method2CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(2, method2GridLayout, methodsHBox, mainTruDispStage));
-        methodsMenu.getItems().addAll(method2CheckMenuItem);
+        method1CheckMenuItem = new CheckMenuItem("Method 1");
+        method1CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(1, method1GridLayout, methodsHBox, mainTruDispStage));
+        methodsMenu.getItems().addAll(method1CheckMenuItem);
+
 
         // Paneles.
         panelsMenu = new Menu("Panels");
@@ -1153,13 +1157,13 @@ public class TruDisp extends Application {
 
         // SmB
         smBTextField = new TextField();
-        smBTextField.setOnScroll(new ValueChangeScrollListener(smATextField));
+        smBTextField.setOnScroll(new ValueChangeScrollListener(smBTextField));
         smBTextField.getStyleClass().add(IO_TEXT_FIELD);
         smBTextField.setTooltip(new Tooltip("smB input"));
 
         //dAB
         dABTextField = new TextField();
-        dABTextField.setOnScroll(new ValueChangeScrollListener(smATextField));
+        dABTextField.setOnScroll(new ValueChangeScrollListener(dABTextField));
         dABTextField.getStyleClass().add(IO_TEXT_FIELD);
         dABTextField.setTooltip(new Tooltip("dab input"));
 
@@ -1551,10 +1555,12 @@ public class TruDisp extends Application {
             method1GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
             method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
             method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
+
             smdTextField.setDisable(false);smdErrorLabel.setDisable(false);smdLabel.setDisable(false);
+            alphaErrorLabel.setDisable(false);alphaTextField.setDisable(false);alphaErrorLabel.setDisable(false);
 
             displacementGridLayout.getChildren().clear();
-            displacementGridLayout.getChildren().addAll( alphaLabel, alphaTextField, alphaErrorLabel
+            displacementGridLayout.getChildren().addAll(alphaLabel, alphaTextField, alphaErrorLabel
                     , smALabel, smATextField, smAErrorLabel
                     , smhLabel, smhTextField, smhErrorLabel
                     , smdLabel, smdTextField, smdErrorLabel);
@@ -1569,14 +1575,11 @@ public class TruDisp extends Application {
             method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
 
             smhErrorLabel.setDisable(true);smhTextField.setDisable(true);smhLabel.setDisable(true);
-            smAErrorLabel.setDisable(false);
-            smATextField.setDisable(false);
-            smALabel.setDisable(false);
+            smAErrorLabel.setDisable(false);smATextField.setDisable(false);smALabel.setDisable(false);
             smdErrorLabel.setDisable(true);smdTextField.setDisable(true);smdLabel.setDisable(true);
-            gammaLabel.setDisable(false);
-            gammaTextField.setDisable(false);
-            gammaErrorLabel.setDisable(false);
-            gammaComboBox.setDisable(false);
+            gammaLabel.setDisable(false);gammaTextField.setDisable(false);gammaErrorLabel.setDisable(false);gammaComboBox.setDisable(false);
+            alphaErrorLabel.setDisable(true);alphaTextField.setDisable(true);alphaErrorLabel.setDisable(true);
+
             displacementGridLayout.getChildren().clear();
             displacementGridLayout.getChildren().addAll(alphaLabel, alphaTextField, alphaErrorLabel
                     , smALabel, smATextField, smAErrorLabel
@@ -1590,18 +1593,18 @@ public class TruDisp extends Application {
             method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
             method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
 
-            smhErrorLabel.setDisable(true);smhTextField.setDisable(true);smhLabel.setDisable(true);
+            smhErrorLabel.setDisable(true);
+            smhTextField.setDisable(true);
+            smhLabel.setDisable(true);
             smAErrorLabel.setDisable(false);
             smATextField.setDisable(false);
             smALabel.setDisable(false);
-            smdErrorLabel.setDisable(true);smdTextField.setDisable(true);smdLabel.setDisable(true);
+            smdErrorLabel.setDisable(true);
+            smdTextField.setDisable(true);
+            smdLabel.setDisable(true);
 
         });
-
-        method1GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-        method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-        method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-
+        method2TitleLabel.fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED,0,0,0,0, MouseButton.PRIMARY,1,true,true,true,true,true,true,true,true,true,true,null));
         //
 
 

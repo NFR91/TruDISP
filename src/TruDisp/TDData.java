@@ -122,6 +122,8 @@ public class TDData {
                     if(bpn[DATA]!=1 && apn[DATA]!=1)
                     {
                         System.out.println("Calculamos con el método tres.");
+                        s[DATA]= method3Calculate();
+                        method1CalculateDistance();
                     }
                     else if(isDataValidForCalcuating())
                     {
@@ -1174,6 +1176,35 @@ public class TDData {
         return temp;
     }
 
+    // Método 3
+
+    public Double method3Calculate()
+    {
+
+        Double li = fpl[DATA], mi = fpm[DATA], ni = -fpn[DATA];
+        Double lo = opl[DATA], mo = opm[DATA], no = -opn[DATA];
+        Double lj = apl[DATA], mj = apm[DATA], nj = -apn[DATA];
+        Double lk = bpl[DATA], mk = bpm[DATA], nk = -bpn[DATA];
+        Double d = dAB[DATA], a = smA[DATA], b= smB[DATA];
+
+        // Director cosines of the line of intersection of fp and op
+
+        Double X = Math.sqrt(Math.pow((mi*no)-(ni*mo),2)+Math.pow((ni*lo)-(li*no),2)+Math.pow((li*mo)-(mi*lo),2));
+
+        Double lp= ((mi*no)-(ni*mo))/X , mp = ((ni*lo)-(li*no))/X, np =((li*mo)-(mi*lo))/X;
+
+        Double D = -lk*mj*ni + lj*mk*ni + lk*mi*nj - li*mk*nj - lj*mi*nk + li*mj*nk ; //Determinante
+
+        Double x1 = (-d*(lk*lp + mk*mp + nk*np)*(mj*ni - nj*mi))/D;
+        Double y1 = (-d*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni))/D;
+        Double z1 = (-d*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li))/D;
+
+        Double x2 = ((a*(lj*lp + mj*mp + nj*np)*(mk*ni - nk*mi))-((d + b)*(lk*lp + mk*mp + nk*np)*(mj*ni - nk*mi)))/D;
+        Double y2 = ((a*(lj*lp + mj*mp + nj*np)*(nk*li - lk*ni))-((d + b)*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni)))/D;
+        Double z2 = ((a*(lj*lp + mj*mp + nj*np)*(lk*mi - mk*li))-((d + b)*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li)))/D;
+
+        return Math.sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1))+((z2-z1)*(z2-z1)));
+    }
 
     /**Metodos Get*/
 
