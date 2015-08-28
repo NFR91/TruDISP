@@ -1,0 +1,141 @@
+	
+/* *********************** Estructura de la página ********************* */	
+
+	/* contendor del banner de la pagina  */		
+	div.banner {
+		float: left;
+		margin-top: 10px;
+		margin-bottom: 15px;
+		width: 100%;
+	}
+	
+	#mainsection{
+		float: left;
+		margin: 11px 0px 0px 0px;
+		padding: 0px;
+		width: 70%;
+	}
+	
+	#secondarysection{
+		float: right;
+		margin: 0px;
+		padding: 0px;
+		width: 25%;
+	}
+	
+	
+/* *********************** Texto ********************* */	
+	
+	#bannerEng{
+		float: right;
+		text-align:center;
+		width:100%;
+		padding-left:1%;
+		}
+		
+	#bannerTittle{
+		clear:left;
+		padding-top:10px;
+	}
+
+
+
+	
+/* *********************** imagenes ********************* */
+
+	/*  imagen de banner */
+	#bannerimg {
+		float:left;
+		width: 60%;
+		margin-left:20%;
+		min-width:50px;
+	}	
+
+/* *********************** Acordeon ********************* */	
+	
+div.acordeon{
+	width: 100%;
+	margin:0;
+	text-align: left;
+	float: left;
+}
+
+div.acordeon label{
+	
+	font-weight: bold;
+	padding-left: 10px;
+	display: block;
+	height: auto;
+	cursor: auto ;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	background: gray;
+	
+	/**/
+	
+	-webkit-transition: 0.3s ease-in-out;
+	-moz-transition: 0.3s ease-in-out;
+	-o-transition: 0.3s ease-in-out;
+	-ms-transition: 0.3s ease-in-out;
+	transition: 0.3s ease-in-out;
+
+	
+	}
+
+div.acordeon label:hover{
+	background: black;
+	color:white;
+	padding-left: 10px;
+	
+}
+
+div.acordeon input:checked + label,
+div.acordeon input:checked + label:hover{
+	background: black;
+	color: white;
+
+}
+
+div.acordeon input{
+	display: none;
+}
+
+div.acordeon div.elemento{
+	overflow: hidden;
+	height: 0px;
+	-webkit-transition: 0.3s ease-in-out;
+	-moz-transition: 0.3s ease-in-out;
+	-o-transition: 0.3s ease-in-out;
+	-ms-transition: 0.3s ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+
+div.acordeon input:checked ~ div.elemento{
+	height: auto;
+}	
+
+/*Elementos del acordeon*/
+div.sublista1Div{
+	padding-left:10px;
+	padding-right:10px;
+}
+	
+/* *********************** Media Queries ********************* */	
+
+@media screen and (max-width: 500px) {
+	#mainsection,#secondarysection{
+		float:left;
+		clear:left;
+		width: 100%;
+	}
+	 #banerimagediv,#bannertext{
+		 float: left;
+		 clear:left;
+		 width:100%;
+	
+	}
+
+}

@@ -1,0 +1,164 @@
+/*  wrapper para hacer controlar los contenidos de la pagina */
+	div.wrapper {
+		width: 90%;	
+		max-width: 1200px;		/*  ancho máximo, importante para no redimensionar infinitamente */
+		margin: auto;
+		padding: 1%;
+	} 
+	
+	div.main{
+	margin-top: 10px;
+	float:left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+
+
+	/* contendor del logo de la pagina.  */
+	div.logo{
+		float: left;
+		height: 100%;
+		margin:0px;
+		margin-bottom:-50px;		/* Como el contenedor del titulo del encabezado mide 100px centramos la imagen  */
+		border:0px;
+		padding: 0px;
+	}
+	
+	/*  Contendor del titulo de la página */
+	div.headertittle{
+		float:left;
+		width: 100%;
+		/*height: 100px;*/
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+	}
+	
+	/* contenedor del pie de pagina  */
+	div.footercontact{
+		float:left;
+		width: 100%;
+		height: auto;
+		margin: 0px 0px 10px 0px;
+		border:1px;
+		padding: 0px;
+			}
+	
+	/* Barra de navegación */
+	nav.header{
+		float:right;
+		width: auto;
+		margin-top: 0%;
+		padding: 0px;
+		border: 0px;
+		}
+		
+	/*Navegación de pie de pagina*/
+	nav.footer{
+		
+		float:right;
+		width: auto;
+		padding: 0px;
+		border: 0px;
+		margin: 0px;
+		margin-top: -65px;
+	}
+	
+/* *********************** Extras ********************* */
+
+div.hrDiv { 
+	width:100%;
+	height:1px;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)); 
+}
+
+::selection{
+	background-color:rgba(255,146,235,0.42);
+       color: #000;
+}
+	
+/* *********************** Texto ********************* */
+	p,h1,h2,h3,h4,h5li {
+		font-family: "Courier New" monospace;
+	}
+	#toppagelink a{ font-style: oblique;}
+	
+/*  titulo de la pagina */
+	#headerTitle{
+		float: left;
+		text-align:center;
+		padding: 0px;
+		margin:0px;
+		width: 90%;
+	}
+		
+	/* elementos de la lista de navegación  */	
+	li.headernav, li.footernav {
+			display: inline;
+			margin-left: 10px;	
+		}
+		
+	p.footer{
+		float: left;
+		width: auto;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+	}
+	
+
+
+/* *********************** Links ********************* */
+
+	a:link {
+		color: black;
+		text-decoration: none;
+		font-weight: bold;
+			
+	}
+	a:visited {
+		color:gray;
+		text-decoration: none;
+		font-weight: bold;
+	}
+		
+	a:hover {
+		color: fuchsia;
+		text-decoration: none;
+		font-weight: bold;
+		
+	}
+	
+	a:active {
+		color:purple;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+
+/* *********************** Imagenes ********************* */		
+	
+	/* logo de la imagen  */
+	#logoimg {
+		float:left;
+		width: 10%;
+		min-width: 50px;
+	}
+	
+	
+/* *********************** Media Queries ********************* */
+
+@media screen and (max-width: 500px) {
+	
+	section.main, footer,#bannertext{
+		float: left;
+		clear: left;		/*No permitimos que exista otro elemento a la izquierda de los elementos*/
+		margin: 0px 0px 10px 0px; 
+		width: 100%;
+		padding: 0px;
+		}
+	
+	
+					
+}

@@ -1,0 +1,186 @@
+<!doctype html>
+<!--TruDISP webpage-->
+
+<!-- Inidicamos lenguage español -->
+<html lang="es">
+	<!-- Encabezado del docuento-->
+	<head>
+		<!-- Codificación -->
+		<meta charset="UTF-8"> 	
+		<!-- Título de la página -->
+		<title>TruDISPWeb</title> 
+		<!--Obtenemos el ancho del dispostivo.-->
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"> 
+		<!--Agregamos la hoja de estilos global.-->
+		<link href="Estilos/global.css" type="text/css" rel="stylesheet"> 
+		<link href="Estilos/inicio.css" type="text/css" rel="stylesheet"> 
+	</head>
+	
+	<!-- Cuerpo del html, contiene todo el documento-->
+	<body>
+	  
+		<!--Encapsulado para que la página entera se redimensione.-->
+		<div class="wrapper">
+    		<!-- Este es el encabezado en el incluimos el titulo, logo, banner, barra de navegación  -->
+			<header > <!-- Este contenedor tiene el logo y el titulo  -->
+				<div class="headertittle">
+					<a href="index.html"><img id="logoimg" src="Figuras/cgeo_logo.png" alt="logo" ></a>
+					<!--Título de la página-->
+					<h1 id="headerTitle"> TruDISP  </h1>  <div class="hrDiv" style="float:left;width:90%"></div>
+          		</div>
+                
+		  		<!-- Este contenedor maneja la imagen  -->
+		  		<div class="banner">
+		  			<!-- Imagen -->
+		  			<img id="bannerimg" src="Figuras/banner.png" alt="banner" />
+		  			<!-- Título -->
+		  			<h3 align="center" id="bannerTittle"> TruDISP v2.0</h3>
+				  	<!--Descripción en Inglés -->
+				  	<section id="bannerEng">
+	                	<p>
+							A program that calculates the true displacement of a fault using the apparent displacement 
+							of a marker measured from a map view or along an arbitrary “observation line”.
+	                	</p>
+	              	</section>
+				</div>
+			</header>
+            <div class="main">
+            	<div class="hrDiv"></div>
+            	<section id="mainsection">
+          			<p>Sección principal</p>
+            	</section>
+         		
+             <!-- Secciones de la página -->
+            	<!--About ***************************************************************************************-->
+                <div class="acordeon">
+                	<div class="listaDiv">
+                    	<input id="1" type="checkbox"/>
+                        <label for="1">About</label>
+                        <!---Contenido-->
+                        <div class="elemento">
+                        	<!--The project-->
+                        	<div class="sublista1Div">
+                            	<input id="1.1" type="checkbox"/>
+                            	<label for="1.1">The project</label>
+                            	<div class="elemento">
+                            	</div>
+                            </div>
+                            <!--The team-->
+                            <div class="sublista1Div">
+                            	<input id="1.2" type="checkbox"/>
+                            	<label for="1.2">The team</label>
+                            	<div class="elemento">
+                                	<p align="justify">
+										• R. Nieto-Fuentes Universidad Nacional Autónoma de México, Centro de Física Aplicada y Tecnología Avanzada, 
+                                        Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.<br>
+										• Nieto-Samaniego A. F. Universidad Nacional Autónoma de México, Centro de Geociencias, 
+                                        Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.<br>
+										• Xu S.-S. Universidad Nacional Autónoma de México, Centro de Geociencias, 
+                                        Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.<br>
+										• Alaniz-Alvarez S. A. Universidad Nacional Autónoma de México, Centro de Geociencias, 
+                                        Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.<br>
+                                </p>
+                            	</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>	
+                
+            	<!--Guía del usuario ***************************************************************************************-->
+                <div class="acordeon">
+                 	<div class="listaDiv">
+                     	<input id="2" type="checkbox"/>
+                        <label for="2">Guía de Usuario | User´s Guide</label>
+                        <!--Contenido-->
+                        <div class="elemento">
+                            <p align="center">
+                            	Have you ever found yourself struggling to find the way through endless equations for calculating 
+                            	true displacements?<br> 
+                                Or maybe you don ́t calculate them because it is tedious and tiring?<br> 
+                                TruDISP is for you
+                            </p>
+                            <!--Where do I Start?-->
+                            <div class="sublista1Div">
+                            	<input id="2.1" type="checkbox" />
+                            	<label for="2.1">Where do I Start ?</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                            <!--How to Calculate-->
+                            <div class="sublista1Div">
+                            	<input id="2.2" type="checkbox" />
+                            	<label for="2.2">How to calculate</label>
+                                <div class="elemento">
+                                	<p>  </p>
+                                </div>
+                        	</div>
+                            <!--How to review a previous calculus-->
+                            <div class="sublista1Div">
+                            	<input id="2.3" type="checkbox" />
+                            	<label for="2.3">How to review a previous calculus</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                            <!--I made a mistake, what can I do?-->
+                            <div class="sublista1Div">
+                            	<input id="2.4" type="checkbox" />
+                            	<label for="2.4">I made a mistake, what can I do?</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                            <!--How to delete the history-->
+                            <div class="sublista1Div">
+                            	<input id="2.5" type="checkbox" />
+                            	<label for="2.5">How to delete the history</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                            <!--How to open and save a session-->
+                            <div class="sublista1Div">
+                            	<input id="2.6" type="checkbox" />
+                            	<label for="2.6">How to open and save a session</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                            <!--The estimation of erros-->
+                            <div class="sublista1Div">
+                            	<input id="2.7" type="checkbox" />
+                            	<label for="2.7">The estimation of erros</label>
+                                <div class="elemento">
+                                	<p> </p>
+                                </div>
+                        	</div>
+                      	</div>
+                	</div>
+           		</div>
+                            
+                    
+                 
+            </div>
+            
+            <!-- Este es el pie de pagina -->
+			<footer>
+				<div class="footercontact">
+                <div class="hrDiv"></div>
+				<p class="footerText"> 
+					Autor: Ricardo Nieto Fuentes<br/>
+					Contacto:<a href="mailto:eco.server@hotmail.com">eco.server@hotmail.com</a>
+					<br/>
+				</p>
+				<!-- Este es el contenedor de la barra de navegación formada por una lista sin orden -->					
+				<nav class="footer">
+					<ul class="footernav">
+						<li class="footernav"><a href="#header">^</a></li>
+					</ul>
+				</nav>
+				</div>
+			</footer>
+	
+    	</div>
+	</body>
+</html>
