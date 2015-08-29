@@ -1,0 +1,4 @@
+release; 1.0; http://nfr91.github.io/Updater/TruDisp/TruDisp1_0.zip
+beta; 1.92; http://nfr91.github.io/Updater/TruDisp/TruDisp-192.jar
+beta; 1.93; http://nfr91.github.io/Updater/TruDisp/TruDisp-193.jar
+beta; 1.94; http://nfr91.github.io/Updater/TruDisp/TruDisp-194.jar
