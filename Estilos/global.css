@@ -142,7 +142,8 @@ div.hrDiv {
 	/* logo de la imagen  */
 	#logoimg {
 		float:left;
-		width: 10%;
+		width:6%;
+		max-height:150px;
 		min-width: 50px;
 	}
 	
