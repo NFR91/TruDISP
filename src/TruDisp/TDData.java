@@ -12,7 +12,7 @@ public class TDData {
     private final int DATA=0,ERROR=1;
     private final Double PRECITION=10.0;
     private final Double DIR_COS_PRECITION=10000.0;
-    private TruDispStatusPane statusPane;
+    private TDStatusPane statusPane;
     private final Double MINANGLE=0.00157; //.1 grados
     private final Double MAXANGLE=1.5691; //89.9 grados
     private String[] errorValue;
@@ -36,7 +36,7 @@ public class TDData {
 
     // Constructor
 
-    public TDData(TruDispStatusPane stbr)
+    public TDData(TDStatusPane stbr)
     {
         statusPane = stbr;
 
@@ -45,7 +45,7 @@ public class TDData {
 
     }
 
-    public TDData(String dataset, TruDispStatusPane stbr)
+    public TDData(String dataset, TDStatusPane stbr)
     {
         statusPane = stbr;
         initVariables();

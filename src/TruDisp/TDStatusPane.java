@@ -14,7 +14,7 @@ import javafx.util.Duration;
 /**
  * Created by Nieto on 05/08/15.
  */
-public class TruDispStatusPane extends StackPane{
+public class TDStatusPane extends StackPane{
 
     private HBox statusBar,notification;
     private VBox notificationsLayout;
@@ -26,7 +26,7 @@ public class TruDispStatusPane extends StackPane{
     private static final Integer DEFAULT_DURATION=5000,NOTIFICATION_DURATION=10000;
     private static final String WELCOME_ICON="Icons/welcomeicon.png";
 
-    public TruDispStatusPane()
+    public TDStatusPane()
     {
         initComponents();
     }

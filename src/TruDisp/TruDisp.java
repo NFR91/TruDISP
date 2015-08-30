@@ -1,12 +1,62 @@
+/**
+ *  The MIT License (MIT)
+ *
+ * Copyright (c) [2015] [RICARDO NIETO FUENTES]
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
+/**
+ * TruDISP v: X.X
+ * RICARDO NIETO FUENTES
+ * 2015
+ *
+ * Este programa realiza el cálculo del desplazamiento neto de una falla empleando
+ * dos métodos
+ *
+ * 1: El publicado en :
+ *
+ * “Software for determining the true displacement of faults”,
+ * R. Nieto-Fuentes, Á.F. Nieto-Samaniego,S.-S. Xu, S.A. Alaniz-Álvarez,
+ * Computers & Geosciences, Volume 64, March 2014, Pages 35-40, ISSN 0098-3004,
+ * doi: 10.1016/j.cageo.2013.11.010
+ *
+ * 2: Calculando a partir de las mediciones de campo y conociendo la orientación de la estría
+ * los cosenos directores de los diferentes planos y empleando :
+ *
+ * "Fault-slip calculation from separations."
+ * Yamada, E., Sakaguchi, K., 1995.  J. Struct. Geol. 17, 1065–1070.
+ *
+ * El programa principalmente se centra en facilitar el cálculo mediante revisión de errores
+ * en los datos de entrada, selección de ecuaciones del árbol de decisiones del método 1 y
+ * almacenamiento de los datos.
+ */
+
 package TruDisp;
 
+// Importamos las librerias necesarias.
 import TruDisp.FaultViewer.FaultViewer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -26,103 +76,32 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 
-/**
- * Created by Nieto on 29/07/15.
- */
-
-// Inicio de la clase;
+// Clase aplicación la cual corre el programa.
 public class TruDisp extends Application {
 
-    public static final String UPDATE_TXT = "http://nfr91.github.io/Updater/TruDisp/TruDispVersions.txt";
-    public static final Double TRU_DISP_VERSION = 1.93;
-    public static final String REPOSITORY ="beta";
-    /** Variables*/
+    /******************************************************************************************************************/
+    /** Variables de programa */
+    /******************************************************************************************************************/
 
+    /** Constantes finales.*/
 
-    /**
-     * Constantes de la interfaz
-     */
+    // Programa.
+    public static final String UPDATE_TXT = "http://nfr91.github.io/TruDISP/TruDISP/TruDispVersions.txt"; //Dirección de la lista de actualizaciones.
+    public static final Double TRU_DISP_VERSION = 1.94;     // Versión del programa.
+    public static final String REPOSITORY ="beta";          // Repositorio al que pertenece.
 
-    private Stage mainTruDispStage;
-    private Stage dirCosWindow;
-    private Scene mainScene;
-    private BorderPane mainBorderLayout;
-    private VBox mainVBox;
-    private HBox methodsHBox;
-    private MenuBar menuBar;
-    private Menu trudispMenu, methodsMenu, panelsMenu,helpMenu;
-    private MenuItem trudispMenuCloseItem,trudispMenuSaveItem,trudispMenuOpenItem,panelMenuHistoryItem,
-            helpMenuOutputItem, helpMenuInputItem, helpMenuLabelsItems,trudispMenuAboutItem,
-            helpMenuHow2Use,panelMenuFaultViewrItem, helpMenuLMNCoordItem,panelMenuMethod3Item;
-    private CheckMenuItem method1CheckMenuItem, method2CheckMenuItem;
+    // Methods
+    public static final Integer METHOD_1 = 1, METHOD_2 = 2; // Constantes de métodos.
+    public static final Integer N=0,E=1,D=2;                // Constantes de posición para los ejes.
 
-    private TDTable TDTable;
-    private FaultViewer TDFaultV;
-    private TDOpenSave truDispOpenSave;
-    private Boolean shakeStageFlag = true;
-    private TDDialogs trudispTDDialogs;
+    // Icons;
+    public static final String WELCOME_ICON = "Icons/welcomeicon.png";  // Icono de bienvenida.
+    public static final String ADVICE_ICON = "Icons/adviceicon.png";    // Icono de tip
+    public static final String WARNING_ICON = WELCOME_ICON;             // Icono de advertencia.
+    public static final String ERROR_ICON = WELCOME_ICON;               // Icono de error.
+    public static final String SPLASH_IMAGE = "Images/splashimage.png";
 
-
-    // Método 1;
-    private GridPane method1GridLayout;
-    private Label betaLabel, phiLabel, gammaLabel;
-    private Label betaErrorLabel, phiErrorLabel, gammaErrorLabel;
-    private Label method1TitleLabel;
-    private TextField betaTextField, phiTextField, gammaTextField;
-    private ComboBox betaComboBox, gammaComboBox, phiComboBox;
-    private ToggleButton mapSectionToggleButton, arbitraryLineToggleButton;
-
-
-    // Método 2;
-    private GridPane method2GridLayout;
-    private Label method2TitleLabel;
-    private Label foLabel, opoLabel, smoLabel, osLabel;
-    private Label fodLabel, fostkLabel, opodLabel, opostkLabel, smo1dLabel, smo1stkLabel, smo2dLabel, smo2stkLabel, ostrendLabel, osplunchLabel;
-    private Label fodErrorLabel, fostkErrorLabel, opodErrorLabel, opostkErrorLabel, smo1dErrorLabel, smo1stkErrorLabel,
-            smo2dErrorLabel, smo2stkErrorLabel, ostrendErrorLabel, osplunchErrorLabel;
-    private TextField fodTextField, fostkTextField, opodTextField, opostkTextField, smo1dTextField, smo1stkTextField,
-            smo2dTextField, smo2stkTextField, ostrendTextField, osplunchTextField;
-
-    // Método 3;
-
-    private GridPane method3GridLayout;
-    private Label method3TitleLabel;
-    private Label fpLabel, opLabel, apLabel, bpLabel;
-    private Label fpmLabel, fpnLabel, fplLabel, opmLabel, opnLabel, oplLabel, apmLabel, apnLabel, aplLabel, bpmLabel, bpnLabel, bplLabel;
-    private Label fpmErrorLabel, fpnErrorLabel, fplErrorLabel, opmErrorLabel, opnErrorLabel, oplErrorLabel, apmErrorLabel,
-            apnErrorLabel, aplErrorLabel, bpmErrorLabel, bpnErrorLabel, bplErrorLabel;
-    private TextField fpmTextField, fpnTextField, fplTextField, opmTextField, opnTextField, oplTextField, apmTextField, apnTextField,
-            aplTextField, bpmTextField, bpnTextField, bplTextField;
-
-
-    // Distancias
-
-    private GridPane displacementGridLayout;
-    private Label alphaLabel, smALabel,smBLabel,dABLabel ,smhLabel, smdLabel;
-    private Label alphaErrorLabel, smAErrorLabel,smBErrorLabel,dABErrorLabel, smhErrorLabel, smdErrorLabel;
-    private TextField alphaTextField, smATextField,smBTextField,dABTextField, smhTextField, smdTextField;
-
-    // Resultados
-
-    private GridPane resultGridLayout;
-    private Label resultTitleLabel;
-    private Label sLabel, svLabel, sdLabel, shLabel, ssLabel, thetaLabel, thetanullLabel;
-    private Label sErrorLabel, svErrorLabel, sdErrorLabel, shErrorLabel, ssErrorLabel;
-    private TextField sTextField, svTextField, sdTextField, shTextField, ssTextField, thetaTextField, thetanullTextField;
-    private Button calculateButton,resetButton;
-    private TruDispStatusPane statusPane;
-
-
-    // SplashScreen
-    private static final String SPLASH_IMAGE = "Images/splashimage.png";
-    private final int SPLASH_WIDTH = 500;
-
-
-    /**
-     * Constantes
-     */
-
-    // Styles
+    // Estilos
     public static final String TRUDISP_STYLE_SHEET = "TruDisp/TruDispStyleSheet.css";
     private static final String IO_ERROR_LABEL = "ioerrorlabel";
     private static final String IO_TEXT_FIELD = "iotextfield";
@@ -136,27 +115,148 @@ public class TruDisp extends Application {
     private static final String IO_LABEL = "iolabel";
     private static final String IO_GRID_PANE = "iogridpane";
 
-    // Methods
-    public static final Integer METHOD_1 = 1, METHOD_2 = 2, METHOD_3 = 3;
-    public static final Integer N=0,E=1,D=2;
+    /** Variables principales*/
 
-    // Icons;
-    public static final String WELCOME_ICON = "Icons/welcomeicon.png";
-    public static final String ADVICE_ICON = "Icons/adviceicon.png";
-    public static final String CALCULATING_ICON = "Icons/calculatingicon.png";
-    public static final String WARNING_ICON = WELCOME_ICON;
-    public static final String ERROR_ICON = WELCOME_ICON;
+    private Stage           mainTruDispStage;       // Escenario de la aplicación
+    private Scene           mainScene;              // Escena principal.
+    private BorderPane      mainBorderLayout;       // BorderPane que organiza el contenido de la aplicación.
+    private VBox            mainVBox;               // VBox principal que organiza el contenido.
+    private HBox            methodsHBox;            // HBox que contiene los dos métodos empleado.
 
+    private MenuBar         menuBar;                // Barra de menú del programa.
+    private Menu            trudispMenu;            // Menu principal del programa.
+    private MenuItem        trudispMenuAboutItem,   // Muestra la información del programa.
+                            trudispMenuCloseItem,   // Cierra el programa
+                            trudispMenuSaveItem,    // Salvar los datos capturados
+                            trudispMenuOpenItem;    // Abrir datos capturados en una sesión anterior.
+    private Menu            methodsMenu;            // Menú para mostrar o ocultar los métodos.
+    private CheckMenuItem   method1CheckMenuItem;   // Muestra y oculta el método 1.
+    private Menu            panelsMenu;             // Menú que contiene las herramientas.
+    private MenuItem        panelMenuHistoryItem,   // Muestra el historial de los calculos realizados.
+                            panelMenuFaultViewrItem,// Muestra el Graficador de falla.
+                            panelCosDirItem;   // Muestra los cosenos directores.
+    private Menu            helpMenu;               // Menú que contiene los dialogos de ayuda del programa.
+    private MenuItem        helpMenuOutputItem,     // Muestra las variables de salida.
+                            helpMenuInputItem,      // Muestra las variables de entrada.
+                            helpMenuLabelsItems,    // Muestra el significado de las variables.
+                            helpMenuHow2Use,        // Muestra como utilizar TruDISP.
+                            helpMenuLMNCoordItem;   // Muestra la orientacion de las coordenadas de los cosenos directores.
+
+    private TDTable         tableTD;                // Objeto encargado de manejar los datos procesados.
+    private FaultViewer     faultViewerTD;          // Objeto encargado de graficar los planos.
+    private TDOpenSave      openSaveTD;             // Objeto encargado de abrir y guardar los datos procesados.
+    private TDDialogs       dialogsTD;              // Objeto encargado de manejar los dialogos.
+    private TDStatusPane    statusPane;             // Objeto encargado de controlar las notificaciones.
+    private Stage           dirCosWindow;           // TODO Mover este dialogo a dialogsTD.
+
+    private Boolean         shakeStageFlag = true;  // Bandera para realizar el sacudido de la venta.
+
+
+    /** Método 1*/
+    private GridPane        method1GridLayout;                              // Malla que contiene los campos de entrada del método 1.
+    private Label           method1TitleLabel;                              // Label que tiene el nombre del método.
+    private Label           betaLabel, phiLabel, gammaLabel;                // Etiquetas de pitch.
+    private Label           betaErrorLabel, phiErrorLabel, gammaErrorLabel; // Campos de error de pitch.
+    private TextField       betaTextField, phiTextField, gammaTextField;    // Campos de entrada para los pitchs.
+    private ComboBox        betaComboBox, gammaComboBox, phiComboBox;       // Campos de entrada para la orientación de los pitchs.
+    private ToggleButton    mapSectionToggleButton,                         // Botón para cambiar al caso map and section.
+                            arbitraryLineToggleButton;                      // Botón para cambiar al caso arbitrario.
+
+    /** Método 2*/
+    private GridPane        method2GridLayout;                              // Malla que contiene los campos de entrada del método 2.
+    private Label           method2TitleLabel;                              // Label que tiene l enombre del método 2.
+    private Label           foLabel, opoLabel, smoLabel, osLabel;           // Nombres de los planos.
+
+    private Label           fodLabel,       fostkLabel,                     // Etiquetas de los datos de entrada.
+                            opodLabel,      opostkLabel,
+                            smo1dLabel,     smo1stkLabel,
+                            smo2dLabel,     smo2stkLabel,
+                            ostrendLabel,   osplungeLabel;
+
+    private Label           fodErrorLabel,      fostkErrorLabel,            // Errores de los campos.
+                            opodErrorLabel,     opostkErrorLabel,
+                            smo1dErrorLabel,    smo1stkErrorLabel,
+                            smo2dErrorLabel,    smo2stkErrorLabel,
+                            ostrendErrorLabel,  osplungeErrorLabel;
+
+    private TextField       fodTextField,       fostkTextField,             // Campos de entrada de los datos de campo.
+                            opodTextField,      opostkTextField,
+                            smo1dTextField,     smo1stkTextField,
+                            smo2dTextField,     smo2stkTextField,
+                            ostrendTextField,   osplungeTextField;
+
+    /** Cosenos Directores*/
+
+    private GridPane        cosDirGridLayout;                               // Malla que contiene los datos de los cosenos directores.
+    private Label           cosDirTitleLabel;                               // titulo de los cosenos directores.
+    private Label           fpLabel, opLabel, apLabel, bpLabel;             // titulo de cada plano de cosenos directores.
+
+    private Label           fpmLabel, fpnLabel, fplLabel,                   // Etiquetas de los cosenos.
+                            opmLabel, opnLabel, oplLabel,
+                            apmLabel, apnLabel, aplLabel,
+                            bpmLabel, bpnLabel, bplLabel;
+
+    private Label           fpmErrorLabel, fpnErrorLabel, fplErrorLabel,    // Errores de los cosenos.
+                            opmErrorLabel, opnErrorLabel, oplErrorLabel,
+                            apmErrorLabel, apnErrorLabel, aplErrorLabel,
+                            bpmErrorLabel, bpnErrorLabel, bplErrorLabel;
+
+    private TextField       fpmTextField, fpnTextField, fplTextField,       // Campos de despliegue para los cosenos directores.
+                            opmTextField, opnTextField, oplTextField,
+                            apmTextField, apnTextField, aplTextField,
+                            bpmTextField, bpnTextField, bplTextField;
+
+
+    /** Distancias */
+
+    private GridPane        displacementGridLayout;         // Malla que contiene los campos de entrada de desplazamiento.
+
+    private Label           alphaLabel, smALabel,smBLabel,  // Etiquetas de distancias.
+                            dABLabel ,smhLabel, smdLabel;
+
+    private Label           alphaErrorLabel, smAErrorLabel, // Errores de las distancias.
+                            smBErrorLabel,dABErrorLabel,
+                            smhErrorLabel, smdErrorLabel;
+
+    private TextField       alphaTextField, smATextField,   // Campos de entrada de las distancias.
+                            smBTextField,dABTextField,
+                            smhTextField, smdTextField;
+
+    /** Resultados */
+
+    private GridPane        resultGridLayout;               // Malla que contiene los campos de resultado.
+    private Label           resultTitleLabel;               // Titulo de resultados.
+
+    private Label           sLabel, svLabel, sdLabel,       // Etiquetas de resultados.
+                            shLabel, ssLabel, thetaLabel,
+                            thetanullLabel;
+
+    private Label           sErrorLabel, svErrorLabel,      // Errores de resultados.
+                            sdErrorLabel, shErrorLabel,
+                            ssErrorLabel;
+
+    private TextField       sTextField, svTextField,        // Campos de despliegue de los resultados.
+                            sdTextField, shTextField,
+                            ssTextField, thetaTextField,
+                            thetanullTextField;
+
+    private Button          calculateButton,resetButton;    // Botones de control para calcular y poner en ceros el programa.
+
+
+    /******************************************************************************************************************/
+    /** Métodos principales de la aplicación. */
+    /******************************************************************************************************************/
 
     @Override
     public void start(Stage mainStage) throws InterruptedException {
 
         /**Splash Screen*/
+        // Hacemos transparente la ventana principal.
         mainStage = new Stage(StageStyle.TRANSPARENT);
 
         // Creamos el contenedor de la imagen de splash;
         ImageView splashImageView = new ImageView(new Image(SPLASH_IMAGE));
-        splashImageView.setFitWidth(SPLASH_WIDTH);
+        splashImageView.setFitWidth(500);
         splashImageView.setPreserveRatio(true);
 
         // Creamos el contenedor del texto ;
@@ -174,43 +274,47 @@ public class TruDisp extends Application {
         VBox splashVBoxLayout = new VBox();
         splashVBoxLayout.getChildren().addAll(splashImageView, splashProgressText, splashProgressBar);
 
+        // Creamos la escena del splash
         Scene splashScene = new Scene(splashVBoxLayout);
         splashScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
-
         splashScene.setFill(Color.WHITE);
         splashVBoxLayout.setBackground(Background.EMPTY);
 
-
+        // agregamos la escena
         mainStage.setScene(splashScene);
+        // Mostramos la ventana de splash.
         mainStage.show();
 
-        // Revisamos si hay actualizaciones.
+        // Mandamos llamar la rutina de actualización.
         update(splashProgressBar,splashProgressText,mainStage);
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
 
-
+    /** Rutina encargada de realizar la actualización.*/
     private void update(ProgressBar splashProgressBar, Label splashProgressText,Stage stage) {
 
+        // Creamos un objeto de actualización.
         MyUpdater up = new MyUpdater(splashProgressBar,splashProgressText,stage);
+
+        // Si el actualizador ha terminado entonces mostramos la aplicación.
         up.getIsreadyProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 showMainStage();
             }
         });
 
+        // Comenzamos a actualizar.
         up.updateApp();
 
     }
 
-
+    /** Función que muestra la aplicación.*/
     private void showMainStage() {
+
+        // Inicializamos los componentes.
         this.initcomponents();
 
         // Titulo
@@ -223,64 +327,82 @@ public class TruDisp extends Application {
         mainTruDispStage.setMinWidth(550);
         mainTruDispStage.setWidth(550);
 
-
+        // Definimos la posición.
         mainTruDispStage.setX((Screen.getPrimary().getVisualBounds().getWidth() / 2) - (550));
         mainTruDispStage.setY((Screen.getPrimary().getVisualBounds().getHeight() / 2) - (mainTruDispStage.getHeight() / 2));
 
+        // Mostramos la aplicación.
         mainTruDispStage.show();
 
     }
 
-
-    /** Iniciamos los componentes  */
-
+    /** Función que inicializa los componentes. */
     private void initcomponents() {
+
+        // Creamos la venta.
         mainTruDispStage = new Stage(StageStyle.DECORATED);
+        // Definimos que hace la ventana cuando se cierra.
         mainTruDispStage.setOnCloseRequest(event1 -> {System.exit(0);});
 
         /**Dialogos*/
         // Historial
-        TDTable = new TDTable();
+        tableTD = new TDTable();
         // Guardado y apertura
-        truDispOpenSave = new TDOpenSave(mainTruDispStage);
+        openSaveTD = new TDOpenSave(mainTruDispStage);
         // Dialogos de entradas, salidas e información
-        trudispTDDialogs = new TDDialogs();
-        // Visor;
-        TDFaultV = new FaultViewer();
+        dialogsTD = new TDDialogs();
+        // Graficador;
+        faultViewerTD = new FaultViewer();
 
         /** Cuerpo de la aplicación*/
         // Cuerpo Principal
         mainBorderLayout = new BorderPane();
+
         // Contenedor de metodos, distancias y resultados, asi como de la barra de estado
         mainVBox = new VBox();
-        mainVBox.getStyleClass().add(IO_VBOX);
+        mainVBox.getStyleClass().add(IO_VBOX); // Definimos el estilo.
+
         // Cotenedor expandible de métodos
         methodsHBox = new HBox();
-        methodsHBox.getStyleClass().add(IO_HBOX);
-        // Barra de estado
-        statusPane = new TruDispStatusPane();
-        statusPane.setStatus("Bienvenido a TruDISP", WELCOME_ICON);
+        methodsHBox.getStyleClass().add(IO_HBOX); // Definimos el estilo.
+
+        // Notificaciones.
+        statusPane = new TDStatusPane();
+        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOME_ICON);
 
         /** Método 1 */
+
         initMethod1ComponentsGrid();
+
         /** Método 2 */
+
         initMethod2ComponentsGrid();
+
         /**Método 3*/
-        initMethod3ComponentsGrid();
+
+        initDirCosComponentsGrid();
+
         /**Displacement*/
+
         initDisplacementComponentsGrid();
+
         /**Resultados*/
+
         initResultComponentsGrid();
+
         /**Ponemos los valores por defecto*/
+
         clearcomponents();
+
         /** Definimos las características de crecimiento de los contenedores. */
+
         // Entradas
         HBox.setHgrow(methodsHBox, Priority.ALWAYS);
         HBox.setHgrow(method1GridLayout, Priority.SOMETIMES);
         HBox.setHgrow(method2GridLayout, Priority.ALWAYS);
-        HBox.setHgrow(method3GridLayout, Priority.SOMETIMES);
         VBox.setVgrow(displacementGridLayout, Priority.ALWAYS);
         VBox.setVgrow(methodsHBox, Priority.ALWAYS);
+
         // Resultados
         VBox.setVgrow(resultGridLayout, Priority.ALWAYS);
 
@@ -288,93 +410,136 @@ public class TruDisp extends Application {
 
         // Agregamos los métodos
         methodsHBox.getChildren().addAll(method2GridLayout);
+
         // Agregamos los métodos y los desplazamientos
         mainVBox.getChildren().addAll(methodsHBox, displacementGridLayout, resultGridLayout);
 
+        // Agregamos el contenedor principal al centro de notificaciones.
         statusPane.setStatusPane(mainVBox);
 
         // Agregamos la sección central de la aplicación
         mainBorderLayout.setCenter(statusPane);
 
 
-        // Agregamos a la escena.
+        // Agregamos la escena
         mainScene = new Scene(mainBorderLayout);
-        mainScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
+        mainScene.getStylesheets().add(TRUDISP_STYLE_SHEET); //Hoja css del programa.
 
         /**Barra de menú*/
         initMenuBar();
 
         /**Colocamos las acciones de los diferentes botones de la interface*/
         initGUIActions();
-        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOME_ICON);
     }
 
-    private  void initMenuBar()
-    {
-        /** Barra de menu */
+    /** Función que inicializa la barra de menu. */
+    private  void initMenuBar() {
+
+        /** Barra de menu*/
+
         menuBar = new MenuBar();
 
-        // Menú
+        /** Menu principal*/
+
         trudispMenu = new Menu("TruDisp");
+
         trudispMenuCloseItem = new MenuItem("Exit");
+        // Agregamos la acción se cerrará la aplicación.
         trudispMenuCloseItem.setOnAction(event -> System.exit(0));
+
         trudispMenuSaveItem = new MenuItem("Save Session");
-        trudispMenuSaveItem.setOnAction(event -> { truDispOpenSave.Save(TDTable.getDataList());} );
+        // Se agrega la acción de guardar los datos.
+        trudispMenuSaveItem.setOnAction(event -> { openSaveTD.Save(tableTD.getDataList());} );
+
         trudispMenuOpenItem = new MenuItem("Open Session");
-        trudispMenuOpenItem.setOnAction(even -> TDTable.setObservableList(truDispOpenSave.Open(statusPane)));
+        // Se agerga la acción de abrir los datos.
+        trudispMenuOpenItem.setOnAction(even -> tableTD.setObservableList(openSaveTD.Open(statusPane)));
+
         trudispMenuAboutItem = new MenuItem("About");
-        trudispMenuAboutItem.setOnAction(event -> trudispTDDialogs.showAbout());
+        // Se agrega la acción de desplegar el dialogo about
+        trudispMenuAboutItem.setOnAction(event -> dialogsTD.showAbout());
+
+        // Se agergan los items al menu
         trudispMenu.getItems().addAll(trudispMenuAboutItem, trudispMenuOpenItem, trudispMenuSaveItem, trudispMenuCloseItem);
 
-        // Métodos
+        /**Menu Métodos*/
+
         methodsMenu = new Menu("Methods");
+
         method1CheckMenuItem = new CheckMenuItem("Method 1");
+        // Se agrega la función que redimensiona la aplicación y agrega o elimina el método 1.
         method1CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(1, method1GridLayout, methodsHBox, mainTruDispStage));
+
+        // Agregamos el item al menu.
         methodsMenu.getItems().addAll(method1CheckMenuItem);
 
 
-        // Paneles.
+        /**Menu de paneles*/
+
         panelsMenu = new Menu("Panels");
+
         panelMenuHistoryItem = new MenuItem("History");
-        panelMenuHistoryItem.setOnAction(event -> TDTable.show());
+        // Se agrega la función que muestra el historial
+        panelMenuHistoryItem.setOnAction(event -> tableTD.show());
+
         panelMenuFaultViewrItem = new MenuItem("Fault Viewer");
+        // Se agrega la función que muestra el graficador.
         panelMenuFaultViewrItem.setOnAction(event -> {
-            TDFaultV.show();
-            TDFaultV.requestFocus();
+            faultViewerTD.show();
+            faultViewerTD.requestFocus();
         });
-        panelMenuMethod3Item = new MenuItem("Method 3");
-        panelMenuMethod3Item.setOnAction(event1 -> {
+
+        panelCosDirItem = new MenuItem("Method 3");
+        // Se agrega la función que muestra el dialogo de cosenos directores.
+        panelCosDirItem.setOnAction(event1 -> {
             dirCosWindow.show();
             dirCosWindow.requestFocus();
         });
-        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuFaultViewrItem,panelMenuMethod3Item);
 
-        // ?
+        // Agregamos los items al menu,.
+        panelsMenu.getItems().addAll(panelMenuHistoryItem,panelMenuFaultViewrItem, panelCosDirItem);
+
+        /**Menu ayuda*/
+
         helpMenu = new Menu("Help");
+
         helpMenuHow2Use = new MenuItem("How2Use");
-        helpMenuHow2Use.setOnAction(event->trudispTDDialogs.showHelp());
+        // Agregamos el despliegue de ayuda.
+        helpMenuHow2Use.setOnAction(event-> dialogsTD.showHelp());
+
         helpMenuLMNCoordItem = new MenuItem("Director Cosines");
-        helpMenuLMNCoordItem.setOnAction(event -> trudispTDDialogs.showLMNCoord());
+        // Agregamos el despigeuge del dialogo del sistema de coordenadas de los cosenos directores.
+        helpMenuLMNCoordItem.setOnAction(event -> dialogsTD.showLMNCoord());
+
         helpMenuInputItem = new MenuItem("Input");
-        helpMenuInputItem.setOnAction(event -> trudispTDDialogs.showInput());
+        // Agregamos el despliegue del dialogo de los datos de entrada.
+        helpMenuInputItem.setOnAction(event -> dialogsTD.showInput());
+
         helpMenuOutputItem = new MenuItem("Output");
-        helpMenuOutputItem.setOnAction(event -> trudispTDDialogs.showOutput());
+        // Agregamos el despliegue del dialogo de los datos de salida.
+        helpMenuOutputItem.setOnAction(event -> dialogsTD.showOutput());
+
         helpMenuLabelsItems = new MenuItem("Labels");
-        helpMenuLabelsItems.setOnAction(event -> trudispTDDialogs.showLables());
+        // Agregamos el despliegue del dialogo del significado de las etiquetas
+        helpMenuLabelsItems.setOnAction(event -> dialogsTD.showLables());
+
+        // Agregamos los items al menu.
         helpMenu.getItems().addAll(helpMenuHow2Use,helpMenuLabelsItems, helpMenuInputItem, helpMenuOutputItem, helpMenuLMNCoordItem);
 
-        // Añadimos los menus.
+        // Añadimos los menus a la barra de menu.
         menuBar.getMenus().addAll(trudispMenu, methodsMenu, panelsMenu,helpMenu);
-        mainBorderLayout.setTop(menuBar);
 
+        /**Agregamos la barra de menu al contendor principal*/
+        mainBorderLayout.setTop(menuBar);
 
     }
 
+    /** Función que inicializa los componentes del método 1 */
     private void initMethod1ComponentsGrid() {
 
         /** Etiquetas del método uno*/
 
-        //Titulo
+        /**Menu de paneles*/
         method1TitleLabel = new Label("Method 1");
         method1TitleLabel.getStyleClass().add(TITLE_LABEL);
         method1TitleLabel.setMaxWidth(Double.MAX_VALUE);
@@ -470,6 +635,7 @@ public class TruDisp extends Application {
 
         /**Set constraints nos permite hacer que la celda que contiene el nodo se redimencione al redimensionar
          * la ventana*/
+
         // Titulo
         Integer row = 0;
         GridPane.setConstraints(method1TitleLabel, 0, row, 4, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER);
@@ -514,8 +680,9 @@ public class TruDisp extends Application {
 
     }
 
-
+    /** Función que inicializa los componentes del método 2. */
     private void initMethod2ComponentsGrid() {
+
         /** Etiquetas del método dos*/
 
         // Titulo
@@ -625,9 +792,9 @@ public class TruDisp extends Application {
         ostrendLabel.getStyleClass().add(IO_LABEL);
         ostrendLabel.setTooltip(new Tooltip("Trend"));
 
-        osplunchLabel = new Label("Plng");
-        osplunchLabel.getStyleClass().add(IO_LABEL);
-        osplunchLabel.setTooltip(new Tooltip("Plng"));
+        osplungeLabel = new Label("Plng");
+        osplungeLabel.getStyleClass().add(IO_LABEL);
+        osplungeLabel.setTooltip(new Tooltip("Plng"));
 
 
         ostrendErrorLabel = new Label();
@@ -636,10 +803,10 @@ public class TruDisp extends Application {
         ostrendErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
-        osplunchErrorLabel = new Label();
-        osplunchErrorLabel.setOnScroll(new ValueChangeScrollListener(osplunchErrorLabel));
-        osplunchErrorLabel.setTooltip(new Tooltip("Plunch D Error"));
-        osplunchErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
+        osplungeErrorLabel = new Label();
+        osplungeErrorLabel.setOnScroll(new ValueChangeScrollListener(osplungeErrorLabel));
+        osplungeErrorLabel.setTooltip(new Tooltip("Plunch D Error"));
+        osplungeErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         /**Text Fields*/
@@ -690,17 +857,19 @@ public class TruDisp extends Application {
         smo2stkTextField.setTooltip(new Tooltip("Marker 2 Dip Direction Input"));
 
         // Orientation of Striae
-
         ostrendTextField = new TextField();
         ostrendTextField.setOnScroll(new ValueChangeScrollListener(ostrendTextField));
         ostrendTextField.getStyleClass().add(IO_TEXT_FIELD);
         ostrendTextField.setTooltip(new Tooltip("Trend Input"));
 
-        osplunchTextField = new TextField();
-        osplunchTextField.setOnScroll(new ValueChangeScrollListener(osplunchTextField));
-        osplunchTextField.getStyleClass().add(IO_TEXT_FIELD);
-        osplunchTextField.setTooltip(new Tooltip("Plunch Input"));
+        osplungeTextField = new TextField();
+        osplungeTextField.setOnScroll(new ValueChangeScrollListener(osplungeTextField));
+        osplungeTextField.getStyleClass().add(IO_TEXT_FIELD);
+        osplungeTextField.setTooltip(new Tooltip("Plunch Input"));
 
+
+        /**Set constraints nos permite hacer que la celda que contiene el nodo se redimencione al redimensionar
+         * la ventana*/
 
         /**Malla*/
 
@@ -762,31 +931,34 @@ public class TruDisp extends Application {
         GridPane.setConstraints(ostrendLabel, 0, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
         GridPane.setConstraints(ostrendTextField, 1, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
         GridPane.setConstraints(ostrendErrorLabel, 2, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
-        GridPane.setConstraints(osplunchLabel, 3, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
-        GridPane.setConstraints(osplunchTextField, 4, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
-        GridPane.setConstraints(osplunchErrorLabel, 5, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(osplungeLabel, 3, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
+        GridPane.setConstraints(osplungeTextField, 4, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(osplungeErrorLabel, 5, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
 
-
-
+        // Agregamos los campos de entrada.
         method2GridLayout.getChildren().addAll(method2TitleLabel
-                , foLabel, fodLabel, fodTextField, fodErrorLabel, fostkLabel, fostkTextField, fostkErrorLabel
-                , opoLabel, opodLabel, opodTextField, opodErrorLabel, opostkLabel, opostkTextField, opostkErrorLabel
-                , smoLabel, smo1dLabel, smo1dTextField, smo1dErrorLabel, smo1stkLabel, smo1stkTextField, smo1stkErrorLabel
-                , smo2dLabel, smo2dTextField, smo2dErrorLabel, smo2stkLabel, smo2stkTextField, smo2stkErrorLabel
-                , osLabel, ostrendLabel, ostrendTextField, ostrendErrorLabel, osplunchLabel, osplunchTextField, osplunchErrorLabel
+                , fostkLabel, fostkTextField, fostkErrorLabel
+                , foLabel, fodLabel, fodTextField, fodErrorLabel
+                , opostkLabel, opostkTextField, opostkErrorLabel
+                , opoLabel, opodLabel, opodTextField, opodErrorLabel
+                , smo1stkLabel, smo1stkTextField, smo1stkErrorLabel
+                , smoLabel, smo1dLabel, smo1dTextField, smo1dErrorLabel
+                , smo2stkLabel, smo2stkTextField, smo2stkErrorLabel
+                , smo2dLabel, smo2dTextField, smo2dErrorLabel
+                , osLabel, ostrendLabel, ostrendTextField, ostrendErrorLabel
+                , osplungeLabel, osplungeTextField, osplungeErrorLabel
         );
-
-        method2GridLayout.getStyleClass().add(IO_GRID_PANE);
 
     }
 
-    private void initMethod3ComponentsGrid() {
+    /** Función que inicializa los compoentes del dialogo de cosenos directores. */
+    private void initDirCosComponentsGrid() {
         /**Labels*/
 
         // Title
-        method3TitleLabel = new Label("Method 3");
-        method3TitleLabel.getStyleClass().add(TITLE_LABEL);
-        method3TitleLabel.setMaxWidth(Double.MAX_VALUE);
+        cosDirTitleLabel = new Label("Method 3");
+        cosDirTitleLabel.getStyleClass().add(TITLE_LABEL);
+        cosDirTitleLabel.setMaxWidth(Double.MAX_VALUE);
 
         // F Plane
         fpLabel = new Label("F Plane");
@@ -806,19 +978,19 @@ public class TruDisp extends Application {
 
 
         fpnErrorLabel = new Label();
-        fpnErrorLabel.setOnScroll(new ValueChangeScrollListener(fpnErrorLabel,METHOD_3));
+        //fpnErrorLabel.setOnScroll(new ValueChangeScrollListener(fpnErrorLabel,METHOD_3));
         fpnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         fpnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         fpmErrorLabel = new Label();
-        fpmErrorLabel.setOnScroll(new ValueChangeScrollListener(fpmErrorLabel,METHOD_3));
+        //fpmErrorLabel.setOnScroll(new ValueChangeScrollListener(fpmErrorLabel,METHOD_3));
         fpmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         fpmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         fplErrorLabel = new Label();
-        fplErrorLabel.setOnScroll(new ValueChangeScrollListener(fplErrorLabel,METHOD_3));
+        //fplErrorLabel.setOnScroll(new ValueChangeScrollListener(fplErrorLabel,METHOD_3));
         fplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         fplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -840,19 +1012,19 @@ public class TruDisp extends Application {
 
 
         opnErrorLabel = new Label();
-        opnErrorLabel.setOnScroll(new ValueChangeScrollListener(opnErrorLabel,METHOD_3));
+        //opnErrorLabel.setOnScroll(new ValueChangeScrollListener(opnErrorLabel,METHOD_3));
         opnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         opnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         opmErrorLabel = new Label();
-        opmErrorLabel.setOnScroll(new ValueChangeScrollListener(opmErrorLabel,METHOD_3));
+        //opmErrorLabel.setOnScroll(new ValueChangeScrollListener(opmErrorLabel,METHOD_3));
         opmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         opmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         oplErrorLabel = new Label();
-        oplErrorLabel.setOnScroll(new ValueChangeScrollListener(oplErrorLabel,METHOD_3));
+        //oplErrorLabel.setOnScroll(new ValueChangeScrollListener(oplErrorLabel,METHOD_3));
         oplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         oplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -874,19 +1046,19 @@ public class TruDisp extends Application {
 
 
         apnErrorLabel = new Label();
-        apnErrorLabel.setOnScroll(new ValueChangeScrollListener(apnErrorLabel,METHOD_3));
+        //apnErrorLabel.setOnScroll(new ValueChangeScrollListener(apnErrorLabel,METHOD_3));
         apnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         apnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         apmErrorLabel = new Label();
-        apmErrorLabel.setOnScroll(new ValueChangeScrollListener(apmErrorLabel,METHOD_3));
+        //apmErrorLabel.setOnScroll(new ValueChangeScrollListener(apmErrorLabel,METHOD_3));
         apmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         apmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         aplErrorLabel = new Label();
-        aplErrorLabel.setOnScroll(new ValueChangeScrollListener(aplErrorLabel,METHOD_3));
+        //aplErrorLabel.setOnScroll(new ValueChangeScrollListener(aplErrorLabel,METHOD_3));
         aplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         aplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -908,19 +1080,19 @@ public class TruDisp extends Application {
 
 
         bpnErrorLabel = new Label();
-        bpnErrorLabel.setOnScroll(new ValueChangeScrollListener(bpnErrorLabel,METHOD_3));
+        //bpnErrorLabel.setOnScroll(new ValueChangeScrollListener(bpnErrorLabel,METHOD_3));
         bpnErrorLabel.setTooltip(new Tooltip("Error in measurement of n"));
         bpnErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         bpmErrorLabel = new Label();
-        bpmErrorLabel.setOnScroll(new ValueChangeScrollListener(bpmErrorLabel,METHOD_3));
+        //bpmErrorLabel.setOnScroll(new ValueChangeScrollListener(bpmErrorLabel,METHOD_3));
         bpmErrorLabel.setTooltip(new Tooltip("Error in measurement of m"));
         bpmErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         bplErrorLabel = new Label();
-        bplErrorLabel.setOnScroll(new ValueChangeScrollListener(bplErrorLabel,METHOD_3));
+        //bplErrorLabel.setOnScroll(new ValueChangeScrollListener(bplErrorLabel,METHOD_3));
         bplErrorLabel.setTooltip(new Tooltip("Error in measurement of l"));
         bplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
@@ -928,76 +1100,88 @@ public class TruDisp extends Application {
 
         // F Plane
         fpmTextField = new TextField();
-        fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField,METHOD_3));
+        //fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField,METHOD_3));
         fpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpmTextField.setTooltip(new Tooltip("FOD D input"));
+        fpmTextField.setEditable(false);
 
         fpnTextField = new TextField();
-        fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField,METHOD_3));
+        //fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField,METHOD_3));
         fpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         fpnTextField.setTooltip(new Tooltip("FOD DD input"));
+        fpnTextField.setEditable(false);
 
         fplTextField = new TextField();
-        fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField,METHOD_3));
+        //fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField,METHOD_3));
         fplTextField.getStyleClass().add(IO_TEXT_FIELD);
         fplTextField.setTooltip(new Tooltip("FOD DD input"));
+        fplTextField.setEditable(false);
 
         // O Plane
         opmTextField = new TextField();
-        opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField,METHOD_3));
+        //opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField,METHOD_3));
         opmTextField.getStyleClass().add(IO_TEXT_FIELD);
         opmTextField.setTooltip(new Tooltip("FOD D input"));
+        opmTextField.setEditable(false);
 
         opnTextField = new TextField();
-        opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField,METHOD_3));
+        //opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField,METHOD_3));
         opnTextField.getStyleClass().add(IO_TEXT_FIELD);
         opnTextField.setTooltip(new Tooltip("FOD DD input"));
+        opnTextField.setEditable(false);
 
         oplTextField = new TextField();
-        oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField,METHOD_3));
+        //oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField,METHOD_3));
         oplTextField.getStyleClass().add(IO_TEXT_FIELD);
         oplTextField.setTooltip(new Tooltip("FOD DD input"));
+        oplTextField.setEditable(false);
 
         // A Plane
         apmTextField = new TextField();
-        apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField,METHOD_3));
+        //apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField,METHOD_3));
         apmTextField.getStyleClass().add(IO_TEXT_FIELD);
         apmTextField.setTooltip(new Tooltip("FOD D input"));
+        apmTextField.setEditable(false);
 
         apnTextField = new TextField();
-        apnTextField.setOnScroll(new ValueChangeScrollListener(apnTextField,METHOD_3));
+        //apnTextField.setOnScroll(new ValueChangeScrollListener(apnTextField,METHOD_3));
         apnTextField.getStyleClass().add(IO_TEXT_FIELD);
         apnTextField.setTooltip(new Tooltip("FOD DD input"));
+        apnTextField.setEditable(false);
 
         aplTextField = new TextField();
-        aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField,METHOD_3));
+        //aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField,METHOD_3));
         aplTextField.getStyleClass().add(IO_TEXT_FIELD);
         aplTextField.setTooltip(new Tooltip("FOD DD input"));
+        aplTextField.setEditable(false);
 
         // B Plane
         bpmTextField = new TextField();
-        bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField,METHOD_3));
+        //bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField,METHOD_3));
         bpmTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpmTextField.setTooltip(new Tooltip("FOD D input"));
+        bpmTextField.setEditable(false);
 
         bpnTextField = new TextField();
-        bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField,METHOD_3));
+        //bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField,METHOD_3));
         bpnTextField.getStyleClass().add(IO_TEXT_FIELD);
         bpnTextField.setTooltip(new Tooltip("FOD DD input"));
+        bpnTextField.setEditable(false);
 
         bplTextField = new TextField();
-        bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField,METHOD_3));
+        //bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField,METHOD_3));
         bplTextField.getStyleClass().add(IO_TEXT_FIELD);
         bplTextField.setTooltip(new Tooltip("FOD DD input"));
+        bplTextField.setEditable(false);
 
         /** Malla */
 
-        method3GridLayout = new GridPane();
-        method3GridLayout.getStyleClass().add(IO_GRID_PANE);
+        cosDirGridLayout = new GridPane();
+        cosDirGridLayout.getStyleClass().add(IO_GRID_PANE);
 
         // Title
         Integer row = 0;
-        GridPane.setConstraints(method3TitleLabel, 0, row, 9, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
+        GridPane.setConstraints(cosDirTitleLabel, 0, row, 9, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
 
         // FPlane
         row = 1;
@@ -1059,8 +1243,8 @@ public class TruDisp extends Application {
         GridPane.setConstraints(bpnTextField, 7, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
         GridPane.setConstraints(bpnErrorLabel, 8, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
 
-        method3GridLayout.getChildren().addAll(
-                method3TitleLabel
+        cosDirGridLayout.getChildren().addAll(
+                cosDirTitleLabel
                 , fpLabel, fplLabel, fplTextField, fplErrorLabel, fpmLabel, fpmTextField, fpmErrorLabel, fpnLabel, fpnTextField, fpnErrorLabel
                 , opLabel, oplLabel, oplTextField, oplErrorLabel, opmLabel, opmTextField, opmErrorLabel, opnLabel, opnTextField, opnErrorLabel
                 , apLabel, aplLabel, aplTextField, aplErrorLabel, apmLabel, apmTextField, apmErrorLabel, apnLabel, apnTextField, apnErrorLabel
@@ -1069,11 +1253,14 @@ public class TruDisp extends Application {
 
         // Stage
         dirCosWindow = new Stage(StageStyle.DECORATED);
-        dirCosWindow.setScene(new Scene(method3GridLayout));
+        dirCosWindow.setScene(new Scene(cosDirGridLayout));
         dirCosWindow.getScene().getStylesheets().addAll(TRUDISP_STYLE_SHEET);
+
     }
 
+    /** Función que inicializa los componentes del desplazamiento */
     private void initDisplacementComponentsGrid() {
+
         /**Etiquetas*/
 
         // Alpha;
@@ -1180,6 +1367,9 @@ public class TruDisp extends Application {
         smdTextField.setTooltip(new Tooltip("Sm input"));
 
 
+        /**Set constraints nos permite hacer que la celda que contiene el nodo se redimencione al redimensionar
+         * la ventana*/
+
         /**Malla*/
 
         displacementGridLayout = new GridPane();
@@ -1216,6 +1406,7 @@ public class TruDisp extends Application {
         GridPane.setConstraints(smBErrorLabel, 5, row, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS);
 
 
+        // Agregamos los componentes.
         displacementGridLayout.getChildren().addAll(
                 alphaLabel, alphaTextField, alphaErrorLabel
                 , smALabel, smATextField, smAErrorLabel
@@ -1223,9 +1414,9 @@ public class TruDisp extends Application {
                 , smdLabel, smdTextField, smdErrorLabel
         );
 
-
     }
 
+    /** Función que inicializa los componentes de resultado */
     private void initResultComponentsGrid() {
 
         /**Etiquetas*/
@@ -1360,12 +1551,13 @@ public class TruDisp extends Application {
 
         GridPane.setConstraints(resetButton,1,row,1,1,HPos.LEFT,VPos.CENTER,Priority.NEVER,Priority.ALWAYS);
 
+        // Agregamos los componentes
         resultGridLayout.getChildren().addAll(
                 resultTitleLabel
                 , thetaLabel, thetaTextField, thetanullLabel, thetanullTextField
                 , sLabel, sTextField, sErrorLabel
-                , svLabel, svTextField, svErrorLabel
                 , ssLabel, ssTextField, ssErrorLabel
+                , svLabel, svTextField, svErrorLabel
                 , shLabel, shTextField, shErrorLabel
                 , sdLabel, sdTextField, sdErrorLabel
                 , calculateButton,resetButton
@@ -1374,7 +1566,10 @@ public class TruDisp extends Application {
 
     }
 
+    /** Función que coloca todos los campos de entrada y salida en ceros. */
     private void clearcomponents() {
+
+        /** Valores por defecto **/
         String angleErrorString = "± " + "0.0" + " º";
         String defaultValue = "0.0";
         String defaultErrorString = "± " + "0.0";
@@ -1404,7 +1599,7 @@ public class TruDisp extends Application {
         smo2dErrorLabel.setText(angleErrorString);
         smo2stkErrorLabel.setText(angleErrorString);
         ostrendErrorLabel.setText(angleErrorString);
-        osplunchErrorLabel.setText(angleErrorString);
+        osplungeErrorLabel.setText(angleErrorString);
 
         fodTextField.setText(defaultValue);
         fostkTextField.setText(defaultValue);
@@ -1415,9 +1610,9 @@ public class TruDisp extends Application {
         smo2dTextField.setText(defaultValue);
         smo2stkTextField.setText(defaultValue);
         ostrendTextField.setText(defaultValue);
-        osplunchTextField.setText(defaultValue);
+        osplungeTextField.setText(defaultValue);
 
-        /** Metodo 3 **/
+        /** Cosenos Directores de los planos**/
 
         fpnErrorLabel.setText(defaultErrorString);
         fpmErrorLabel.setText(defaultErrorString);
@@ -1445,7 +1640,7 @@ public class TruDisp extends Application {
         bpmTextField.setText(defaultValue);
         bplTextField.setText(defaultValue);
 
-        /** DisplacementComponens*/
+        /** Componentes de desplazamiento*/
 
         alphaErrorLabel.setText(angleErrorString);
         smAErrorLabel.setText(defaultErrorString);
@@ -1461,7 +1656,7 @@ public class TruDisp extends Application {
         smhTextField.setText(defaultValue);
         smdTextField.setText(defaultValue);
 
-        /** Results **/
+        /** Resultados **/
 
         sErrorLabel.setText(defaultErrorString);
         ssErrorLabel.setText(defaultErrorString);
@@ -1480,6 +1675,7 @@ public class TruDisp extends Application {
 
     }
 
+    /** Función que coloca las acciones de los botones de la aplicación. */
     public void initGUIActions() {
 
         /** Activamos los campos que no se utilizan  */
@@ -1490,7 +1686,7 @@ public class TruDisp extends Application {
             if (arbitraryLineToggleButton.isSelected()) {
 
                 mapSectionToggleButton.setSelected(false);
-                //Habilimtaos
+                //Habilitamos
                 phiComboBox.setDisable(false);
                 phiErrorLabel.setDisable(false);
                 phiLabel.setDisable(false);
@@ -1498,6 +1694,7 @@ public class TruDisp extends Application {
                 smATextField.setDisable(false);
                 smALabel.setDisable(false);
                 smAErrorLabel.setDisable(false);
+
                 //Desabilitamos
                 smhTextField.setDisable(true);
                 smhLabel.setDisable(true);
@@ -1508,14 +1705,16 @@ public class TruDisp extends Application {
 
                 // Limpiamos
                 clearcomponents();
+
             } else {
                 arbitraryLineToggleButton.setSelected(true);
             }
 
         });
+        // Seleccionamos el modo arbitrario por defecto.
         arbitraryLineToggleButton.fire();
 
-
+        // Modo MapAndSection.
         mapSectionToggleButton.setOnAction(event -> {
 
             if (mapSectionToggleButton.isSelected()) {
@@ -1543,22 +1742,27 @@ public class TruDisp extends Application {
         });
 
 
-        // Cambiamos entre los métodos
+        /** Cambiamos entre la selección de los distitnos métodos. */
+
+        // Si se da click en el título del método 1 entonces se habilita este metodo.
         method1TitleLabel.setOnMouseClicked(event -> {
 
+            // Revisamos en que modo esta el método 1.
             if (mapSectionToggleButton.isSelected()) {
                 mapSectionToggleButton.fire();
             } else {
                 arbitraryLineToggleButton.fire();
             }
 
+            // Habilitamos los componentes del método 1.
             method1GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
+            // Desabilitamos los componentes del método 2.
             method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
 
-            smdTextField.setDisable(false);smdErrorLabel.setDisable(false);smdLabel.setDisable(false);
+            // Actibamos el campo de alpha.
             alphaErrorLabel.setDisable(false);alphaTextField.setDisable(false);alphaErrorLabel.setDisable(false);
 
+            // Modificamos el la malla de desplazamientos para agregar los campos correspondientes al método 1.
             displacementGridLayout.getChildren().clear();
             displacementGridLayout.getChildren().addAll(alphaLabel, alphaTextField, alphaErrorLabel
                     , smALabel, smATextField, smAErrorLabel
@@ -1570,40 +1774,26 @@ public class TruDisp extends Application {
 
         method2TitleLabel.setOnMouseClicked(event1 -> {
 
+            //Habilitamos los componetes del método 2
             method2GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
+            // Desabilitamos los componentes del método 1
             method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-            method3GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
 
-            smhErrorLabel.setDisable(true);smhTextField.setDisable(true);smhLabel.setDisable(true);
+            // Habilitamos el campo smA.
             smAErrorLabel.setDisable(false);smATextField.setDisable(false);smALabel.setDisable(false);
-            smdErrorLabel.setDisable(true);smdTextField.setDisable(true);smdLabel.setDisable(true);
+            // Habilitamos al campo gamma pues la gente puede medir este dato ye s lo mas usual en lugar de usar trend and plunge.
             gammaLabel.setDisable(false);gammaTextField.setDisable(false);gammaErrorLabel.setDisable(false);gammaComboBox.setDisable(false);
+            // Desabilitamos el campo alpha.
             alphaErrorLabel.setDisable(true);alphaTextField.setDisable(true);alphaErrorLabel.setDisable(true);
 
+            // Modificamos el la malla de desplazamientos para agregar los campos correspondientes al método 2
             displacementGridLayout.getChildren().clear();
             displacementGridLayout.getChildren().addAll(alphaLabel, alphaTextField, alphaErrorLabel
                     , smALabel, smATextField, smAErrorLabel
                     , dABLabel, dABTextField, dABErrorLabel
                     , smBLabel, smBTextField, smBErrorLabel);
         });
-
-        method3TitleLabel.setOnMouseClicked(event1 -> {
-
-            method3GridLayout.getChildren().stream().forEach(item -> item.setDisable(false));
-            method1GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-            method2GridLayout.getChildren().stream().filter(item -> !item.getStyleClass().contains(TITLE_LABEL)).forEach(item -> item.setDisable(true));
-
-            smhErrorLabel.setDisable(true);
-            smhTextField.setDisable(true);
-            smhLabel.setDisable(true);
-            smAErrorLabel.setDisable(false);
-            smATextField.setDisable(false);
-            smALabel.setDisable(false);
-            smdErrorLabel.setDisable(true);
-            smdTextField.setDisable(true);
-            smdLabel.setDisable(true);
-
-        });
+        // Seleccionamos el método 2 por defecto.
         method2TitleLabel.fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED,0,0,0,0, MouseButton.PRIMARY,1,true,true,true,true,true,true,true,true,true,true,null));
         //
 
@@ -1611,13 +1801,14 @@ public class TruDisp extends Application {
         /** Calculamos */
         calculateButton.setOnMouseClicked(event -> {
 
-                // TODO
-                TDData data = new TDData(statusPane);
+            // Creamos un nuevo objeto de dato.
+            TDData data = new TDData(statusPane);
 
 
             // Obtenemos si esta activo o inactivo el método1
             if(!method1GridLayout.getChildren().get(2).isDisable())
             {
+                // Serie de comprobaciones de los datos. //TODO crear campos que verifiquen los datos de entrada.
                 if (data.setBeta(betaTextField.getText(), betaErrorLabel.getText(), betaComboBox.getSelectionModel().getSelectedItem().toString())) {
                     if (data.setGamma(gammaTextField.getText(), gammaErrorLabel.getText(), gammaComboBox.getSelectionModel().getSelectedItem().toString())) {
                         if (data.setPhi(phiTextField.getText(), phiErrorLabel.getText(), phiComboBox.getSelectionModel().getSelectedItem().toString())) {
@@ -1629,7 +1820,7 @@ public class TruDisp extends Application {
                                                 if (data.isDataValidForCalcuating()) {
                                                     if (data.Calculate(METHOD_1)) {
                                                         displayData(data);
-                                                        TDTable.addData(data);
+                                                        tableTD.addData(data);
                                                     } else {shakeStage();}
                                                 } else {shakeStage();}
                                             } else {shakeStage(); }
@@ -1642,25 +1833,29 @@ public class TruDisp extends Application {
                 } else {shakeStage();}
             }
 
+            // Obtenemos si esta activo o inactivo el método2
             if(!method2GridLayout.getChildren().get(2).isDisable())
-            {if(data.setFod(fodTextField.getText(),fodErrorLabel.getText()))
+            {
+                // Serie de comprobaciones de los datos de entrada.
+                if(data.setFod(fodTextField.getText(),fodErrorLabel.getText()))
                 {if(data.setFoStk(fostkTextField.getText(), fostkErrorLabel.getText()))
-                    {if(data.setOpod(opodTextField.getText(),opodErrorLabel.getText()))
-                        {if(data.setOpoStk(opostkTextField.getText(), opostkErrorLabel.getText()))
-                            {if(data.setSmo1d(smo1dTextField.getText(),smo1dErrorLabel.getText()))
-                                {if(data.setSmo1Stk(smo1stkTextField.getText(), smo1stkErrorLabel.getText()))
-                                    {if(data.setSmo2d(smo2dTextField.getText(),smo2dErrorLabel.getText()))
-                                        {if(data.setSmo2Stk(smo2stkTextField.getText(), smo2stkErrorLabel.getText()))
-                                            {if(data.setOsTrend(ostrendTextField.getText(),ostrendErrorLabel.getText()))
-                                                {if(data.setOsPlunge(osplunchTextField.getText(), osplunchErrorLabel.getText()))
-                                                    {if(data.setGamma(gammaTextField.getText(),gammaErrorLabel.getText(),gammaComboBox.getSelectionModel().getSelectedItem().toString()))
-                                                        {if(data.setSmA(smATextField.getText(), smAErrorLabel.getText()))
-                                                            {if(data.setSmB(smBTextField.getText(),smBErrorLabel.getText()))
-                                                                {if(data.setdAB(dABTextField.getText(),dABErrorLabel.getText())) {
-                                                                    if(data.setApha(alphaTextField.getText(),alphaErrorLabel.getText())) {
-                                                                        if(data.Calculate(METHOD_2)) {
-                                                                                displayData(data);
-                                                                                TDTable.addData(data);
+                        {if(data.setOpod(opodTextField.getText(),opodErrorLabel.getText()))
+                            {if(data.setOpoStk(opostkTextField.getText(), opostkErrorLabel.getText()))
+                                {if(data.setSmo1d(smo1dTextField.getText(),smo1dErrorLabel.getText()))
+                                    {if(data.setSmo1Stk(smo1stkTextField.getText(), smo1stkErrorLabel.getText()))
+                                        {if(data.setSmo2d(smo2dTextField.getText(),smo2dErrorLabel.getText()))
+                                            {if(data.setSmo2Stk(smo2stkTextField.getText(), smo2stkErrorLabel.getText()))
+                                                {if(data.setOsTrend(ostrendTextField.getText(),ostrendErrorLabel.getText()))
+                                                    {if(data.setOsPlunge(osplungeTextField.getText(), osplungeErrorLabel.getText()))
+                                                        {if(data.setGamma(gammaTextField.getText(),gammaErrorLabel.getText(),gammaComboBox.getSelectionModel().getSelectedItem().toString()))
+                                                            {if(data.setSmA(smATextField.getText(), smAErrorLabel.getText()))
+                                                                {if(data.setSmB(smBTextField.getText(),smBErrorLabel.getText()))
+                                                                    {if(data.setdAB(dABTextField.getText(),dABErrorLabel.getText())) {
+                                                                        if(data.setApha(alphaTextField.getText(),alphaErrorLabel.getText())) {
+                                                                            if(data.Calculate(METHOD_2)) {
+                                                                                    displayData(data);
+                                                                                    tableTD.addData(data);
+                                                                                }else{shakeStage();}
                                                                             }else{shakeStage();}
                                                                         }else{shakeStage();}
                                                                     }else{shakeStage();}
@@ -1676,26 +1871,30 @@ public class TruDisp extends Application {
                             }else{shakeStage();}
                         }else{shakeStage();}
                     }else{shakeStage();}
-                }else{shakeStage();}
             }
-
         });
 
 
         /**Manejo de la tabla*/
-        TDTable.getTable().setOnMouseClicked(event -> {
-            if (TDTable.getTable().getSelectionModel().getSelectedItem() != null) {
-                TDData data = TDTable.getTable().getSelectionModel().getSelectedItem().getTDData();
+
+        // Cuando se selecciona un elemento de la tabla se despliegan los datos de ese objeto.
+        tableTD.getTable().setOnMouseClicked(event -> {
+            if (tableTD.getTable().getSelectionModel().getSelectedItem() != null) {
+                // Obtenemos el objeto de datos.
+                TDData data = tableTD.getTable().getSelectionModel().getSelectedItem().getTDData();
+                // Desplegamos los datos.
                 displayData(data);
             }
-
         });
 
 
         /**Borrar contenido*/
 
+        // Cuando se da click en el boton de reset.
         resetButton.setOnMouseClicked(event -> {
+            // Limpiamos los componentes.
             clearcomponents();
+            // Notificamos.
             statusPane.setStatus("Se ha Borrado la información");
         });
 
@@ -1703,26 +1902,32 @@ public class TruDisp extends Application {
 
     }
 
-
+    /** Función que mueve la pantalla para alertar */
     public void shakeStage() {
 
+        // Objeto encargado de mover la pantalla.
         Timeline timelineX = new Timeline(new KeyFrame(Duration.seconds(0.1), t -> {
             if (shakeStageFlag) {
+                // Movemos mas x
                 mainTruDispStage.setX(mainTruDispStage.getX() + 10);
             } else {
+                // Movemos menos x.
                 mainTruDispStage.setX(mainTruDispStage.getX() - 10);
             }
+            // Altermanos el movimiento al negar la bandera.
             shakeStageFlag = !shakeStageFlag;
         }));
 
+        // Nuero de repeticiones.
         timelineX.setCycleCount(10);
-        timelineX.setAutoReverse(false);
+        // Iniciamos la animación.
         timelineX.play();
     }
 
-
+    /** Función que despliega los datos del objeto en los campos correspondientes de la aplicación. */
     private void displayData(TDData data) {
 
+        // Seleccionamos el caso si es arbitrario o map and section.
         if(data.getMapView().equalsIgnoreCase("Arbitrary Line"))
         {arbitraryLineToggleButton.fire();}
         else
@@ -1802,8 +2007,10 @@ public class TruDisp extends Application {
         ostrendTextField.setText(data.getOsTrend().toString());
         ostrendErrorLabel.setText("± "+ data.getOsTrendError()+" º");
 
-        osplunchTextField.setText(data.getOsPlunch().toString());
-        osplunchErrorLabel.setText("± "+ data.getOsPlunchError()+" º");
+        osplungeTextField.setText(data.getOsPlunch().toString());
+        osplungeErrorLabel.setText("± " + data.getOsPlunchError() + " º");
+
+        // Mostramos los cosenos directores de los planos.
 
         fplTextField.setText(data.getFpl().toString());
         fplErrorLabel.setText("± "+ data.getFplError());
@@ -1833,11 +2040,9 @@ public class TruDisp extends Application {
         bpnTextField.setText(data.getBpn().toString());
         bpnErrorLabel.setText("± "+ data.getBpnError());
 
-
-        // Fault Vier
-        TDFaultV.setPlanes(data.getFaultPlane(),data.getObservationPlane(),data.getPlaneA(),data.getPlaneB());
+        // Mostramos los planos.
+        faultViewerTD.setPlanes(data.getFaultPlane(), data.getPlaneA(), data.getPlaneB());
     }
-
 }
 
 class ValueChangeScrollListener implements EventHandler<ScrollEvent>

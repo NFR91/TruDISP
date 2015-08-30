@@ -74,7 +74,7 @@ public abstract class My3DObject {
         Double[] rt= new Double[9];
 
         rt[0]=r[0]; rt[1]=r[3]; rt[2]=r[6];
-        rt[3]=r[1]; rt[4]=r[4]; rt[5]=r[8];
+        rt[3]=r[1]; rt[4]=r[4]; rt[5]=r[7];
         rt[6]=r[2]; rt[7]=r[5]; rt[8]=r[8];
 
         return rt;

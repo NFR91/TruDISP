@@ -75,18 +75,16 @@ public class FaultViewer extends Stage {
 
     }
 
-    public void setPlanes(Double[] fp,Double[] op, Double[] ap,Double[] bp)
+    public void setPlanes(Double[] fp,Double[] ap,Double[] bp)
     {
-        Plane3D faultPlane, observationPlane, marker1Plane, marker2Plane;
+        Plane3D faultPlane, marker1Plane, marker2Plane;
 
         faultPlane = new Plane3D(fp,Color.rgb(200,0,0,.3),block);
-        observationPlane = new Plane3D(op,Color.rgb(0,200,0,.3),block);
         marker1Plane = new Plane3D(ap,Color.rgb(200,0,200,.3),block);
         marker2Plane = new Plane3D(bp,Color.rgb(0,200,200,.3),block);
 
         objects.clear();
         objects.add(faultPlane);
-        objects.add(observationPlane);
         objects.add(marker1Plane);
         objects.add(marker2Plane);
         objects.add(arrow3D);
@@ -431,4 +429,6 @@ public class FaultViewer extends Stage {
         return  new Double[]{x*w,y*h};
 
     }
+
+
 }

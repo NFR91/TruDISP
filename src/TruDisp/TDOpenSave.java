@@ -1,6 +1,5 @@
 package TruDisp;
 
-import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -39,7 +38,7 @@ public class TDOpenSave {
 
     }
 
-    public ArrayList<TDData> Open(TruDispStatusPane tdpane)
+    public ArrayList<TDData> Open(TDStatusPane tdpane)
     {
         fileChooser.setTitle("Open TruDisp Session");
 
