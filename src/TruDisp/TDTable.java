@@ -1,3 +1,53 @@
+/**
+ * TruDISP v: X.X
+ * RICARDO NIETO FUENTES
+ * 2015
+ *
+ * Este programa realiza el cálculo del desplazamiento neto de una falla empleando
+ * dos métodos
+ *
+ * 1: El publicado en :
+ *
+ * “Software for determining the true displacement of faults”,
+ * R. Nieto-Fuentes, Á.F. Nieto-Samaniego,S.-S. Xu, S.A. Alaniz-Álvarez,
+ * Computers & Geosciences, Volume 64, March 2014, Pages 35-40, ISSN 0098-3004,
+ * doi: 10.1016/j.cageo.2013.11.010
+ *
+ * 2: Calculando a partir de las mediciones de campo y conociendo la orientación de la estría
+ * los cosenos directores de los diferentes planos y empleando :
+ *
+ * "Fault-slip calculation from separations."
+ * Yamada, E., Sakaguchi, K., 1995.  J. Struct. Geol. 17, 1065–1070.
+ *
+ * El programa principalmente se centra en facilitar el cálculo mediante revisión de errores
+ * en los datos de entrada, selección de ecuaciones del árbol de decisiones del método 1 y
+ * almacenamiento de los datos.
+ */
+
+
+/**
+ *  The MIT License (MIT)
+ *
+ * Copyright (c) [2015] [RICARDO NIETO FUENTES]
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package TruDisp;
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -22,20 +72,26 @@ import javafx.stage.StageStyle;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-
+/** Esta clase se encarga de mostrar en una tabla el historial de las diferentes fallas calculadas con el programa.*/
 public class TDTable
 {
-    private final TableView<TDDataWrapper> table;
-    private ObservableList<TDDataWrapper> data;
-    private TableColumn faultCol, sCol,notesCol,ssCol,sdCol,svCol,shCol, mapviewCol,betaCol, gammaCol, phiCol, alphaCol,smCol,smdCol,smhCol,thetaCol,thetanullCol;
-    private TableColumn svlCol,seCol,ssvlCol,sseCol,sdvlCol,sdeCol,svvlCol,sveCol,shvlCol,sheCol,betavlCol,betaoCol,betaeCol,
-                        gammavlCol,gammaeCol,gammaoCol,phivlCol,phieCol,phioCol,alphavlCol,alphaeCol,smvlCol,smeCol,smdvlCol,smdeCol, smhvlCol,smheCol;
+    /** Variables*/
+    private final TableView<TDDataWrapper>  table;          // Tabla que contendrá la información
+    private ObservableList<TDDataWrapper>   data;           // Lista observable que contendrá las fallas calculadas.
 
-    private Stage stage;
-    private VBox  tableLayout = new VBox();
-    private HBox buttonsLayout= new HBox();
-    private Button removeButton,clearbutton;
+    // Columnas que muestran los datos.
+    private TableColumn                     faultCol,       // Nombre dela falla
+                                            sCol, notesCol, // Distancia y notas de la falla
+                                            thetaCol, thetanullCol;
+    // Subcolumnas
+    private TableColumn                     svlCol,seCol;   // Valor y error de las medidas.
 
+    private Stage                           stage;          // Ventana del historial
+    private Button                          removeButton,   // Botón para eliminar un elemento de la lista.
+                                            clearbutton;    // Botón para borrar la lista.
+    private VBox                            tableLayout;    // Contenedor de los elementos de la gui de la tabla.
+
+    /** Constructor */
     public TDTable()
     {
         // Historial de datos.
@@ -44,13 +100,13 @@ public class TDTable
         // Iniciamos la tabla.
         table = new TableView<>();
         table.setItems(data);
-        initMethod1Table();
-        table.getColumns().addAll(faultCol, sCol,thetaCol,thetanullCol,notesCol);
+        initTable();
+        table.getColumns().addAll(faultCol, sCol, thetaCol, thetanullCol, notesCol);
         table.setEditable(true);
 
         // Definimos el tamaño Preferido de las celdas
         table.getColumns().stream().forEach(item -> item.setPrefWidth(50));
-        table.getColumns().stream().forEach(item-> item.getColumns().stream().forEach(col-> col.setPrefWidth(50)));
+        table.getColumns().stream().forEach(item -> item.getColumns().stream().forEach(col -> col.setPrefWidth(50)));
         faultCol.setPrefWidth(100);
         notesCol.setPrefWidth(100);
         table.setMinHeight(200);
@@ -68,172 +124,87 @@ public class TDTable
         clearbutton.setOnAction(event -> {
             data.clear();
         });
-        // Layouts
 
+        // Layouts
+        tableLayout = new VBox();
         VBox.setVgrow(table, Priority.ALWAYS);
         HBox.setHgrow(removeButton, Priority.ALWAYS);
         HBox.setHgrow(clearbutton,Priority.ALWAYS);
         tableLayout.getChildren().addAll(table, new HBox(removeButton, clearbutton));
 
-        // Agragamos el contendor a la escena.
+        // Agregamos el contendor a la escena.
         Scene scene = new Scene(tableLayout);
         scene.getStylesheets().add(TruDisp.TRUDISP_STYLE_SHEET);
 
-        // Agregamos la escena a la venta.
+        // Creamos la ventana
         stage = new Stage(StageStyle.DECORATED);
         stage.setTitle("History");
-
-        stage.setScene(scene);
         stage.setWidth(400);
+        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() / 2) + (stage.getWidth() / 2));
+        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() / 2) - (stage.getHeight() / 2));
+
+        // Agregamos la escena a la venta.
+        stage.setScene(scene);
+
+        // Mostramos el historial
         stage.show();
-        stage.setX((Screen.getPrimary().getVisualBounds().getWidth()/2) + (stage.getWidth()/2));
-        stage.setY((Screen.getPrimary().getVisualBounds().getHeight()/2) - (stage.getHeight()/2));
+
     }
 
+    /** Función que agrega una falla al historial */
     public void addData(TDData dt)
     {
+        // Creamos un dummy de nombre de experimento con el tamaño del arreglo.
         dt.setExperiment(String.valueOf(data.size() + 1));
+        // Cramos un dummy de las notas.
         dt.setNotes("-");
+        // Agregamos el dato mediante un cascaron.
         data.add(new TDDataWrapper(dt));
-
     }
 
+    /** Función que muestra el historial */
     public void show()
     {
         stage.show();
         stage.requestFocus();
     }
 
+    /** Función que regresa la lista de fallas calculadas. */
     public ArrayList<TDData> getDataList()
     {
-       ArrayList<TDData> dt = new ArrayList<>();
-
+        // Creamos una lista
+        ArrayList<TDData> dt = new ArrayList<>();
+        // A partir de la lista observable creamos la lista de fallas.
         data.stream().forEach(item -> dt.add(item.getTDData()));
-
+        // Regresamos la lista de fallas.
         return dt;
     }
 
+    /** Función que genera una lista observable a partir de una lista de fallas. */
     public void setObservableList(ArrayList<TDData> td)
     {
         data.clear();
         data.addAll(td.stream().map(t -> new TDDataWrapper(t)).collect(Collectors.toList()));
     }
 
+    /** Funcion encargada de regresar la tabla */
     public TableView<TDDataWrapper> getTable()
     {
         return table;
     }
 
-    private void initMethod1Table()
+    /** Función que inicializa los elementos de la tabla. */
+    private void initTable()
     {
         /**Columnas*/
 
-        // Beta
-        betaCol = new TableColumn("β");
-         betavlCol = new TableColumn("º");
-         betaoCol  = new TableColumn("N/S");
-         betaeCol = new TableColumn("±");
-        betaCol.getColumns().addAll(betavlCol, betaeCol, betaoCol);
-        betavlCol.setCellValueFactory(new PropertyValueFactory<>("beta"));
-        betaoCol.setCellValueFactory(new PropertyValueFactory<>("betao"));
-        betaeCol.setCellValueFactory(new PropertyValueFactory<>("betaError"));
-
-        // Gamma
-         gammaCol = new TableColumn("γ");
-         gammavlCol = new TableColumn("º");
-         gammaoCol  = new TableColumn("N/S");
-         gammaeCol = new TableColumn("±");
-        gammaCol.getColumns().addAll(gammavlCol, gammaeCol, gammaoCol);
-        gammavlCol.setCellValueFactory(new PropertyValueFactory<>("gamma"));
-        gammaeCol.setCellValueFactory(new PropertyValueFactory<>("gammao"));
-        gammaoCol.setCellValueFactory(new PropertyValueFactory<>("gammaError"));
-
-        // Phi
-         phiCol = new TableColumn("φ");
-         phivlCol = new TableColumn("º");
-         phioCol  = new TableColumn("N/S");
-         phieCol = new TableColumn("±");
-        phiCol.getColumns().addAll(phivlCol, phieCol, phioCol);
-        phivlCol.setCellValueFactory(new PropertyValueFactory<>("phi"));
-        phioCol.setCellValueFactory(new PropertyValueFactory<>("phio"));
-        phieCol.setCellValueFactory(new PropertyValueFactory<>("phiError"));
-
-        // alpha
-         alphaCol= new TableColumn("α");
-         alphavlCol= new TableColumn("º");
-         alphaeCol = new TableColumn("±");
-        alphaCol.getColumns().addAll(alphavlCol, alphaeCol);
-        alphaeCol.setCellValueFactory(new PropertyValueFactory<>("alphaError"));
-        alphavlCol.setCellValueFactory(new PropertyValueFactory<>("alpha"));
-
-        // Sm
-         smCol = new TableColumn("Sm");
-         smvlCol = new TableColumn();
-         smeCol = new TableColumn("±");
-        smCol.getColumns().addAll(smvlCol, smeCol);
-        smvlCol.setCellValueFactory(new PropertyValueFactory<>("smA"));
-        smeCol.setCellValueFactory(new PropertyValueFactory<>("smAError"));
-
-        // Smd
-         smdCol = new TableColumn("Smd");
-         smdvlCol = new TableColumn();
-         smdeCol = new TableColumn("±");
-        smdCol.getColumns().addAll(smdvlCol, smdeCol);
-        smdvlCol.setCellValueFactory(new PropertyValueFactory<>("smd"));
-        smdeCol.setCellValueFactory(new PropertyValueFactory<>("smdError"));
-
-        // Smh
-         smhCol = new TableColumn("Smh");
-         smhvlCol= new TableColumn();
-         smheCol = new TableColumn("±");
-        smhCol.getColumns().addAll(smhvlCol, smheCol);
-        smhvlCol.setCellValueFactory(new PropertyValueFactory<>("smh"));
-        smheCol.setCellValueFactory(new PropertyValueFactory<>("smhError"));
-
         // S
-         sCol = new TableColumn("S");
-         svlCol= new TableColumn();
-         seCol = new TableColumn("±");
+        sCol = new TableColumn("S");
+        svlCol= new TableColumn();
+        seCol = new TableColumn("±");
         sCol.getColumns().addAll(svlCol, seCol);
         svlCol.setCellValueFactory(new PropertyValueFactory<>("s"));
         seCol.setCellValueFactory(new PropertyValueFactory<>("sError"));
-
-        // Ss
-         ssCol = new TableColumn("Ss");
-         ssvlCol= new TableColumn();
-         sseCol = new TableColumn("±");
-        ssCol.getColumns().addAll(ssvlCol, sseCol);
-        ssvlCol.setCellValueFactory(new PropertyValueFactory<>("ss"));
-        sseCol.setCellValueFactory(new PropertyValueFactory<>("ssError"));
-
-        // Sd
-         sdCol = new TableColumn("Sd");
-         sdvlCol= new TableColumn();
-         sdeCol = new TableColumn("±");
-        sdCol.getColumns().addAll(sdvlCol, sdeCol);
-        sdvlCol.setCellValueFactory(new PropertyValueFactory<>("sd"));
-        sdeCol.setCellValueFactory(new PropertyValueFactory<>("sdError"));
-
-        // Sh
-         shCol = new TableColumn("Sh");
-         shvlCol= new TableColumn();
-         sheCol = new TableColumn("±");
-        shCol.getColumns().addAll(shvlCol, sheCol);
-        shvlCol.setCellValueFactory(new PropertyValueFactory<>("sh"));
-        sheCol.setCellValueFactory(new PropertyValueFactory<>("shError"));
-
-        // Sv
-         svCol = new TableColumn("Sv");
-         svvlCol= new TableColumn();
-         sveCol = new TableColumn("±");
-        svCol.getColumns().addAll(svvlCol, sveCol);
-        svvlCol.setCellValueFactory(new PropertyValueFactory<>("sv"));
-        sveCol.setCellValueFactory(new PropertyValueFactory<>("svError"));
-
-        // MapView
-         mapviewCol= new TableColumn("View");
-        mapviewCol.setCellValueFactory(new PropertyValueFactory<>("mapview"));
-
 
         //Theta
         thetaCol = new TableColumn<>("θ");
@@ -241,7 +212,6 @@ public class TDTable
 
 
         // Thetanull
-
         thetanullCol = new TableColumn("θ null");
         thetanullCol.setCellValueFactory(new PropertyValueFactory<>("thetanull"));
 
@@ -250,6 +220,7 @@ public class TDTable
          faultCol = new TableColumn("Fault");
         faultCol.setCellValueFactory(new PropertyValueFactory<>("experiment"));
         faultCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
+        // Para que se pueda modificar el contenido de la celda
         faultCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
             @Override
             public void handle(CellEditEvent t) {
@@ -257,166 +228,81 @@ public class TDTable
             }
         });
 
-
         // Notes
         notesCol = new TableColumn("Notes");
         notesCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
         notesCol.setCellFactory(TextFieldTableCell.<TDDataWrapper>forTableColumn());
+        // Para que se pueda modificar el contenido de la celda
         notesCol.setOnEditCommit(new EventHandler<CellEditEvent>() {
             @Override
             public void handle(CellEditEvent t) {
                 ((TDDataWrapper) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNotes(t.getNewValue().toString());
             }
         });
-
-
     }
 
-
+    /******************************************************************************************************************/
+    /** Clase encargada de encapsular el objerto del cálculo de la falla */
+    /******************************************************************************************************************/
     public static class TDDataWrapper{
 
-        private SimpleDoubleProperty beta,betaError,gamma,gammaError,phi,phiError,alpha,alphaError, smA, smAError,smd,smdError,smh,smhError,
-                s,sError,ss,ssError,sd,sdError,sv,svError,sh,shError,theta,thetanull;
-        private SimpleStringProperty betao,gammao,phio,mapview,experiment,notes;
+        /** Variables */
+        private SimpleDoubleProperty    s,sError,theta,thetanull;
+        private SimpleStringProperty    experiment,notes;
+        private TDData                  tdData;                     // Objeto que contiene el cálculo de la falla.
 
-        private TDData tdData;
-
+        /** Constructor */
         private TDDataWrapper(TDData dt)
         {
+            // Adquirimos el objeto
             tdData = dt;
 
-            beta = new SimpleDoubleProperty(tdData.getBeta());
-            betaError = new SimpleDoubleProperty(tdData.getBetaError());
-            betao = new SimpleStringProperty(tdData.getBetaOrientation());
-
-            gamma = new SimpleDoubleProperty(tdData.getGamma());
-            gammaError = new SimpleDoubleProperty(tdData.getGammaError());
-            gammao = new SimpleStringProperty(tdData.getGammaOrientation());
-
-            phi = new SimpleDoubleProperty(tdData.getPhi());
-            phiError = new SimpleDoubleProperty(tdData.getPhiError());
-            phio = new SimpleStringProperty(tdData.getPhiOrientation());
-
-            alpha = new SimpleDoubleProperty(tdData.getAlpha());
-            alphaError = new SimpleDoubleProperty(tdData.getAlphaError());
-
-            smA = new SimpleDoubleProperty(tdData.getSmA());
-            smAError = new SimpleDoubleProperty(tdData.getSmAError());
-            smd = new SimpleDoubleProperty(tdData.getSmd());
-            smdError = new SimpleDoubleProperty(tdData.getsmdError());
-            smh= new SimpleDoubleProperty(tdData.getSmh());
-            smhError = new SimpleDoubleProperty(tdData.getSmhError());
-
+            // Obtenemos los valores de desplazamiento
             s = new SimpleDoubleProperty(tdData.getS());
             sError= new SimpleDoubleProperty(tdData.getSError());
 
-            ss = new SimpleDoubleProperty(tdData.getSs());
-            ssError = new SimpleDoubleProperty(tdData.getSsError());
-            sv = new SimpleDoubleProperty(tdData.getSv());
-            svError = new SimpleDoubleProperty(tdData.getSvError());
-            sd = new SimpleDoubleProperty(tdData.getSd());
-            sdError = new SimpleDoubleProperty(tdData.getSdError());
-            sh = new SimpleDoubleProperty(tdData.getSh());
-            shError = new SimpleDoubleProperty(tdData.getShError());
-
+            // Obtenemos los valores de los ángulos de error.
             thetanull =new SimpleDoubleProperty(tdData.getThetaNull());
             theta = new SimpleDoubleProperty(tdData.getTheta());
 
-            mapview = new SimpleStringProperty(tdData.getMapView());
+            // Obtenemos el nombre del experimento
             experiment = new SimpleStringProperty(tdData.getExperiment());
 
+            // Obtenemos las notas del experimento.
             notes = new SimpleStringProperty(tdData.getNotes());
-
-
         }
 
+        /** Método que regresa el objeto de falla*/
         public TDData getTDData()
         { return tdData;}
 
-
-        public String getMapview()
-        {return mapview.get();}
-
-        public Double getBeta()
-        {return beta.get();}
-        public Double getBetaError()
-        {return betaError.get();}
-        public String getBetao()
-        {return betao.get();}
-        public Double getGamma()
-        {return gamma.get();}
-        public Double getGammaError()
-        {return gammaError.get();}
-        public String getGammao()
-        {return  gammao.get();}
-        public Double getPhi()
-        {return  phi.get();}
-        public Double getPhiError()
-        {return  phiError.get();}
-        public String getPhio()
-        {return phio.getName();}
-        public Double getAlpha()
-        {return alpha.get();}
-        public Double getAlphaError()
-        {return alphaError.get();}
-        public Double getSmA()
-        {return smA.get();}
-        public Double getSmAError()
-        {return smAError.get();}
-        public Double getSmd()
-        {return smd.get();}
-        public Double getSmdError()
-        {return  smdError.get();}
-        public Double getSmh()
-        {return smh.get();}
-        public Double getSmhError()
-        {return smhError.get();}
-
+        /******************************************************************************************************************/
+        /** Métodos get para la tabla */
+        /******************************************************************************************************************/
         public Double getS()
         {return s.get();}
         public Double getSError()
         {return sError.get();}
-
-        public Double getSs()
-        {return ss.get();}
-        public Double getSsError()
-        {return ssError.get();}
-        public Double getSd()
-        {return sd.get();}
-        public Double getSdError()
-        {return sdError.get();}
-        public Double getSv()
-        {return sv.get();}
-        public Double getSvError()
-        {return svError.get();}
-        public Double getSh()
-        {return sh.get();}
-        public Double getShError()
-        {return shError.get();}
-
-
         public String getExperiment()
         {return experiment.get();}
         public String getNotes()
         {return notes.get();}
-
         public Double getTheta()
         {return theta.get();}
-
         public Double getThetanull()
         {return thetanull.get();}
 
+        /******************************************************************************************************************/
+        /** Métodos set */
+        /******************************************************************************************************************/
 
-        // SEters
-
+        /** Función que asigna el nuevo valor del experimento tanto para la tabla como para el objeto */
         public void setExperiment(String vl)
         {experiment.set(vl); tdData.setExperiment(vl);}
+        /** Función que asigna el nuevo valor de la nota tanto para la tabla como para el objeto */
         public void setNotes(String nts)
         {notes.setValue(nts); tdData.setNotes(nts);}
-
     }
-
-
 }
 
 

@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="TruDisp.jar" size="1541042" download="eager" />
+    <jar href="TruDisp.jar" size="1538088" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="TruDisp.TruDisp"  name="TruDisp" />
   <update check="background"/>

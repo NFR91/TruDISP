@@ -1,26 +1,3 @@
-/**
- *  The MIT License (MIT)
- *
- * Copyright (c) [2015] [RICARDO NIETO FUENTES]
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 
 /**
  * TruDISP v: X.X
@@ -47,6 +24,31 @@
  * en los datos de entrada, selección de ecuaciones del árbol de decisiones del método 1 y
  * almacenamiento de los datos.
  */
+
+
+/**
+ *  The MIT License (MIT)
+ *
+ * Copyright (c) [2015] [RICARDO NIETO FUENTES]
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 
 package TruDisp;
 
@@ -466,7 +468,7 @@ public class TruDisp extends Application {
 
         methodsMenu = new Menu("Methods");
 
-        method1CheckMenuItem = new CheckMenuItem("Method 1");
+        method1CheckMenuItem = new CheckMenuItem("Pitch angles");
         // Se agrega la función que redimensiona la aplicación y agrega o elimina el método 1.
         method1CheckMenuItem.selectedProperty().addListener(new MethodsDisplayedChangeListener(1, method1GridLayout, methodsHBox, mainTruDispStage));
 
@@ -489,7 +491,7 @@ public class TruDisp extends Application {
             faultViewerTD.requestFocus();
         });
 
-        panelCosDirItem = new MenuItem("Method 3");
+        panelCosDirItem = new MenuItem("Direction Cosines");
         // Se agrega la función que muestra el dialogo de cosenos directores.
         panelCosDirItem.setOnAction(event1 -> {
             dirCosWindow.show();
@@ -503,11 +505,11 @@ public class TruDisp extends Application {
 
         helpMenu = new Menu("Help");
 
-        helpMenuHow2Use = new MenuItem("How2Use");
+        helpMenuHow2Use = new MenuItem("?");
         // Agregamos el despliegue de ayuda.
         helpMenuHow2Use.setOnAction(event-> dialogsTD.showHelp());
 
-        helpMenuLMNCoordItem = new MenuItem("Director Cosines");
+        helpMenuLMNCoordItem = new MenuItem("Direction Cosines");
         // Agregamos el despigeuge del dialogo del sistema de coordenadas de los cosenos directores.
         helpMenuLMNCoordItem.setOnAction(event -> dialogsTD.showLMNCoord());
 
@@ -521,7 +523,7 @@ public class TruDisp extends Application {
 
         helpMenuLabelsItems = new MenuItem("Labels");
         // Agregamos el despliegue del dialogo del significado de las etiquetas
-        helpMenuLabelsItems.setOnAction(event -> dialogsTD.showLables());
+        helpMenuLabelsItems.setOnAction(event -> dialogsTD.showLabels());
 
         // Agregamos los items al menu.
         helpMenu.getItems().addAll(helpMenuHow2Use,helpMenuLabelsItems, helpMenuInputItem, helpMenuOutputItem, helpMenuLMNCoordItem);
@@ -540,7 +542,7 @@ public class TruDisp extends Application {
         /** Etiquetas del método uno*/
 
         /**Menu de paneles*/
-        method1TitleLabel = new Label("Method 1");
+        method1TitleLabel = new Label("Pitch angles");
         method1TitleLabel.getStyleClass().add(TITLE_LABEL);
         method1TitleLabel.setMaxWidth(Double.MAX_VALUE);
 
@@ -686,7 +688,7 @@ public class TruDisp extends Application {
         /** Etiquetas del método dos*/
 
         // Titulo
-        method2TitleLabel = new Label("Method 2");
+        method2TitleLabel = new Label("Plane Orientation");
         method2TitleLabel.getStyleClass().add(TITLE_LABEL);
         method2TitleLabel.setMaxWidth(Double.MAX_VALUE);
 
@@ -701,18 +703,18 @@ public class TruDisp extends Application {
 
         fostkLabel = new Label("Stk");
         fostkLabel.getStyleClass().add(IO_LABEL);
-        fostkLabel.setTooltip(new Tooltip("DipDirection"));
+        fostkLabel.setTooltip(new Tooltip("Strike"));
 
 
         fodErrorLabel = new Label();
         fodErrorLabel.setOnScroll(new ValueChangeScrollListener(fodErrorLabel));
-        fodErrorLabel.setTooltip(new Tooltip("Dip Error"));
+        fodErrorLabel.setTooltip(new Tooltip("Error in measurement of Dip"));
         fodErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         fostkErrorLabel = new Label();
         fostkErrorLabel.setOnScroll(new ValueChangeScrollListener(fostkErrorLabel));
-        fostkErrorLabel.setTooltip(new Tooltip("Dip Direction Error"));
+        fostkErrorLabel.setTooltip(new Tooltip("Error in measurement of Strike"));
         fostkErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         // Observation Plane Orientation
@@ -725,18 +727,18 @@ public class TruDisp extends Application {
 
         opostkLabel = new Label("Stk");
         opostkLabel.getStyleClass().add(IO_LABEL);
-        opostkLabel.setTooltip(new Tooltip("Dip Direction"));
+        opostkLabel.setTooltip(new Tooltip("Strike"));
 
 
         opodErrorLabel = new Label();
         opodErrorLabel.setOnScroll(new ValueChangeScrollListener(opodErrorLabel));
-        opodErrorLabel.setTooltip(new Tooltip("Dip Error"));
+        opodErrorLabel.setTooltip(new Tooltip("Error in measurement of Dip"));
         opodErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         opostkErrorLabel = new Label();
         opostkErrorLabel.setOnScroll(new ValueChangeScrollListener(opostkErrorLabel));
-        opostkErrorLabel.setTooltip(new Tooltip("Dip Direction Error"));
+        opostkErrorLabel.setTooltip(new Tooltip("Error in measurement of Strike"));
         opostkErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         // Statigraphic marker orientation
@@ -750,18 +752,18 @@ public class TruDisp extends Application {
 
         smo1stkLabel = new Label("Stk");
         smo1stkLabel.getStyleClass().add(IO_LABEL);
-        smo1stkLabel.setTooltip(new Tooltip("Dip Direction"));
+        smo1stkLabel.setTooltip(new Tooltip("Strike"));
 
 
         smo1dErrorLabel = new Label();
         smo1dErrorLabel.setOnScroll(new ValueChangeScrollListener(smo1dErrorLabel));
-        smo1dErrorLabel.setTooltip(new Tooltip("Marker 1 Dip Error"));
+        smo1dErrorLabel.setTooltip(new Tooltip("Error in measurement of Plane A Dip"));
         smo1dErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         smo1stkErrorLabel = new Label();
         smo1stkErrorLabel.setOnScroll(new ValueChangeScrollListener(smo1stkErrorLabel));
-        smo1stkErrorLabel.setTooltip(new Tooltip("Marker 1 Dip Direction Error"));
+        smo1stkErrorLabel.setTooltip(new Tooltip("Error in measurement of Plane A Strike"));
         smo1stkErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         smo2dLabel = new Label("D");
@@ -770,18 +772,18 @@ public class TruDisp extends Application {
 
         smo2stkLabel = new Label("Stk");
         smo2stkLabel.getStyleClass().add(IO_LABEL);
-        smo2stkLabel.setTooltip(new Tooltip("Dip Direction"));
+        smo2stkLabel.setTooltip(new Tooltip("Strike"));
 
 
         smo2dErrorLabel = new Label();
         smo2dErrorLabel.setOnScroll(new ValueChangeScrollListener(smo2dErrorLabel));
-        smo2dErrorLabel.setTooltip(new Tooltip("Marker 2 Dip Error"));
+        smo2dErrorLabel.setTooltip(new Tooltip("Error in measurement of Plane B Dip"));
         smo2dErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         smo2stkErrorLabel = new Label();
         smo2stkErrorLabel.setOnScroll(new ValueChangeScrollListener(smo2stkErrorLabel));
-        smo2stkErrorLabel.setTooltip(new Tooltip("Marker 2 Dip Direction Error"));
+        smo2stkErrorLabel.setTooltip(new Tooltip("Error in measurement of Plane B Strike"));
         smo2stkErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         // Orientation of Striae;
@@ -794,18 +796,18 @@ public class TruDisp extends Application {
 
         osplungeLabel = new Label("Plng");
         osplungeLabel.getStyleClass().add(IO_LABEL);
-        osplungeLabel.setTooltip(new Tooltip("Plng"));
+        osplungeLabel.setTooltip(new Tooltip("Plunge"));
 
 
         ostrendErrorLabel = new Label();
         ostrendErrorLabel.setOnScroll(new ValueChangeScrollListener(ostrendErrorLabel));
-        ostrendErrorLabel.setTooltip(new Tooltip("Trend Error"));
+        ostrendErrorLabel.setTooltip(new Tooltip("Error in measurement of Trend"));
         ostrendErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
         osplungeErrorLabel = new Label();
         osplungeErrorLabel.setOnScroll(new ValueChangeScrollListener(osplungeErrorLabel));
-        osplungeErrorLabel.setTooltip(new Tooltip("Plunch D Error"));
+        osplungeErrorLabel.setTooltip(new Tooltip("Error in measurement of Plunge"));
         osplungeErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
 
@@ -815,57 +817,57 @@ public class TruDisp extends Application {
         fodTextField = new TextField();
         fodTextField.setOnScroll(new ValueChangeScrollListener(fodTextField));
         fodTextField.getStyleClass().add(IO_TEXT_FIELD);
-        fodTextField.setTooltip(new Tooltip("Fault Dip Input"));
+        fodTextField.setTooltip(new Tooltip("Fault plane  Dip input"));
 
         fostkTextField = new TextField();
         fostkTextField.setOnScroll(new ValueChangeScrollListener(fostkTextField));
         fostkTextField.getStyleClass().add(IO_TEXT_FIELD);
-        fostkTextField.setTooltip(new Tooltip("Fault Dip Direction Input"));
+        fostkTextField.setTooltip(new Tooltip("Fault plane Strike Input"));
 
         // Observation Plane Orientation
 
         opodTextField = new TextField();
         opodTextField.setOnScroll(new ValueChangeScrollListener(opodTextField));
         opodTextField.getStyleClass().add(IO_TEXT_FIELD);
-        opodTextField.setTooltip(new Tooltip("Observation Plane Dip Input"));
+        opodTextField.setTooltip(new Tooltip("Observation plane Dip input"));
 
         opostkTextField = new TextField();
         opostkTextField.setOnScroll(new ValueChangeScrollListener(opostkTextField));
         opostkTextField.getStyleClass().add(IO_TEXT_FIELD);
-        opostkTextField.setTooltip(new Tooltip("Observation Plane Dip DDirection Input"));
+        opostkTextField.setTooltip(new Tooltip("Observation plane Strike input"));
 
         // Statigraphic marker orientation
 
         smo1dTextField = new TextField();
         smo1dTextField.setOnScroll(new ValueChangeScrollListener(smo1dTextField));
         smo1dTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smo1dTextField.setTooltip(new Tooltip("Marker 1 Dip Input"));
+        smo1dTextField.setTooltip(new Tooltip("Plane A Dip input"));
 
         smo1stkTextField = new TextField();
         smo1stkTextField.setOnScroll(new ValueChangeScrollListener(smo1stkTextField));
         smo1stkTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smo1stkTextField.setTooltip(new Tooltip("Marker 1 Dip Direction Input"));
+        smo1stkTextField.setTooltip(new Tooltip("Plane A Strike input"));
 
         smo2dTextField = new TextField();
         smo2dTextField.setOnScroll(new ValueChangeScrollListener(smo2dTextField));
         smo2dTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smo2dTextField.setTooltip(new Tooltip("Marker 2 Dip Input"));
+        smo2dTextField.setTooltip(new Tooltip("Plane B Dip input"));
 
         smo2stkTextField = new TextField();
         smo2stkTextField.setOnScroll(new ValueChangeScrollListener(smo2stkTextField));
         smo2stkTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smo2stkTextField.setTooltip(new Tooltip("Marker 2 Dip Direction Input"));
+        smo2stkTextField.setTooltip(new Tooltip("Plane B Strike input"));
 
         // Orientation of Striae
         ostrendTextField = new TextField();
         ostrendTextField.setOnScroll(new ValueChangeScrollListener(ostrendTextField));
         ostrendTextField.getStyleClass().add(IO_TEXT_FIELD);
-        ostrendTextField.setTooltip(new Tooltip("Trend Input"));
+        ostrendTextField.setTooltip(new Tooltip("Trend input"));
 
         osplungeTextField = new TextField();
         osplungeTextField.setOnScroll(new ValueChangeScrollListener(osplungeTextField));
         osplungeTextField.getStyleClass().add(IO_TEXT_FIELD);
-        osplungeTextField.setTooltip(new Tooltip("Plunch Input"));
+        osplungeTextField.setTooltip(new Tooltip("Plunge input"));
 
 
         /**Set constraints nos permite hacer que la celda que contiene el nodo se redimencione al redimensionar
@@ -956,12 +958,12 @@ public class TruDisp extends Application {
         /**Labels*/
 
         // Title
-        cosDirTitleLabel = new Label("Method 3");
+        cosDirTitleLabel = new Label("Direction Cosines");
         cosDirTitleLabel.getStyleClass().add(TITLE_LABEL);
         cosDirTitleLabel.setMaxWidth(Double.MAX_VALUE);
 
         // F Plane
-        fpLabel = new Label("F Plane");
+        fpLabel = new Label("Fault Plane");
         fpLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         fpmLabel = new Label("m(fp)");
@@ -995,7 +997,7 @@ public class TruDisp extends Application {
         fplErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
 
         // O Plane
-        opLabel = new Label("O Plane");
+        opLabel = new Label("Observation Plane");
         opLabel.getStyleClass().add(SUB_TITLE_LABEL);
 
         opmLabel = new Label("m(op)");
@@ -1102,45 +1104,45 @@ public class TruDisp extends Application {
         fpmTextField = new TextField();
         //fpmTextField.setOnScroll(new ValueChangeScrollListener(fpmTextField,METHOD_3));
         fpmTextField.getStyleClass().add(IO_TEXT_FIELD);
-        fpmTextField.setTooltip(new Tooltip("FOD D input"));
+        //fpmTextField.setTooltip(new Tooltip("FOD D input"));
         fpmTextField.setEditable(false);
 
         fpnTextField = new TextField();
         //fpnTextField.setOnScroll(new ValueChangeScrollListener(fpnTextField,METHOD_3));
         fpnTextField.getStyleClass().add(IO_TEXT_FIELD);
-        fpnTextField.setTooltip(new Tooltip("FOD DD input"));
+        //fpnTextField.setTooltip(new Tooltip("FOD DD input"));
         fpnTextField.setEditable(false);
 
         fplTextField = new TextField();
         //fplTextField.setOnScroll(new ValueChangeScrollListener(fplTextField,METHOD_3));
         fplTextField.getStyleClass().add(IO_TEXT_FIELD);
-        fplTextField.setTooltip(new Tooltip("FOD DD input"));
+        //fplTextField.setTooltip(new Tooltip("FOD DD input"));
         fplTextField.setEditable(false);
 
         // O Plane
         opmTextField = new TextField();
         //opmTextField.setOnScroll(new ValueChangeScrollListener(opmTextField,METHOD_3));
         opmTextField.getStyleClass().add(IO_TEXT_FIELD);
-        opmTextField.setTooltip(new Tooltip("FOD D input"));
+        //opmTextField.setTooltip(new Tooltip("FOD D input"));
         opmTextField.setEditable(false);
 
         opnTextField = new TextField();
         //opnTextField.setOnScroll(new ValueChangeScrollListener(opnTextField,METHOD_3));
         opnTextField.getStyleClass().add(IO_TEXT_FIELD);
-        opnTextField.setTooltip(new Tooltip("FOD DD input"));
+        //opnTextField.setTooltip(new Tooltip("FOD DD input"));
         opnTextField.setEditable(false);
 
         oplTextField = new TextField();
         //oplTextField.setOnScroll(new ValueChangeScrollListener(oplTextField,METHOD_3));
         oplTextField.getStyleClass().add(IO_TEXT_FIELD);
-        oplTextField.setTooltip(new Tooltip("FOD DD input"));
+        //oplTextField.setTooltip(new Tooltip("FOD DD input"));
         oplTextField.setEditable(false);
 
         // A Plane
         apmTextField = new TextField();
         //apmTextField.setOnScroll(new ValueChangeScrollListener(apmTextField,METHOD_3));
         apmTextField.getStyleClass().add(IO_TEXT_FIELD);
-        apmTextField.setTooltip(new Tooltip("FOD D input"));
+        //apmTextField.setTooltip(new Tooltip("FOD D input"));
         apmTextField.setEditable(false);
 
         apnTextField = new TextField();
@@ -1152,26 +1154,26 @@ public class TruDisp extends Application {
         aplTextField = new TextField();
         //aplTextField.setOnScroll(new ValueChangeScrollListener(aplTextField,METHOD_3));
         aplTextField.getStyleClass().add(IO_TEXT_FIELD);
-        aplTextField.setTooltip(new Tooltip("FOD DD input"));
+        //aplTextField.setTooltip(new Tooltip("FOD DD input"));
         aplTextField.setEditable(false);
 
         // B Plane
         bpmTextField = new TextField();
         //bpmTextField.setOnScroll(new ValueChangeScrollListener(bpmTextField,METHOD_3));
         bpmTextField.getStyleClass().add(IO_TEXT_FIELD);
-        bpmTextField.setTooltip(new Tooltip("FOD D input"));
+        //bpmTextField.setTooltip(new Tooltip("FOD D input"));
         bpmTextField.setEditable(false);
 
         bpnTextField = new TextField();
         //bpnTextField.setOnScroll(new ValueChangeScrollListener(bpnTextField,METHOD_3));
         bpnTextField.getStyleClass().add(IO_TEXT_FIELD);
-        bpnTextField.setTooltip(new Tooltip("FOD DD input"));
+        //bpnTextField.setTooltip(new Tooltip("FOD DD input"));
         bpnTextField.setEditable(false);
 
         bplTextField = new TextField();
         //bplTextField.setOnScroll(new ValueChangeScrollListener(bplTextField,METHOD_3));
         bplTextField.getStyleClass().add(IO_TEXT_FIELD);
-        bplTextField.setTooltip(new Tooltip("FOD DD input"));
+        //bplTextField.setTooltip(new Tooltip("FOD DD input"));
         bplTextField.setEditable(false);
 
         /** Malla */
@@ -1255,6 +1257,7 @@ public class TruDisp extends Application {
         dirCosWindow = new Stage(StageStyle.DECORATED);
         dirCosWindow.setScene(new Scene(cosDirGridLayout));
         dirCosWindow.getScene().getStylesheets().addAll(TRUDISP_STYLE_SHEET);
+        dirCosWindow.setTitle("Direction Cosines");
 
     }
 
@@ -1277,33 +1280,33 @@ public class TruDisp extends Application {
         // SmA;
         smALabel = new Label("SmA");
         smALabel.getStyleClass().add(IO_LABEL);
-        smALabel.setTooltip(new Tooltip("Apparent displacement along observation line"));
+        smALabel.setTooltip(new Tooltip("Displacement of plane A along observation line"));
 
 
         smAErrorLabel = new Label();
         smAErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         smAErrorLabel.setOnScroll(new ValueChangeScrollListener(smAErrorLabel));
-        smAErrorLabel.setTooltip(new Tooltip("Error in measurement of Sm"));
+        smAErrorLabel.setTooltip(new Tooltip("SmA error"));
 
         //SmB
         smBLabel = new Label("SmB");
         smBLabel.getStyleClass().add(IO_LABEL);
-        smBLabel.setTooltip(new Tooltip("Apparent displacemtn along observation line"));
+        smBLabel.setTooltip(new Tooltip("Displacement of plane B along observation line"));
 
         smBErrorLabel = new Label();
         smBErrorLabel.getStyleClass().addAll(IO_ERROR_LABEL);
         smBErrorLabel.setOnScroll(new ValueChangeScrollListener(smBErrorLabel));
-        smBErrorLabel.setTooltip(new Tooltip("Error in measrment"));
+        smBErrorLabel.setTooltip(new Tooltip("SmB error"));
 
         //dAB
         dABLabel = new Label("dAB");
         dABLabel.getStyleClass().add(IO_LABEL);
-        dABLabel.setTooltip(new Tooltip("distancias entre planos A y B"));
+        dABLabel.setTooltip(new Tooltip("A-B distance along observation line"));
 
         dABErrorLabel = new Label();
         dABErrorLabel.getStyleClass().addAll(IO_ERROR_LABEL);
         dABErrorLabel.setOnScroll(new ValueChangeScrollListener(smBErrorLabel));
-        dABErrorLabel.setTooltip(new Tooltip("Error in measrment"));
+        dABErrorLabel.setTooltip(new Tooltip("dAB error"));
 
 
         // Smh;
@@ -1315,7 +1318,7 @@ public class TruDisp extends Application {
         smhErrorLabel = new Label();
         smhErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         smhErrorLabel.setOnScroll(new ValueChangeScrollListener(smhErrorLabel));
-        smhErrorLabel.setTooltip(new Tooltip("Error in measurement of Sm"));
+        smhErrorLabel.setTooltip(new Tooltip("Smh error"));
 
         // Smd;
         smdLabel = new Label("Smd");
@@ -1326,7 +1329,7 @@ public class TruDisp extends Application {
         smdErrorLabel = new Label();
         smdErrorLabel.getStyleClass().add(IO_ERROR_LABEL);
         smdErrorLabel.setOnScroll(new ValueChangeScrollListener(smdErrorLabel));
-        smdErrorLabel.setTooltip(new Tooltip("Error in measurement of Sm"));
+        smdErrorLabel.setTooltip(new Tooltip("Smd error"));
 
         /**TextField*/
 
@@ -1340,31 +1343,31 @@ public class TruDisp extends Application {
         smATextField = new TextField();
         smATextField.setOnScroll(new ValueChangeScrollListener(smATextField));
         smATextField.getStyleClass().add(IO_TEXT_FIELD);
-        smATextField.setTooltip(new Tooltip("smA input"));
+        smATextField.setTooltip(new Tooltip("SmA input"));
 
         // SmB
         smBTextField = new TextField();
         smBTextField.setOnScroll(new ValueChangeScrollListener(smBTextField));
         smBTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smBTextField.setTooltip(new Tooltip("smB input"));
+        smBTextField.setTooltip(new Tooltip("SmB input"));
 
         //dAB
         dABTextField = new TextField();
         dABTextField.setOnScroll(new ValueChangeScrollListener(dABTextField));
         dABTextField.getStyleClass().add(IO_TEXT_FIELD);
-        dABTextField.setTooltip(new Tooltip("dab input"));
+        dABTextField.setTooltip(new Tooltip("dAB input"));
 
         // Smh
         smhTextField = new TextField();
         smhTextField.setOnScroll(new ValueChangeScrollListener(smhTextField));
         smhTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smhTextField.setTooltip(new Tooltip("Sm input"));
+        smhTextField.setTooltip(new Tooltip("Smh input"));
 
         // Smd
         smdTextField = new TextField();
         smdTextField.setOnScroll(new ValueChangeScrollListener(smdTextField));
         smdTextField.getStyleClass().add(IO_TEXT_FIELD);
-        smdTextField.setTooltip(new Tooltip("Sm input"));
+        smdTextField.setTooltip(new Tooltip("Smd input"));
 
 
         /**Set constraints nos permite hacer que la celda que contiene el nodo se redimencione al redimensionar
@@ -2045,124 +2048,130 @@ public class TruDisp extends Application {
     }
 }
 
+/******************************************************************************************************************/
+/** Clases extras. */
+/******************************************************************************************************************/
+
+
+/** Objeto encargado de manejar el evento de scroll. */
 class ValueChangeScrollListener implements EventHandler<ScrollEvent>
 {
+    /** Variables del objeto encargado de manejar el evento de scroll */
+    private Label       label;      // Label que se encargara de apuntar al label asignado.
+    private Double      val,vl;      // Variable para almacenar el valor numérico de las etiqutas y los campos de texto respectivamente.
+    private TextField   textfield;  //
+    private String[]    error;
 
-     private Label label;
-     private Double value;
-    private  int method;
-     private TextField textfield;
-     private String[] error;
-
+    /** Constructor para manejar el evento de una etiqueta. */
     public ValueChangeScrollListener(Label l)
     {
         label = l;
-        value=0.0;
-
+        val =0.0;
     }
 
-    public ValueChangeScrollListener(Label l,int met){label=l;method=met; value=0.0;}
-
+    /** Constructor para manejar el evento de un campo de texto*/
     public ValueChangeScrollListener(TextField tf)
      {
         textfield = tf;
      }
 
-    public ValueChangeScrollListener(TextField tf,int met){textfield=tf; method=met;}
 
+    /** Función encargada de manejar el evento de scroll */
     @Override
-    public void handle(ScrollEvent event) {
-
-        if (value != null)
+    public void handle(ScrollEvent event)
+    {
+        // Verificamos si es etiqueta o campo de texto.
+        if (val != null)
         {
-            // Eveneto de scroll que le el valor de la etiqueta y le aimenta el desplaamiento para los errores
-                error = label.getText().split(" ");
-            if(method==3)
-            {value = (double) Math.round((Double.parseDouble(error[1]) - (event.getDeltaY()/Math.abs(event.getDeltaY()))*0.01) * 1000) / 1000;}
-            else {value = (double) Math.round((Double.parseDouble(error[1]) - (event.getDeltaY()/Math.abs(event.getDeltaY()))*0.1) * 10) / 10;}
+            // Obtenemos los datos de la etiqueta de error.
+            error = label.getText().split(" ");
 
-            if (value >= 0)
+            // Obtenemos el nuevo valor.
+            val = (double) Math.round((Double.parseDouble(error[1]) - (event.getDeltaY()/Math.abs(event.getDeltaY()))*0.1) * 10) / 10;
+
+            // Si el valor es mayor que cero // No queremos números negativos.
+            if (val >= 0)
                 {
-                    if(error.length==3)
-                    {label.setText(error[0]+" "+value.toString()+" "+error[2]);}
-                    else
-                    {label.setText(error[0]+" "+value.toString());}
+                    if(error.length==3) // error de ángulo contiene tres strings.
+                    {label.setText(error[0]+" "+ val.toString()+" "+error[2]);}
+                    else    // error de distancia contiene dos strings.
+                    {label.setText(error[0]+" "+ val.toString());}
                 }
-
         }
         else
         {
-            // Evento de scroll que lee el valor de la etiqueta y le aumenta el desplazamiento para los campos de entrada
-            Double vl = 0.0;
+            // Obtenemos el nuevo valor numérico del campo de texto.
+            vl= (double) Math.round((Double.parseDouble(textfield.getText()) - (event.getDeltaY()/Math.abs(event.getDeltaY())/10)) * 10) / 10;
 
-            if (method == 3)
-            {vl = (double) Math.round((Double.parseDouble(textfield.getText()) - (event.getDeltaY()/Math.abs(event.getDeltaY())/ 100)) * 1000) / 1000;}
-            else{vl= (double) Math.round((Double.parseDouble(textfield.getText()) - (event.getDeltaY()/Math.abs(event.getDeltaY())/10)) * 10) / 10;}
-
-
-            if (vl >= 0) {
-                textfield.setText(vl.toString());
-            }
+            // Si el valor es mayor que cero // No queremos números negativos.
+            if (vl >= 0)
+            {textfield.setText(vl.toString());}
         }
-
-
     }
 }
+
+/** Objeto encargado de manejar el agregar o quitar el segundo método */
 class MethodsDisplayedChangeListener implements ChangeListener<Boolean>
 {
-    private GridPane methodGridLayout;
-    private HBox methodsHBox;
-    private Stage mainStage;
-    private Integer methodSelected;
+    private GridPane    methodGridLayout;   // Objeto que apunta a la malla correspondiente.
+    private HBox        methodsHBox;        // Objeto que apunta al contenedor corespondiente.
+    private Stage       mainStage;          // Objeto que apunta a la ventana principal.
 
+    /** Constructor del objeto */
     public MethodsDisplayedChangeListener(Integer methodselected,GridPane method,HBox hbox, Stage stage)
     {
         methodGridLayout=method;
         methodsHBox=hbox;
         mainStage=stage;
-        methodSelected = methodselected;
     }
+
+    /** Función encargada de manejar el evento. */
     @Override
-    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
-        Integer heigth=700, width;
-
-
+    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    {
+        // Si se quiere eliminar el método, el valor anterior de la bandera debe ser verdadero y el nuevo falso.
         if (oldValue)
         {
             // Eliminamos el método
             methodsHBox.getChildren().remove(methodGridLayout);
 
-            switch (methodsHBox.getChildren().size()) {
-                case 1: {
-                    // Solo queda el principal
-                    mainStage.setMinWidth(550);
-                    mainStage.setWidth(550);
-                    break;
-                }
-            }
+            // Solo queda el principal entonces se reduce el tamaño de la ventana
+            mainStage.setMinWidth(550);
+            mainStage.setWidth(550);
         }
-        else
+        else    // Se quiere agregar el método, el valor anterior debe ser falso y el nuevo verdadero.
         {
             // Agregamos el método
             methodsHBox.getChildren().add(methodGridLayout);
-            switch (methodsHBox.getChildren().size())
-            {
-                case 2:{
-                    mainStage.setMinWidth(750);
-                    mainStage.setWidth(750);
-                }
-            }
+
+            // Se aumenta de tamaño para que se puedan contener los dos métodos.
+            mainStage.setMinWidth(750);
+            mainStage.setWidth(750);
         }
     }
 }
 
+/** Objeto encargado de manejar los dialogos del programa. */
 class TDDialogs {
 
-    private Stage stageinput,stageoutput,stageabout,stagelabels,stagehelp,stageLMNCoord;
-    private ImageView im;
-    private TextArea txtarea;
+    /**Variables */
 
+    // Los distintos dialogos.
+    private Stage       stageinput,
+                        stageoutput,
+                        stageabout,
+                        stagelabels,
+                        stagehelp,
+                        stageLMNCoord;
+    private ImageView   im;                 // objeto para desplegar imágenes.
+    private TextArea    txtarea;            // Objeto para desplegar textos.
+
+    /**Constantes*/
+
+    private final String    INPUT_IMAGE ="Images/data.jpg";
+    private final String    OUTPUT_IMAGE ="Images/outcome.jpg";
+    private final String    LMNCOORD_IMAGE ="Images/lmn.jpg";
+    /** Constructor */
     public TDDialogs()
     {
         stageinput = new Stage(StageStyle.DECORATED);
@@ -2173,133 +2182,253 @@ class TDDialogs {
         stageLMNCoord = new Stage(StageStyle.DECORATED);
     }
 
+    /** Función encargada de mostrar el input. */
     public void showInput()
     {
-        im = new ImageView(new Image("Images/data.jpg"));
-        im.fitWidthProperty().bind(stageinput.widthProperty());
-        im.fitHeightProperty().bind(stageinput.heightProperty());
-        im.setPreserveRatio(true);
-        StackPane.setAlignment(im, Pos.CENTER);
-        stageinput.setScene(new Scene(new StackPane(im)));
-        stageinput.setTitle("Input Variables Diagram");
-        stageinput.setWidth(500);
-        stageinput.setHeight(500*(im.getImage().getHeight()/im.getImage().getWidth()));
+        // Se verifica si ya se ha creado la escena.
+        if(stageinput.getScene()==null)
+        {
+            // Agregamos la imagen correspondiente.
+            im = new ImageView(new Image(INPUT_IMAGE));
+            // Definimos sus propiedades para que se redimensione con la ventana
+            im.fitWidthProperty().bind(stageinput.widthProperty());
+            im.fitHeightProperty().bind(stageinput.heightProperty());
+            // Pedimos que mantega la realción alto-ancho.
+            im.setPreserveRatio(true);
+            // La imagen estará centrada.
+            StackPane.setAlignment(im, Pos.CENTER);
+
+            // Agregamos la escena.
+            stageinput.setScene(new Scene(new StackPane(im)));
+
+            // Dimensiones de la ventana
+            stageinput.setTitle("Input Variables Diagram");
+            stageinput.setWidth(500);
+            stageinput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
+        }
+
+        // Mostramos el dialogo y pedimos que se enfoque
         stageinput.show();
         stageinput.requestFocus();
     }
+
+    /** Función encargada de mostrar el output. */
     public void showOutput()
     {
-        im = new ImageView(new Image("Images/outcome.jpg"));
-        im.fitWidthProperty().bind(stageoutput.widthProperty());
-        im.fitHeightProperty().bind(stageoutput.heightProperty());
-        im.setPreserveRatio(true);
-        StackPane.setAlignment(im, Pos.CENTER);
-        stageoutput.setScene(new Scene(new StackPane(im)));
-        stageoutput.setTitle("Output Variables Diagram");
-        stageoutput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
-        stageoutput.setWidth(500);
+        if(stageoutput.getScene()==null)
+        {
+            // Agregamos la imagen correspondiente.
+            im = new ImageView(new Image(OUTPUT_IMAGE));
+            // Definimos sus propiedades para que se redimensione con la ventana
+            im.fitWidthProperty().bind(stageoutput.widthProperty());
+            im.fitHeightProperty().bind(stageoutput.heightProperty());
+            // Pedimos que mantega la realción alto-ancho.
+            im.setPreserveRatio(true);
+            // La imagen estará centrada.
+            StackPane.setAlignment(im, Pos.CENTER);
+
+            // Agregamos la escena.
+            stageoutput.setScene(new Scene(new StackPane(im)));
+
+            // Dimensiones de la ventana
+            stageoutput.setTitle("Output Variables Diagram");
+            stageoutput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
+            stageoutput.setWidth(500);
+        }
+
+        // Mostramos el dialogo y pedimos que se enfoque
         stageoutput.show();
         stageoutput.requestFocus();
     }
+
+    /** Función encargada de mostrar el about. */
     public void showAbout()
     {
-        txtarea= new TextArea();
-        txtarea.setWrapText(true);
-        txtarea.setEditable(false);
-        txtarea.setText(
-                "© (2013) Nieto-Samaniego A. F. and Xu S.-S." +
-                        "\n\nAuthored by:\n\nR. Nieto-Fuentes\n" +
-                        "Universidad Nacional Autónoma de México, Centro de Física Aplicada y Tecnología Avanzada, " +
-                        "Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n\n" +
-                        "Nieto-Samaniego A. F., Xu S.-S., Alaniz-Alvarez, S. A.\n" +
-                        "Universidad Nacional Autónoma de México, Centro de Geociencias, Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n\n" +
-                        "TruDisp 1.0 is a program that calculates the true displacement (S) using the apparent displacement (Sm), which is measured from an arbitrary " +
-                        "“observation line” on a fault plane. For the cases when Sm is unknown, the application uses apparent displacement along the dip line (Smd)." +
-                        "\nSpecial cases are map view and transversal section; for these cases, the apparent displacement along the dip (Smd) or the strike (Smh) are used. " +
-                        "The application does not consider the sense of movement and the obtained displacements are the absolute values of the vector displacement.\n\n" +
-                        "The program analyses 18 different combinations of the input data. The theory was published in: \n\n" +
-                        "Xu, S.-S., Velasquillo-Martinez, L. G., Grajales-Nishimura, J. M., Murillo-Muñetón, G., Nieto-Samaniego, A. F., 2007, " +
-                        "Methods for quantitatively determining fault displacement using fault separation: Journal of Structural Geology, v. 29, p. 1709-1720.\n\n" +
-                        "Xu, S.-S., Nieto-Samaniego, A. F., y Alaniz-Álvarez, S. A, 2009, Quantification of true displacement using apparent displacement along an " +
-                        "arbitrary line on a fault plane: Tectonophysics, v 467, p. 107-118.\n\nTruDisp is a tool for applied geologists, students and academics. " +
-                        "It was developed in Java SE 6.0.\n\nInput data\n\nThe application is designed for data obtained in the field, or from maps and sections. " +
-                        "The measuring tool is usually a compass or protractor. The angular data is in decimal degrees format. " +
-                        "β, γ and φ are angles measured on the fault plane. For that reason they must be in the same, or in two opposite quadrants. \n"
-        );
-        VBox.setVgrow(txtarea, Priority.ALWAYS);
-        stageabout.setScene(new Scene(new VBox(txtarea)));
-        stageabout.setTitle("About TruDisp");
-        stageabout.setWidth(400);
-        stageabout.setHeight(500);
-        stageabout.centerOnScreen();
+        if(stageabout.getScene()==null)
+        {
+            // Agregamos el texto correspondiente
+            txtarea= new TextArea();
+            txtarea.setWrapText(true);
+            txtarea.setEditable(false);
+            txtarea.setText("About TruDisp 2.0\n" +
+                    "© (2015) Nieto-Samaniego A. F. and Xu S.-S.\n" +
+                    "\n" +
+                    "Authored by:\n" +
+                    "\n" +
+                    "R. Nieto-Fuentes\n" +
+                    "Universidad Nacional Autónoma de México, Centro de Física Aplicada y Tecnología Avanzada, " +
+                    "Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n" +
+                    "\n" +
+                    "Nieto-Samaniego A. F., Xu S.-S., Alaniz-Alvarez, S. A.\n" +
+                    "Universidad Nacional Autónoma de México, Centro de Geociencias, Boulevard Juriquilla No. 3001, Querétaro, Qro., CP 76230, México.\n" +
+                    "\n" +
+                    "TruDisp 1.0 is a program that calculates the true displacement (S) using the apparent displacement (Sm), " +
+                    "which is measured from an arbitrary “observation line” on a fault plane. For the cases when Sm is unknown," +
+                    " the application uses apparent displacement along the dip line (Smd).\n" +
+                    "Special cases are map view and transversal section; for these cases, the apparent displacement " +
+                    "along the dip (Smd) or the strike (Smh) are used. The application does not consider the sense " +
+                    "of movement and the obtained displacements are the absolute values of the vector displacement.\n" +
+                    "For cases of faults without striaes, the program needs two markers to calculate the true displacement (S). \n" +
+                    "In the cases with striaes the program analyses 18 different combinations of the input data. " +
+                    "The theory was published in: \n" +
+                    "Xu, S.-S., Velasquillo-Martinez, L. G., Grajales-Nishimura, J. M., Murillo-Muñetón, " +
+                    "G., Nieto-Samaniego, A. F., 2007, Methods for quantitatively determining fault displacement " +
+                    "using fault separation: Journal of Structural Geology, v. 29, p. 1709-1720.\n" +
+                    "Xu, S.-S., Nieto-Samaniego, A. F., y Alaniz-Álvarez, S. A, 2009, Quantification of true displacement " +
+                    "using apparent displacement along an arbitrary line on a fault plane: Tectonophysics, v 467, p. 107-118.\n" +
+                    "In the cases without striaes the program follows the solution published in:\n" +
+                    "Yamada, E., Sakaguchi, K., 1995. Fault-slip calculation from separations: Journal of Structural Geology 17, 1065–1070.\n" +
+                    "TruDisp 2.0 is a tool for applied geologists, students and academics. It was developed in Java SE 8.0.\n" +
+                    "\n" +
+                    "Input data\n" +
+                    "\n" +
+                    "The application is designed for data obtained in the field, or from maps and sections. " +
+                    "The measuring tool is usually a compass or protractor. The angular input data are in decimal " +
+                    "degrees format. The strike and dip data follows the right-hand rule convention and the β, γ and φ " +
+                    "are pitch angles measured on the fault plane and they must be <90° located in the Northern (N) or " +
+                    "Southern (S) half of the fault (see the input window).\n");
+            VBox.setVgrow(txtarea, Priority.ALWAYS);
+
+            // Agretamos la escena
+            stageabout.setScene(new Scene(new VBox(txtarea)));
+
+            // Dimensiones de la ventana
+            stageabout.setTitle("About TruDisp");
+            stageabout.setWidth(400);
+            stageabout.setHeight(500);
+            stageabout.centerOnScreen();
+        }
+
+        // Mostramos la ventana
         stageabout.show();
         stageabout.requestFocus();
     }
-    public void showLables()
-    {
-        txtarea=null;
-        txtarea = new TextArea();
-        txtarea.setWrapText(true);
-        txtarea.setEditable(false);
-        txtarea.setText("  θ :      180 - (  β + γ  )  or  (  β - γ  )\n" +
-                "θnull:   180 - (  β + φ )  or  (  β + φ )\n  " +
-                "β :      Pitch of the cut-off marker\n  " +
-                "γ :      Pitch of the slip lineation (slickenline)\n  " +
-                "φ:      Pitch of the observation line\n  " +
-                "α :      Dip of the fault plane\n  " +
-                "Sm:    Apparent displacement along the observation line\n  " +
-                "Smd:  Apparent dip displacement (separation) along the dip line\n  " +
-                "Smh:  Apparent dip displacement (separation) along the strike line\n  " +
-                "S:       Total true displacement\n  " +
-                "St:      Horizontal displacement (heave)\n  " +
-                "Sv:     Vertical displacement (throw)\n  " +
-                "Sd:     Dip-slip displacement\n  " +
-                "Ss:     Strike-slip displacement");
-        VBox.setVgrow(txtarea, Priority.ALWAYS);
-        stagelabels.setScene(new Scene(new VBox(txtarea)));
-        stagelabels.setTitle("Labels");
-        stagelabels.setWidth(400);
-        stagelabels.setHeight(400);
+
+    /** Función encargada de mostrar el labels. */
+    public void showLabels() {
+        if (stagelabels.getScene() == null) {
+            // Agretamos el texto
+            txtarea = new TextArea();
+            txtarea.setWrapText(true);
+            txtarea.setEditable(false);
+            txtarea.setText("  θ :      180 - (  β + γ  )  or  (  β - γ  )\n" +
+                            "θnull:   180 - (  β + φ )  or  (  β + φ )\n  " +
+                            "β :      Pitch of the cut-off marker\n  " +
+                            "γ :      Pitch of the slip lineation (slickenline)\n  " +
+                            "φ:      Pitch of the observation line\n  " +
+                            "α :      Dip of the fault plane\n  " +
+                            "Sm:    Apparent displacement along the observation line\n  " +
+                            "Smd:  Apparent dip displacement (separation) along the dip line\n  " +
+                            "Smh:  Apparent dip displacement (separation) along the strike line\n  " +
+                            "S:       Total true displacement\n  " +
+                            "St:      Horizontal displacement (heave)\n  " +
+                            "Sv:     Vertical displacement (throw)\n  " +
+                            "Sd:     Dip-slip displacement\n  " +
+                            "Ss:     Strike-slip displacement\n" +
+                            "Stk: Strike angle of the fault plane\n" +
+                            "D: Dip angle of the fault plane\n" +
+                            "Trnd: Trend angle of the striae\n" +
+                            "Plng: Plunge angle of the striae\n" +
+                            "dAB: Distance between planes A and B measured along the observation line\n" +
+                            "SmA: Displacement of the plane A measured along the observation line\n" +
+                            "SmB: Displacement of the plane B measured along the observation line\n" +
+                            "l(fp): Direction consine of the unit vector normal to the fault pane in the East direction\n" +
+                            "l(op): Direction consine of the unit vector normal to the observation plane in the East direction\n" +
+                            "l(ap): Direction consine of the unit vector normal to the A plane in the East direction\n" +
+                            "l(bp): Direction consine of the unit vector normal to the B plane in the East direction\n" +
+                            "m(fp): Direction consine of the unit vector normal to the fault pane in the North direction\n" +
+                            "m(op): Direction consine of the unit vector normal to the observation plane in the North direction\n" +
+                            "m(ap): Direction consine of the unit vector normal to the A plane in the North direction\n" +
+                            "m(bp): Direction consine of the unit vector normal to the B plane in the North direction\n" +
+                            "n(fp): Direction consine of the unit vector normal to the fault pane in the Down direction\n" +
+                            "n(op): Direction consine of the unit vector normal to the observation pane in the Down direction\n" +
+                            "n(ap): Direction consine of the unit vector normal to the A pane in the Down direction\n" +
+                            "n(bp): Direction consine of the unit vector normal to the B pane in the Down direction\n"
+            );
+            VBox.setVgrow(txtarea, Priority.ALWAYS);
+
+            // Agretamos la escena
+            stagelabels.setScene(new Scene(new VBox(txtarea)));
+            // Dimensiones de la ventana
+            stagelabels.setTitle("Labels");
+            stagelabels.setWidth(600);
+            stagelabels.setHeight(400);
+
+        }
+
+        // Mostramos la ventana
         stagelabels.show();
         stagelabels.requestFocus();
     }
 
+    /** Función encargada de mostrar el help. */
     public void showHelp()
     {
-        txtarea=null;
-        txtarea = new TextArea();
-        txtarea.setWrapText(true);
-        txtarea.setEditable(false);
+        if(stagehelp.getScene()==null)
+        {
+            // Agretamos el texto
+            txtarea=null;
+            txtarea = new TextArea();
+            txtarea.setWrapText(true);
+            txtarea.setEditable(false);
 
-        txtarea.setText("The input fields activates according to selected option: “Map and Section” or “Arbitrary Line” " +
-                "\n\nAngles are in degrees and decimals. Minutes and seconds are not used." +
-                "\n\nAt least one of the displacements Sm, Smh or Smd must be introduced." +
-                "\n\nThe model considers that the fault plane is divided into two halves by the line at which the dip is " +
-                "measured; one half is located to the northerly strike direction, labeled \"northern half\" " +
-                "(N) and the other is labeled \"shouther half\" (S). See the figure of input data. \n");
+            txtarea.setText(
+                    "The input fields activate according to selected option: “Plane orientation”, “Pitch angles”, “Map and Section” or “Arbitrary Line”.\n" +
+                    "\n" +
+                    "The orientation of planes follows the right-hand rule convention. \n" +
+                    "Angles are in degrees and decimals. Minutes and seconds are not used. \n" +
+                    "At least one of the displacements Sm, Smh or Smd must be introduced.\n" +
+                    "\n" +
+                    "The model considers that the fault plane is divided into two halves by the line at which the " +
+                            "dip is measured; one half is located to the northerly strike direction, labeled " +
+                            "\"northern half\" (N) and the other is labeled \"southern half\" (S). " +
+                            "See the figure of input data.\n");
 
-        VBox.setVgrow(txtarea, Priority.ALWAYS);
-        stagehelp.setScene(new Scene(new VBox(txtarea)));
-        stagehelp.setTitle("?");
-        stagehelp.setWidth(400);
-        stagehelp.setHeight(400);
+            VBox.setVgrow(txtarea, Priority.ALWAYS);
+
+            // Agregamos la escena
+            stagehelp.setScene(new Scene(new VBox(txtarea)));
+
+            // Dimensiones dela ventana
+            stagehelp.setTitle("?");
+            stagehelp.setWidth(400);
+            stagehelp.setHeight(300);
+        }
+
+        // Mostramos la ventana
         stagehelp.show();
         stagehelp.requestFocus();
     }
-public void showLMNCoord()
-{
-    im = new ImageView(new Image("Images/lmn.jpg"));
-    im.fitWidthProperty().bind(stageLMNCoord.widthProperty());
-    im.fitHeightProperty().bind(stageLMNCoord.heightProperty());
-    im.setPreserveRatio(true);
-    StackPane.setAlignment(im, Pos.CENTER);
-    stageLMNCoord.setScene(new Scene(new StackPane(im)));
-    stageLMNCoord.setTitle("Output Variables Diagram");
-    stageLMNCoord.setHeight(550 * (im.getImage().getHeight() / im.getImage().getWidth()));
-    stageLMNCoord.setWidth(500);
-    stageLMNCoord.show();
-    stageLMNCoord.requestFocus();
-}
+
+    /** Función encargada de mostrar el las coordenadas de los cosenos directores. */
+    public void showLMNCoord()
+    {
+        if(stageLMNCoord.getScene()==null)
+        {
+            // Agregagmos la imagen
+            im = new ImageView(new Image(LMNCOORD_IMAGE));
+
+            // Redimencionamos la imagen con la ventana que lo contiene
+            im.fitWidthProperty().bind(stageLMNCoord.widthProperty());
+            im.fitHeightProperty().bind(stageLMNCoord.heightProperty());
+            // Mantenemos la proporción de la imagen
+            im.setPreserveRatio(true);
+            // Centramos la imagen
+            StackPane.setAlignment(im, Pos.CENTER);
+
+            // Agregamos la escena
+            stageLMNCoord.setScene(new Scene(new StackPane(im)));
+
+            // Dimensiones de la ventana
+            stageLMNCoord.setTitle("Direction Cosines Coordinates");
+            stageLMNCoord.setHeight(550 * (im.getImage().getHeight() / im.getImage().getWidth()));
+            stageLMNCoord.setWidth(500);
+        }
+
+        // Mostramos la ventana
+        stageLMNCoord.show();
+        stageLMNCoord.requestFocus();
+    }
 }
 
 
