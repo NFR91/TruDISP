@@ -37,13 +37,13 @@ public class Arrow3D extends My3DObject {
         objFaceColor.add(3,color);
         objFaceColor.add(4, color);
 
+        setNormalVect(setNormalVect(objVert, objFace));
 
         setObject(objVert, objFace, objFaceColor);
-
-        setNormalVect(setNormalVect(objVert, objFace));
+        reset();
 
         this.setObjPos(new Double[]{1.5, 1.0, 0.0});
 
-        projectObject();
+        project();
     }
 }

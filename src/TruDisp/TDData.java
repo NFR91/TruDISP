@@ -52,54 +52,60 @@
 
 package TruDisp;
 
-
+/** Esta clase se encarga de manejar el cálculo de la falla y sus datos. */
 public class TDData {
 
-    // Variables
-    private final int DATA=0,ERROR=1;
-    private final Double PRECITION=10.0;
-    private final Double DIR_COS_PRECITION=10000.0;
-    private TDStatusPane statusPane;
-    private final Double MINANGLE=0.00157; //.1 grados
-    private final Double MAXANGLE=1.5691; //89.9 grados
-    private String[] errorValue;
-    private String experiment;
-    private String notes;
-    private Double[] alpha,smh,smd, smA,smB,dAB,s,sv,sd,ss,sh;
-    private Double theta,thetanull;
-    private String sO;
+    /** Constantes */
+    private final int       DATA=0,                         // Constante de posición para los arreglos del valor de la variable.
+                            ERROR=1;                        // Constante de posición para los arreglos del valor del error.
+    private final Double    PRECITION=10.0;                 // Precisión requerida para desplegar los datos.
+    private final Double    DIR_COS_PRECITION=10000.0;      // Precisión requerida para los Cosenos Direcotres.
+    private final Double    MINANGLE=Math.toRadians(0.1);   // Ángulo minimo permitido
+    private final Double    MAXANGLE=Math.toRadians(89.9);  // Ángulo máximo permitido.
+
+    /** Variables */
+    private TDStatusPane    statusPane;                     // Objeto que apunta al statusPane.
+    private String[]        errorValue;                     // Arreglo que contendrá los datos separados de la etiqueta de error que se introduce
+    private String          experiment;                     // Nombre de la falla.
+    private String          notes;                          // Notas de la falla.
+    private Double[]        smh,smd,                        // Valores de desplazamiento
+                            smA,smB, dAB,
+                            s,sv,sd,ss,sh;                  // Valores de resultado
+    private Double          theta,thetanull;                // Valores de los ángulos theta y thetanull
 
     // Metodo 1
-    private Double[] beta,gamma,phi;
-    private String betaO,gammaO,phiO,MapView;
-
+    private Double[]    beta,gamma,phi,alpha;               // Arreglos que contienen el valor y el error de cada pitch
+    private String      betaO,gammaO,phiO,MapView;          // Valores de las orientaciones de los pitchs y el tipo de cálculo
 
     // Metodo 2
-    private Double[] fod,fostk,opod, opostk,smo1d, smo1stk,smo2d, smo2stk,ostrend, osplunge;
+    private Double[]    fod,fostk,opod, opostk,             // Arreglos que contieen el valor y el error para cada ángulo de dip y strike.
+                        smo1d, smo1stk,smo2d,
+                        smo2stk,ostrend, osplunge;
 
     // Metodo 3
-    private Double[] fpm,fpn,fpl,opm,opn,opl,apm,apn,apl,bpm,bpn,bpl;
+    private Double[]    fpm,fpn,fpl,                        // Arreglos que contienen el valor y el error para cada elemento del coseno director de cada plano.
+                        opm,opn,opl,
+                        apm,apn,apl,
+                        bpm,bpn,bpl;
 
-
-    // Constructor
-
+    /** Constructor */
     public TDData(TDStatusPane stbr)
     {
         statusPane = stbr;
-
         initVariables();
-
-
     }
 
+    /** Constructor */
     public TDData(String dataset, TDStatusPane stbr)
     {
         statusPane = stbr;
         initVariables();
 
+        // Creamos un buffer para separar cada uno de los elemntos de la falla.
         String[] buffer = dataset.split(";");
 
-        setExperiment(buffer[0]);
+        // Asginamos a cada variable su valor correspondiente del buffer.
+        experiment =buffer[0];
         beta = new Double[] {Double.parseDouble(buffer[1]),Double.parseDouble(buffer[2])};
         betaO= buffer[3];
         gamma =new Double[] {Double.parseDouble(buffer[4]),Double.parseDouble(buffer[5])};
@@ -145,58 +151,77 @@ public class TDData {
         bpn = new Double[] {Double.parseDouble(buffer[74]),Double.parseDouble(buffer[75])};
         bpm = new Double[] {Double.parseDouble(buffer[76]),Double.parseDouble(buffer[77])};
 
-        setNotes(buffer[78]);
+        notes = buffer[78];
     }
 
-
-
+    /** Función encargada de calcular el desplazamiento de la falla. */
     public Boolean Calculate(Integer method)
     {
         try {
-            // calculo
+            // Revisamos que método esta seleccionado.
             switch (method) {
                 case 1:
                 {
+                    // El método 1 se encuentra seleccionado y se calcula la distancia.
                     s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+                    // Calculamos los desplazamientos.
                     method1CalculateDistance();
+                    // Calculamos los errores.
                     calculateDistanceErrors();
                     break;
                 }
                 case 2:
                 {
+                    // El método 2 se encuentra seleccionado y se calculan los cosenos directores.
                     method2CalculateDirCosOfPlanes();
-                    method2ConvertDirCos2Method1();
+                    // TODO calcular los errores de los cosenos directores
+
+                    // Revisamos si se han introducido dos planos.
                     if(bpn[DATA]!=1 && apn[DATA]!=1)
                     {
-                        System.out.println("Calculamos con el método tres.");
-                        s[DATA]= method3Calculate();
+                        //Si no se cuenta con la direción de la estria se requieren dos planos y empleamos el método 2
+                        s[DATA]= method2Calculate(fpl[DATA],fpm[DATA],-fpn[DATA],opl[DATA],opm[DATA],-opn[DATA],apl[DATA],apm[DATA],-apn[DATA],
+                                bpl[DATA],bpm[DATA], -bpn[DATA],dAB[DATA],smA[DATA],smB[DATA]);
+
+                        // Obtenemos las distancias.
                         method1CalculateDistance();
+
+                        // TODO calcular los errores propagados.
                     }
-                    else if(isDataValidForCalcuating())
+                    else
                     {
-                        if(!isPlungeValid())
-                        {statusPane.setNotification("La estria esta fuera del plano !!!!!",TruDisp.WARNING_ICON);}
+                        // A partir de los cosenos directores de los planos obtenemos los valores del método 1.
+                        method2ConvertDirCos2Method1();
 
-                        s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
-                        method1CalculateDistance();
-                        calculateDistanceErrors();
+                        // TODO Progagar los errores de los cosenos a los pitchs.
+
+                        // Revisamos si la persona a introducido un valor de plunge que permita se encuentre dentro el plano.
+                        // Y ademas que no se ha introducido la orientación de la estria mediante gamma.
+                        if(!isPlungeValid() && gamma[DATA]==0)
+                        {statusPane.setNotification(" Striae is not on the fault plane ",TruDisp.WARNING_ICON);}
+
+                        if(isDataValidForMethod1()) // Revisamos si los valores son correctos para el cálculo
+                        {
+                            // Calculamos el desplazamiento de la falla.
+                            s[DATA] = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+                            // Calculamos las distancias.
+                            method1CalculateDistance();
+                            // Calculamos los errores.
+                            calculateDistanceErrors();
+                        }
                     }
-                    else{return false;}
-
-                    break;
-                }
-                case 3:
-                {
                     break;
                 }
             }
             return true;
         }catch(Exception e){System.err.println(e);return false;}
-
     }
 
-    //*********************************************************************
+    /******************************************************************************************************************/
+    /** Funciones Generales.*/
+    /******************************************************************************************************************/
 
+    /** Función que inicializa las varialbes. */
     public void initVariables()
     {
         /**Método 1*/
@@ -264,9 +289,593 @@ public class TDData {
 
     }
 
-    /**Set Methods*/
+    /******************************************************************************************************************/
+    /** Métodos Generales.*/
+    /******************************************************************************************************************/
 
-    // Método 1
+    /** Función que calcula el producto el coseno inverso del producto punto. */
+    public Double dotProductAngle(Double[] a, Double[] b){
+
+        // Calculamos con el prodcuto punto el pitch.
+        return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
+    }
+
+    /** Función que calcula el producto cruz entre dos vectores. */
+    public Double[] crossProduct(Double[] a, Double[] b)
+    {
+        Double[] axb = new Double[3];
+
+        axb[0] = a[1]*b[2] - a[2]*b[1];
+        axb[1] = a[2]*b[0] - a[0]*b[2];
+        axb[2] = a[0]*b[1] - a[1]*b[0];
+
+        return axb;
+    }
+
+    /** Función que Verifica si los datos adquiridos son validos para calcular.. */
+    public Boolean isDataValidForMethod1()
+    {
+        // Almenos alguno de los desplazamientos debe ser mayor a cero.
+        if((smA[DATA] != 0)||(smh[DATA] !=0)||(smd[DATA]!=0) )
+        {
+            // Verificamos si es posible la orientación especificada.
+            orientationIndeterminated();
+
+            // Verificamos si la linea beta esta cerca de la gamma, es decir si el ángulo theta es pequeño.
+            if(isBetaNearGamma())
+            {
+                statusPane.setNotification(" WARNING\n" +
+                    "Θ is small.\n In this condition a very small error in the angular measures will produce a large deviation in the results." +
+                    "\nWe do not recommend calculating with Θ < 20º. ", TruDisp.WARNING_ICON);
+            }
+
+            // Verificamos si es el caso de linea arbitraria.
+            if(MapView.equalsIgnoreCase("Arbitrary Line"))
+            {
+                // Como es el caso verificamos si phi esta cerca de beta, es decir si thetanull es pequeño.
+                if(isBetaNearPhi())
+                {
+                    statusPane.setNotification(" WARNING\n " +
+                        "You are near the \"null line \".\nIn this condition (β near γ) a very small error in the angular measures will produce" +
+                        "a large deviaton in the results." +
+                        "\nWe do not recommend calculating with Θnull < 10º. ", TruDisp.WARNING_ICON);
+                }
+            }
+            return  true;
+        }
+        else{
+            // Ninguno de los desplazamientos es mayor que cero.
+            statusPane.setStatus(" Error: At least one displacement component must be higher than zero ", TruDisp.ERROR_ICON);
+            return false;
+        }
+    }
+
+
+    /** Función que Verifica si son posibles las orientaciones */
+    public void orientationIndeterminated()
+    {
+        /**
+         * Debido al cálculo de errores no podemos tener valores de 0 o 90 grados, por lo que
+         * se requiere un ángulo minimo y un máximo.
+         * */
+
+        // Verificamos si el angulo es menor que el mínimo.
+        beta[DATA] = (beta[DATA] < MINANGLE)? (MINANGLE):(beta[DATA]);
+        gamma[DATA] = (gamma[DATA] < MINANGLE)? (MINANGLE):(gamma[DATA]);
+        phi[DATA] = (phi[DATA] < MINANGLE)? (MINANGLE):(phi[DATA]);
+
+        // Verificamos si el ángulo es mayotr que el máximo.
+        beta[DATA] = (beta[DATA] > MAXANGLE)? (MAXANGLE):(beta[DATA]);
+        gamma[DATA] = (gamma[DATA] > MAXANGLE)? (MAXANGLE):(gamma[DATA]);
+        phi[DATA] = (phi[DATA] > MAXANGLE)? (MAXANGLE):(phi[DATA]);
+
+    }
+
+    /** Función que Verifica si el ángulo theta es pequeño.*/
+    public Boolean isBetaNearGamma()
+    {
+        /**
+         * Si la línea beta es muy cercana a la gamma un pequeño error en las mediciones provoca un
+         * error grande en los cálculos, para saber la fiabilidad de las mediciones calculamos el valor
+         * del ángulo entre las dos líneas, theta.
+         * */
+
+        // Si tienen direcciones opuestas entonces usamos 180-(gamm+beta) para calcular theta.
+        if(betaO.equalsIgnoreCase(gammaO))
+            {theta = Math.abs(beta[DATA]-gamma[DATA]);}
+        else
+            {theta = Math.PI - (beta[DATA]+gamma[DATA]);}
+
+        // Verificamos si theta es menor que 20 grados.
+        if(theta < (Math.toRadians(20)))
+        {
+            // Si theta es cero las líneas son pararelas entonces para calcular debemos aumentar el ángulo de una.
+            if(theta == 0)
+            { beta[DATA] = (1+0.01)*beta[DATA];}
+
+            // Las lineas se encuentran muy cerca
+            return true;
+        }
+
+        // Las líneas no se encuentran cerca.
+        return false;
+    }
+
+    /** Función que Verifica si el ángulo thetanull es pequeño.*/
+    public Boolean isBetaNearPhi()
+    {
+        /**
+         * Si la línea beta es muy cercana a la phi un pequeño error en las mediciones provoca un
+         * error grande en los cálculos, para saber la fiabilidad de las mediciones calculamos el valor
+         * del ángulo entre las dos líneas, thetanull.
+         * */
+
+        // Si tienen direcciones opuestas entonces usamos (180-(beta+phi)) para calcular thetanull.
+        if(betaO.equalsIgnoreCase(phiO))
+            { thetanull = Math.abs(beta[DATA]-phi[DATA]);}
+        else
+            {thetanull = Math.PI-(beta[DATA]+phi[DATA]);}
+
+        // Revisamos si el ángulo es menor que 10 grados.;
+        if(thetanull < (Math.PI/18))
+        {
+            // Si thetanull es cero las líneas son paralelas, para poder calcular aumentamos el ángulo de una.
+            if(thetanull == 0)
+            {beta[DATA] = (1+0.01)*beta[DATA];}
+
+            // Las líneas se encuentran muy cerca.
+            return true;
+        }
+
+        // las líneas no se encuentran cerca.
+        return false;
+    }
+
+    /** Función que Verifica si el ángulo es valido.*/
+    public Boolean isAngleValid(String data)
+    {
+        // El ángulo deve estar entre cero y 90.
+        return (isNumber(data)) ? ( (Double.parseDouble(data)<0 || Double.parseDouble(data)>90) ? false : true ) : false;
+    }
+
+    /** Función que Verifica si la distancia es valida.*/
+    public Boolean isDisplacementValid(String data)
+    {
+        // La distancia debe ser mayot que cero.
+        return (isNumber(data)) ? ((Double.parseDouble(data)>=0) ? true : false ) : false;
+    }
+
+    /** Función que Verifica el dato introducido es un número.*/
+    public Boolean isNumber(String data)
+    {
+        try{
+            Double.parseDouble(data);
+        }catch (Exception e)
+        {
+            // No es un número.
+            return false;
+        }
+
+        // Es un número.
+        return true;
+    }
+
+    /** Función que Verifica si el ángulo de Strike es valido.*/
+    public Boolean isStrikeAngleValid(String data)
+    {
+        // El ángulo strike debe estar entre 0 y 360;
+        return (isNumber(data)) ? ((Double.parseDouble(data)<0||Double.parseDouble(data)>360)? false:true):false;
+    }
+
+    /** Función que Verifica si el ángulo Plunge es valido.*/
+    public Boolean isPlungeValid()
+    {
+        /**
+         * Es usual que exista error en los cálculos a que la gente no introduce un trend y plunge que corresponden a la
+         * orientación de la línea de la estría sobre el plano por lo que se realiza el cálculo de la misma, esta
+         * función se encarga de comprobar si los datos que introdujo el usuario corresponden con una linea que vive sobre
+         * el plano.
+         * */
+
+        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.PI / 2) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+
+        // Verificamos si el la diferencia entre el dato introducido por el usuario y el cálculado es inferior a una tolerancia.
+        if( Math.abs(osplunge[DATA]-plunge)> Math.toRadians(4))
+        {return false;}
+        else
+        {return  true;}
+    }
+
+    /******************************************************************************************************************/
+    /** Métodos 1.*/
+    /******************************************************************************************************************/
+
+
+    /** Función que calcula con el método 1 el desplazamiento de la falla (S).*/
+    public Double method1Calculate(Double beta, Double gamma, Double phi, Double sm, Double smd, Double smh)
+    {
+        /**
+         * Esta función se encarga de tomar la decisión de que ecuación utilizar basandose en el diagrama de flujo
+         * publicado en el artículo. Revisa 18 casos y elije el indicado basandose en las orientaciones de beta, gamma y
+         * phi, así como de la distancia indroducida.
+         * */
+
+        // Revisamos en cual de los dos casos nos encotramos.
+        switch (MapView)
+        {
+            case "Map & Sec" :
+            {
+                if(betaO.equalsIgnoreCase(gammaO)) // Same Direction
+                {
+                    if(beta > gamma)
+                    {
+                        if(smd != 0)// Vertical Cross-section
+                        { return  smd/((Math.cos(gamma)*Math.tan(beta))-Math.sin(gamma));}
+
+                        if(smh !=0 )// Map View
+                        { return  smh/((Math.tan(beta)*Math.cos(gamma))-Math.sin(gamma));}
+                    }
+
+                    if(beta < gamma)
+                    {
+                        if(smd != 0) // Vertical Crooss-section
+                        { return smd/(Math.sin(gamma)-(Math.cos(gamma)*Math.tan(beta)));}
+
+                        if(smh != 0) // Mapv view
+                        { return (smh*Math.tan(beta))/(Math.sin(gamma)*(Math.tan(beta)*Math.cos(gamma)));}
+                    }
+                }
+                else // Oposite Direction
+                {
+                    if(smd != 0) // Vertical cross-section
+                    { return smd/ (Math.sin(gamma)+ (Math.cos(gamma)*Math.tan(beta))); }
+
+                    if(smh != 0) // Mapview;
+                    { return (smh*Math.tan(beta))/( (Math.tan(beta)*Math.cos(gamma)) + Math.sin(gamma));}
+                }
+
+                break;
+            }
+
+
+            case "Arbitrary Line":
+            {
+                if(betaO.equalsIgnoreCase(gammaO)) // Same Direction
+                {
+                    if(beta > gamma)
+                    {
+                        if(phiO.equalsIgnoreCase(gammaO))// Same Direction
+                        {
+                            if(sm != 0)
+                            {
+                                if(phi > beta)
+                                { return (sm*Math.sin(phi-beta))/Math.sin(beta-gamma);}
+
+                                if(phi < beta)
+                                { return (sm*Math.sin(beta-phi))/Math.sin(beta-gamma);}
+                            }
+
+                            if(smd != 0)
+                            { return (smd*Math.cos(beta))/Math.sin(beta-gamma);}
+                        }
+                        else // Opposite Direction
+                        { return (sm*Math.sin(phi+beta))/Math.sin(beta-gamma);}
+                    }
+
+                    if(beta < gamma)
+                    {
+                        if(phiO.equalsIgnoreCase(gammaO)) // Same Direction
+                        {
+                            if(sm != 0)
+                            {
+                                if(phi > beta)
+                                { return (sm*Math.sin(phi-beta))/Math.sin(gamma-beta);}
+
+                                if(phi < beta)
+                                { return (sm*Math.sin(beta-phi))/Math.sin(gamma-beta);}
+                            }
+
+                            if(smd != 0)
+                            { return (smd*Math.cos(beta))/Math.sin(gamma-beta);}
+                        }
+                        else // Opposite Direction
+                        {return (sm*Math.sin(phi+beta))/Math.sin(gamma-beta);}
+
+                    }
+
+                }
+                else // Opposite direction
+                {
+                    if(phiO.equalsIgnoreCase(gammaO))// Same Direction
+                    {
+                        if(sm != 0)
+                        { return (sm*Math.sin(phi+beta))/Math.sin(gamma+beta);}
+
+                        if(smd != 0)
+                        { return (smd*Math.cos(beta))/Math.sin(gamma+beta);}
+                    }
+                    else // Opposite direction
+                    {
+                        if(phi > beta)
+                        { return (sm*Math.sin(phi-beta))/Math.sin(gamma+beta);}
+
+                        if(phi < beta)
+                        { return (sm*Math.sin(beta-phi))/Math.sin(gamma+beta);}
+                    }
+                }
+                break;
+            }
+        }
+        return 0.0;
+    }
+
+    /** Función que calcula el desplazamiento ss.*/
+    public Double method1CalculateSs(Double s, Double gamma)
+    { return s*Math.cos(gamma);}
+
+    /** Función que calcula el desplazamiento sd.*/
+    public Double method1CalculateSd(Double s, Double gamma)
+    {return s*Math.sin(gamma);}
+
+    /** Función que calcula el desplazamiento sv.*/
+    public Double method1CalculateSv(Double s, Double gamma, Double alpha)
+    {return s*Math.sin(gamma)*Math.sin(alpha);}
+
+    /** Función que calcula el desplazamiento sh.*/
+    public Double method1CalculateSh(Double s, Double gamma, Double alpha)
+    {return s*Math.sin(gamma)*Math.cos(alpha);}
+
+    /** Función que calculalos desplazamiento en base a S..*/
+    public void method1CalculateDistance()
+    {
+        ss[DATA] = method1CalculateSs(s[DATA], gamma[DATA]);
+        sd[DATA] = method1CalculateSd(s[DATA], gamma[DATA]);
+        sv[DATA] = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA]);
+        sh[DATA] = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA]);
+    }
+
+    /** Función que calcula el error de las distancias, propagando el error de las mediciones.*/
+    public void calculateDistanceErrors()
+    {
+        Double h=0.001,f,i,pdbeta,pdgamma,pdphi,pdsm,pdsmd,pdsmh;
+
+
+        // Derivada parcial  ds/db
+        f = method1Calculate(beta[DATA] + h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA] - h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        pdbeta= Math.abs((f - i) / (2 * h));
+
+        // Derivada parcial ds/dgamma
+        f = method1Calculate(beta[DATA], gamma[DATA] + h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA] - h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
+        pdgamma= Math.abs((f - i) / (2 * h));
+
+        // Derivada parcial ds/dphi
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] + h, smA[DATA], smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] - h, smA[DATA], smd[DATA], smh[DATA]);
+        pdphi = Math.abs((f - i) / (2 * h));
+
+        // Derivada parcial ds/dsm
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] + h, smd[DATA], smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] - h, smd[DATA], smh[DATA]);
+        pdsm= Math.abs((f - i) / (2 * h));
+
+        // Derivada parcial ds/dsmd
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] + h, smh[DATA]);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] - h, smh[DATA]);
+        pdsmd= Math.abs((f - i) / (2 * h));
+
+        // Derivada parcial ds/dsmh
+        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] + h);
+        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] - h);
+        pdsmh= Math.abs((f - i) / (2 * h));
+
+
+        s[ERROR] = (pdbeta*beta[ERROR])+(pdgamma*gamma[ERROR])+(pdphi*phi[ERROR])+(pdsm* smA[ERROR])+(pdsmd*smd[ERROR])+(pdsmh*smh[ERROR]);
+
+        //
+        Double pds,pdalpha;
+
+        // Derivada parcial dss/ds
+        f = method1CalculateSs(s[DATA] + h, gamma[DATA]);
+        i = method1CalculateSs(s[DATA] - h, gamma[DATA]);
+        pds = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dss/dgamma
+        f = method1CalculateSs(s[DATA], gamma[DATA] + h);
+        i = method1CalculateSs(s[DATA], gamma[DATA] - h);
+        pdgamma = Math.abs((f - i) / (2 * h));
+
+        ss[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
+
+        // Derivada parcial dsd/ds
+        f = method1CalculateSd(s[DATA] + h, gamma[DATA]);
+        i = method1CalculateSd(s[DATA] - h, gamma[DATA]);
+        pds = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dsd/dgamma
+        f = method1CalculateSd(s[DATA], gamma[DATA] + h);
+        i = method1CalculateSd(s[DATA], gamma[DATA] - h);
+        pdgamma = Math.abs((f - i) / (2 * h));
+
+        sd[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
+
+        // Derivada parcial dsv/ds
+        f = method1CalculateSv(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        i = method1CalculateSv(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        pds = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dsv/dgamma
+        f = method1CalculateSv(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        i = method1CalculateSv(s[DATA], gamma[DATA] - h, alpha[DATA]);
+        pdgamma = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dsv/dalpha
+        f = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] + h);
+        i = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] - h);
+        pdalpha = Math.abs((f - i) / (2 * h));
+
+        sv[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
+
+        // Derivada parcial dsh/ds
+        f = method1CalculateSh(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        i = method1CalculateSh(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        pds = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dsh/dgamma
+        f = method1CalculateSh(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        i = method1CalculateSh(s[DATA], gamma[DATA] - h, alpha[DATA]);
+        pdgamma = Math.abs((f - i) / (2 * h));
+        // Derivada parcial dsh/dalpha
+        f = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] + h);
+        i = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] - h);
+        pdalpha = Math.abs((f - i) / (2 * h));
+
+        sh[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
+
+    }
+
+    /******************************************************************************************************************/
+    /** Métodos 2.*/
+    /******************************************************************************************************************/
+
+    /** Función encargada de calcular los cosenos directores de los planos. */
+    public void method2CalculateDirCosOfPlanes()
+    {
+        // Plano de falla.
+        Double[] temp = method2CalculateDirCosPlane(fostk[DATA], fod[DATA]);
+        fpl[DATA] = temp[TruDisp.E];
+        fpm[DATA] = temp[TruDisp.N];
+        fpn[DATA] = temp[TruDisp.D];
+
+        // Plano de observación
+        temp = method2CalculateDirCosPlane(opostk[DATA], opod[DATA]);
+        opl[DATA]=temp[TruDisp.E];
+        opm[DATA]=temp[TruDisp.N];
+        opn[DATA]=temp[TruDisp.D];
+
+        // Plano A
+        temp = method2CalculateDirCosPlane(smo1stk[DATA], smo1d[DATA]);
+        apl[DATA]=temp[TruDisp.E];
+        apm[DATA]=temp[TruDisp.N];
+        apn[DATA]=temp[TruDisp.D];
+
+        // Plano B
+        temp = method2CalculateDirCosPlane(smo2stk[DATA], smo2d[DATA]);
+        bpl[DATA]=temp[TruDisp.E];
+        bpm[DATA]=temp[TruDisp.N];
+        bpn[DATA]=temp[TruDisp.D];
+    }
+
+    /** Función encargada de calcular las mediciones del método 1 empleando los cosenos directores. */
+    public void method2ConvertDirCos2Method1()
+    {
+        /** Calculamos los pitch */
+
+        // Cosenos Directores del plano de Falla (Fault Plane)
+        Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};
+
+        // Cosenos Directores de línea de strike del Plano de falla;
+        Double[] stkLine = new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0};
+
+        // Cosenos Directores del plano A (Marcador 1)
+        Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]};
+
+        // Cosenos Directores del plano de observación.(Obsevation Plane)
+        Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]};
+
+        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+
+        // Cosenos directores de LÍNEA de la estria.
+        Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge);
+
+        // Dirección de la LINEA stk en grados, con la que se compara si esta hacia el norte o el sur
+        Double stk = fostk[DATA];
+
+        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano A.
+        beta[DATA] = dotProductAngle(crossProduct(fp, mrkr), stkLine);
+        // Obtemos la orientación
+        betaO = (stk< (Math.toRadians(90)) || stk>(Math.toRadians(270)))? ((beta[DATA]>(Math.toRadians(90)))? "S":"N"):((beta[DATA]>(Math.toRadians(90)))? "N":"S");
+        // Si el ángulo es mayor de 90 entonces el ángulo es 180-angulo.
+        beta[DATA]=(beta[DATA]>(Math.toRadians(90)))? (Math.PI-beta[DATA]):(beta[DATA]);
+
+        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano de observación.
+        phi[DATA] = dotProductAngle(crossProduct(fp, op), stkLine);
+        // Obtenemos la orientación.
+        phiO =(stk< (Math.toRadians(90)) || stk>(Math.toRadians(270)))? ((phi[DATA]>(Math.toRadians(90)))? "S":"N"):((phi[DATA]>(Math.toRadians(90)))? "N":"S");
+        // Si el ángulo es mayor de 90 entonces el ángulo es 180-angulo.
+        phi[DATA]=(phi[DATA]>(Math.toRadians(90)))? (Math.PI-phi[DATA]):(phi[DATA]);
+
+        // Angulo del plano de falla.
+        alpha[DATA] = fod[DATA];
+
+        /* No estoy seguro como se mas conveniente realizr esta comprobación, por el momento le damos prioridad a gamma
+        * si existe algún dato en gamma se calcula con ese.*/
+
+        // Verificamos si el usuario ha introducido algún dato de gamma, si es así no se requiere de calcular.
+        if(gamma[DATA]==0 && ostrend[DATA]!=0)
+        {
+            // Ángulo entre la Linea de strike del plano de falla y la estría.
+            gamma[DATA] = dotProductAngle(striae, stkLine);
+            // Obtenemos la orientación.
+            gammaO =(stk< (Math.toRadians(90)) || stk>(Math.toRadians(270)))? ((gamma[DATA]>(Math.toRadians(90)))? "S":"N"):((gamma[DATA]>(Math.toRadians(90)))? "N":"S");
+            // Si el ángulo es mayor de 90 entonces el ángulo es 180-angulo.
+            gamma[DATA]=(gamma[DATA]>(Math.toRadians(90)))? (Math.PI-gamma[DATA]):(gamma[DATA]);
+        }
+
+        MapView = "Arbitrary Line";
+
+    }
+
+    /** Función para calcular los cosenos directores de un plano con strike y dip */
+    public Double[] method2CalculateDirCosPlane(Double strike, Double dip)
+    {
+        Double[] temp= new Double[] {0.0,0.0,0.0};
+
+        temp[TruDisp.N] = Math.sin(strike)*Math.sin(dip);
+        temp[TruDisp.E] = -Math.cos(strike)*Math.sin(dip);
+        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
+
+        return temp;
+    }
+
+    /** Funcioón para calcular los cosenos directores de una línea con trend y plinge.*/
+    public Double[] method2CalculateDirCosLine(Double trend, Double plunge)
+    {
+        Double[] temp= new Double[] {0.0,0.0,0.0};
+
+        temp[TruDisp.N] = Math.cos(trend)*Math.cos(plunge);
+        temp[TruDisp.E] = Math.sin(trend)*Math.cos(plunge);
+        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
+
+        return temp;
+    }
+
+    /** Función encargada de calcular el desplazamiento empleando el método 2;*/
+    public Double method2Calculate(Double li, Double mi, Double ni, Double lo, Double mo, Double no,  Double lj, Double mj, Double nj,
+                                   Double lk, Double mk, Double nk, Double d, Double a, Double b)
+    {
+        // Director cosines of the line of intersection of fp and op
+
+        Double X = Math.sqrt(Math.pow((mi*no)-(ni*mo),2)+Math.pow((ni*lo)-(li*no),2)+Math.pow((li*mo)-(mi*lo),2));
+
+        Double lp= ((mi*no)-(ni*mo))/X , mp = ((ni*lo)-(li*no))/X, np =((li*mo)-(mi*lo))/X;
+
+        Double D = -lk*mj*ni + lj*mk*ni + lk*mi*nj - li*mk*nj - lj*mi*nk + li*mj*nk ; //Determinante
+
+        Double x1 = (-d*(lk*lp + mk*mp + nk*np)*(mj*ni - nj*mi))/D;
+        Double y1 = (-d*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni))/D;
+        Double z1 = (-d*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li))/D;
+
+        Double x2 = ((a*(lj*lp + mj*mp + nj*np)*(mk*ni - nk*mi))-((d + b)*(lk*lp + mk*mp + nk*np)*(mj*ni - nk*mi)))/D;
+        Double y2 = ((a*(lj*lp + mj*mp + nj*np)*(nk*li - lk*ni))-((d + b)*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni)))/D;
+        Double z2 = ((a*(lj*lp + mj*mp + nj*np)*(lk*mi - mk*li))-((d + b)*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li)))/D;
+
+        return Math.sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1))+((z2-z1)*(z2-z1)));
+    }
+
+    /******************************************************************************************************************/
+    /** Métodos SET.*/
+    /******************************************************************************************************************/
+
+    /** Método 1. */
     public Boolean setBeta(String data,String error,String orientation)
     {
         if(isAngleValid(data))
@@ -385,7 +994,7 @@ public class TDData {
         return true;
     }
 
-    // Método 2
+    /** Método 2. */
 
     public Boolean setFod(String data, String error)
     {
@@ -543,7 +1152,6 @@ public class TDData {
             return false;
         }
     }
-
     public Boolean setSmB(String data,String error)
     {
         if(isDisplacementValid(data))
@@ -575,713 +1183,20 @@ public class TDData {
         }
     }
 
-    // Método 3
-
-
-    public Boolean setFpl(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            fpl[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            fpl[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR fpl is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setFpm(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            fpm[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            fpm[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR fpm is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setFpn(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            fpn[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            fpn[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR fpn is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setOpl(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            opl[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            opl[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR opl is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setOpn(String data, String error)
-    {
-
-        if(isDirCosineValid(data))
-        {
-            opn[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            opn[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR opn is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setOpm(String data, String error)
-    {
-
-        if(isDirCosineValid(data))
-        {
-            opm[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            opm[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR opm is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setApl(String data, String error)
-    {
-
-        if(isDirCosineValid(data))
-        {
-            apl[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            apl[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR apl is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setApn(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            apn[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            apn[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR apn is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setApm(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            apm[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            apm[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR apm is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setBpl(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            bpl[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            bpl[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR bpl is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setBpn(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            bpn[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            bpn[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR bpn is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-    public Boolean setBpm(String data, String error)
-    {
-        if(isDirCosineValid(data))
-        {
-            bpm[DATA] = (Double.parseDouble(data));
-            errorValue = error.split(" ");
-            bpm[ERROR]= (Double.parseDouble(errorValue[1]));
-            return true;
-        }
-        else
-        {
-            statusPane.setStatus("ERROR bpm is not valid",TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-
-    // General
-
+    /** Generales */
     public Boolean setExperiment(String exp)
     {
         experiment = exp;
         return true;
     }
-
     public Boolean setNotes(String nts)
     {notes=nts; return true;}
 
-    public Double dotProductAngle(Double[] a, Double[] b){
-        // Calculamos con el prodcuto punto el pitch.
-
-        return Math.acos((a[0]*b[0])+(a[1]*b[1])+(a[2]*b[2]));
-    }
-
-    public Double[] crossProduct(Double[] a, Double[] b)
-    {
-        Double[] axb = new Double[3];
-
-        axb[0] = a[1]*b[2] - a[2]*b[1];
-        axb[1] = a[2]*b[0] - a[0]*b[2];
-        axb[2] = a[0]*b[1] - a[1]*b[0];
-
-        return axb;
-    }
-
-
-
-    /**Métodos de validación*/
-
-    public Boolean isDataValidForCalcuating()
-    {
-        if((smA[DATA] != 0)||(smh[DATA] !=0)||(smd[DATA]!=0) )
-        {
-            orientationIndeterminated();
-
-            if(isBetaNearGamma())
-            {statusPane.setNotification(" WARNING\n" +
-                    "Θ is small.\n In this condition a very small error in the angular measures will produce a large devuation in the resutls." +
-                    "\nWe do not recommend calculating with Θ < 20º. ", TruDisp.WARNING_ICON);}
-
-            if(MapView.equalsIgnoreCase("Arbitrary Line"))
-            {
-                if(isBetaNearPhi())
-                {statusPane.setNotification(" WARNING\n " +
-                        "You are near the \"null line \".\nIn this condition (β near γ) a very small error in the angular measures will produce" +
-                        "a large deviaton in the results." +
-                        "\nWe do not recommend calculating with Θnull < 10º. ", TruDisp.WARNING_ICON);}
-            }
-
-            return  true;
-        }
-        else{
-            statusPane.setStatus("ERROR al menos uno de los desplazamientos debe ser mayor a 0", TruDisp.ERROR_ICON);
-            return false;
-        }
-    }
-
-    public void orientationIndeterminated()
-    {
-        beta[DATA] = (beta[DATA] < MINANGLE)? (MINANGLE):(beta[DATA]);
-        gamma[DATA] = (gamma[DATA] < MINANGLE)? (MINANGLE):(gamma[DATA]);
-        phi[DATA] = (phi[DATA] < MINANGLE)? (MINANGLE):(phi[DATA]);
-
-        beta[DATA] = (beta[DATA] > MAXANGLE)? (MAXANGLE):(beta[DATA]);
-        gamma[DATA] = (gamma[DATA] > MAXANGLE)? (MAXANGLE):(gamma[DATA]);
-        phi[DATA] = (phi[DATA] > MAXANGLE)? (MAXANGLE):(phi[DATA]);
-
-
-    }
-
-    public Boolean isBetaNearGamma()
-    {
-        // If its opposite direction we use 180-(gamma+betta) if its the same position we use gamma-betta.
-        if(betaO.equalsIgnoreCase(gammaO))
-        {theta = Math.abs(beta[DATA]-gamma[DATA]);}
-        else
-        {theta = Math.PI - (beta[DATA]+gamma[DATA]);}
-        // we check if <20;
-        if(theta < (Math.PI/9))
-        {
-            // If theta is equal to cero it means they are paralels thers no way to calculate that, so we add the 1% to the beta angle.
-            if(theta == 0)
-            { beta[DATA] = (1+0.01)*beta[DATA];}
-            return true;
-        }
-        return false;
-    }
-
-    public Boolean isBetaNearPhi()
-    {
-        if(betaO.equalsIgnoreCase(phiO))
-        { thetanull = Math.abs(beta[DATA]-phi[DATA]);}
-        else
-        {thetanull = Math.PI-(beta[DATA]+phi[DATA]);}
-
-        // We check if its <10;
-        if(thetanull < (Math.PI/18))
-        {
-            if(thetanull == 0)
-            {beta[DATA] = (1+0.01)*beta[DATA];}
-            return true;
-        }
-        return false;
-    }
-
-    public Boolean isAngleValid(String data)
-    {
-        return (isNumber(data)) ? ( (Double.parseDouble(data)<0 || Double.parseDouble(data)>90) ? false : true ) : false;
-    }
-
-    public Boolean isDisplacementValid(String data)
-    {
-        return (isNumber(data)) ? ((Double.parseDouble(data)>=0) ? true : false ) : false;
-    }
-
-    public Boolean isNumber(String data)
-    {
-        try{
-            Double.parseDouble(data);
-        }catch (Exception e)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public Boolean isStrikeAngleValid(String data)
-    {
-        return (isNumber(data)) ? ((Double.parseDouble(data)<0||Double.parseDouble(data)>360)? false:true):false;
-    }
-
-    public Boolean isDirCosineValid(String data)
-    {
-        return (isNumber(data))? ((Double.parseDouble(data)<0||Double.parseDouble(data)>1)? false:true ):false;
-    }
-
-    public Boolean isPlungeValid()
-    {
-        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
-        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.PI / 2) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
-
-        if( Math.abs(osplunge[DATA]-plunge)> Math.toRadians(4))
-        {return false;}
-        else
-        {return  true;}
-    }
-
-    /**Métodos de procesamiento de datos.*/
-
-
-    // Método 1
-    public Double method1Calculate(Double beta, Double gamma, Double phi, Double sm, Double smd, Double smh)
-    {
-        switch (MapView)
-        {
-            case "Map & Sec" :
-            {
-                if(betaO.equalsIgnoreCase(gammaO)) // Same Direction
-                {
-                    if(beta > gamma)
-                    {
-                        if(smd != 0)// Vertical Cross-section
-                        { return  smd/((Math.cos(gamma)*Math.tan(beta))-Math.sin(gamma));}
-
-                        if(smh !=0 )// Map View
-                        { return  smh/((Math.tan(beta)*Math.cos(gamma))-Math.sin(gamma));}
-                    }
-
-                    if(beta < gamma)
-                    {
-                        if(smd != 0) // Vertical Crooss-section
-                        { return smd/(Math.sin(gamma)-(Math.cos(gamma)*Math.tan(beta)));}
-
-                        if(smh != 0) // Mapv view
-                        { return (smh*Math.tan(beta))/(Math.sin(gamma)*(Math.tan(beta)*Math.cos(gamma)));}
-                    }
-                }
-                else // Oposite Direction
-                {
-                    if(smd != 0) // Vertical cross-section
-                    { return smd/ (Math.sin(gamma)+ (Math.cos(gamma)*Math.tan(beta))); }
-
-                    if(smh != 0) // Mapview;
-                    { return (smh*Math.tan(beta))/( (Math.tan(beta)*Math.cos(gamma)) + Math.sin(gamma));}
-                }
-
-                break;
-            }
-
-
-            case "Arbitrary Line":
-            {
-                if(betaO.equalsIgnoreCase(gammaO)) // Same Direction
-                {
-                    if(beta > gamma)
-                    {
-                        if(phiO.equalsIgnoreCase(gammaO))// Same Direction
-                        {
-                            if(sm != 0)
-                            {
-                                if(phi > beta)
-                                { return (sm*Math.sin(phi-beta))/Math.sin(beta-gamma);}
-
-                                if(phi < beta)
-                                { return (sm*Math.sin(beta-phi))/Math.sin(beta-gamma);}
-                            }
-
-                            if(smd != 0)
-                            { return (smd*Math.cos(beta))/Math.sin(beta-gamma);}
-                        }
-                        else // Opposite Direction
-                        { return (sm*Math.sin(phi+beta))/Math.sin(beta-gamma);}
-                    }
-
-                    if(beta < gamma)
-                    {
-                        if(phiO.equalsIgnoreCase(gammaO)) // Same Direction
-                        {
-                            if(sm != 0)
-                            {
-                                if(phi > beta)
-                                { return (sm*Math.sin(phi-beta))/Math.sin(gamma-beta);}
-
-                                if(phi < beta)
-                                { return (sm*Math.sin(beta-phi))/Math.sin(gamma-beta);}
-                            }
-
-                            if(smd != 0)
-                            { return (smd*Math.cos(beta))/Math.sin(gamma-beta);}
-                        }
-                        else // Opposite Direction
-                        {return (sm*Math.sin(phi+beta))/Math.sin(gamma-beta);}
-
-                    }
-
-                }
-                else // Opposite direction
-                {
-                    if(phiO.equalsIgnoreCase(gammaO))// Same Direction
-                    {
-                        if(sm != 0)
-                        { return (sm*Math.sin(phi+beta))/Math.sin(gamma+beta);}
-
-                        if(smd != 0)
-                        { return (smd*Math.cos(beta))/Math.sin(gamma+beta);}
-                    }
-                    else // Opposite direction
-                    {
-                        if(phi > beta)
-                        { return (sm*Math.sin(phi-beta))/Math.sin(gamma+beta);}
-
-                        if(phi < beta)
-                        { return (sm*Math.sin(beta-phi))/Math.sin(gamma+beta);}
-                    }
-                }
-                break;
-            }
-        }
-        return 0.0;
-    }
-    public Double method1CalculateSs(Double s, Double gamma)
-    { return s*Math.cos(gamma);}
-    public Double method1CalculateSd(Double s, Double gamma)
-    {return s*Math.sin(gamma);}
-    public Double method1CalculateSv(Double s, Double gamma, Double alpha)
-    {return s*Math.sin(gamma)*Math.sin(alpha);}
-    public Double method1CalculateSh(Double s, Double gamma, Double alpha)
-    {return s*Math.sin(gamma)*Math.cos(alpha);}
-
-    public void method1CalculateDistance()
-    {
-        ss[DATA] = method1CalculateSs(s[DATA], gamma[DATA]);
-        sd[DATA] = method1CalculateSd(s[DATA], gamma[DATA]);
-        sv[DATA] = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA]);
-        sh[DATA] = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA]);
-    }
-
-    public void calculateDistanceErrors()
-    {
-        Double h=0.001,f,i,pdbeta,pdgamma,pdphi,pdsm,pdsmd,pdsmh;
-
-
-        // Derivada parcial  ds/db
-        f = method1Calculate(beta[DATA] + h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA] - h, gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
-        pdbeta= Math.abs((f - i) / (2 * h));
-
-        // Derivada parcial ds/dgamma
-        f = method1Calculate(beta[DATA], gamma[DATA] + h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA] - h, phi[DATA], smA[DATA], smd[DATA], smh[DATA]);
-        pdgamma= Math.abs((f - i) / (2 * h));
-
-        // Derivada parcial ds/dphi
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] + h, smA[DATA], smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA] - h, smA[DATA], smd[DATA], smh[DATA]);
-        pdphi = Math.abs((f - i) / (2 * h));
-
-        // Derivada parcial ds/dsm
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] + h, smd[DATA], smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA] - h, smd[DATA], smh[DATA]);
-        pdsm= Math.abs((f - i) / (2 * h));
-
-        // Derivada parcial ds/dsmd
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] + h, smh[DATA]);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA] - h, smh[DATA]);
-        pdsmd= Math.abs((f - i) / (2 * h));
-
-        // Derivada parcial ds/dsmh
-        f = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] + h);
-        i = method1Calculate(beta[DATA], gamma[DATA], phi[DATA], smA[DATA], smd[DATA], smh[DATA] - h);
-        pdsmh= Math.abs((f - i) / (2 * h));
-
-
-        s[ERROR] = (pdbeta*beta[ERROR])+(pdgamma*gamma[ERROR])+(pdphi*phi[ERROR])+(pdsm* smA[ERROR])+(pdsmd*smd[ERROR])+(pdsmh*smh[ERROR]);
-
-        //
-        Double pds,pdalpha;
-
-        // Derivada parcial dss/ds
-        f = method1CalculateSs(s[DATA] + h, gamma[DATA]);
-        i = method1CalculateSs(s[DATA] - h, gamma[DATA]);
-        pds = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dss/dgamma
-        f = method1CalculateSs(s[DATA], gamma[DATA] + h);
-        i = method1CalculateSs(s[DATA], gamma[DATA] - h);
-        pdgamma = Math.abs((f - i) / (2 * h));
-
-        ss[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
-
-        // Derivada parcial dsd/ds
-        f = method1CalculateSd(s[DATA] + h, gamma[DATA]);
-        i = method1CalculateSd(s[DATA] - h, gamma[DATA]);
-        pds = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dsd/dgamma
-        f = method1CalculateSd(s[DATA], gamma[DATA] + h);
-        i = method1CalculateSd(s[DATA], gamma[DATA] - h);
-        pdgamma = Math.abs((f - i) / (2 * h));
-
-        sd[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
-
-        // Derivada parcial dsv/ds
-        f = method1CalculateSv(s[DATA] + h, gamma[DATA], alpha[DATA]);
-        i = method1CalculateSv(s[DATA] - h, gamma[DATA], alpha[DATA]);
-        pds = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dsv/dgamma
-        f = method1CalculateSv(s[DATA], gamma[DATA] + h, alpha[DATA]);
-        i = method1CalculateSv(s[DATA], gamma[DATA] - h, alpha[DATA]);
-        pdgamma = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dsv/dalpha
-        f = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] + h);
-        i = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] - h);
-        pdalpha = Math.abs((f - i) / (2 * h));
-
-        sv[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
-
-        // Derivada parcial dsh/ds
-        f = method1CalculateSh(s[DATA] + h, gamma[DATA], alpha[DATA]);
-        i = method1CalculateSh(s[DATA] - h, gamma[DATA], alpha[DATA]);
-        pds = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dsh/dgamma
-        f = method1CalculateSh(s[DATA], gamma[DATA] + h, alpha[DATA]);
-        i = method1CalculateSh(s[DATA], gamma[DATA] - h, alpha[DATA]);
-        pdgamma = Math.abs((f - i) / (2 * h));
-        // Derivada parcial dsh/dalpha
-        f = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] + h);
-        i = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] - h);
-        pdalpha = Math.abs((f - i) / (2 * h));
-
-        sh[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
-
-    }
-
-    // Método 2
-
-    public void method2CalculateDirCosOfPlanes()
-    {
-        Double[] temp = method2CalculateDirCosPlane(fostk[DATA], fod[DATA]);
-        fpl[DATA] = temp[TruDisp.E];
-        fpm[DATA] = temp[TruDisp.N];
-        fpn[DATA] = temp[TruDisp.D];
-
-        temp = method2CalculateDirCosPlane(opostk[DATA], opod[DATA]);
-        opl[DATA]=temp[TruDisp.E];
-        opm[DATA]=temp[TruDisp.N];
-        opn[DATA]=temp[TruDisp.D];
-
-        temp = method2CalculateDirCosPlane(smo1stk[DATA], smo1d[DATA]);
-        apl[DATA]=temp[TruDisp.E];
-        apm[DATA]=temp[TruDisp.N];
-        apn[DATA]=temp[TruDisp.D];
-
-        temp = method2CalculateDirCosPlane(smo2stk[DATA], smo2d[DATA]);
-        bpl[DATA]=temp[TruDisp.E];
-        bpm[DATA]=temp[TruDisp.N];
-        bpn[DATA]=temp[TruDisp.D];
-
-
-    }
-
-    public void method2ConvertDirCos2Method1()
-    {
-        // Obtenmos los pitch;
-
-        Double[] fp = new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}; // Cosenos Directores del plano de Falla (Fault Plane)
-        Double[] stkLine = new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0}; // Cosenos Directores de línea de strike del Plano de falla;
-        Double[] mrkr = new Double[]{apm[DATA],apl[DATA],apn[DATA]}; // Cosenos Directores del plano A (Marcador 1)
-        Double[] op = new Double[]{opm[DATA],opl[DATA],opn[DATA]}; // Cosenos Directores del plano de observación.(Obsevation Plane)
-
-        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
-        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.PI / 2) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
-        Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge); // Cosenos directores de linea de la estria.
-
-        Double stk = fostk[DATA];   // Dirección de la linea stk en grados, con la que se compara si esta hacia el norte o el sur
-
-        beta[DATA] = dotProductAngle(crossProduct(fp, mrkr), stkLine);
-        betaO = (stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((beta[DATA]>(Math.PI/2))? "S":"N"):((beta[DATA]>(Math.PI/2))? "N":"S");
-        beta[DATA]=(beta[DATA]>(Math.PI/2))? (Math.PI-beta[DATA]):(beta[DATA]);
-
-        phi[DATA] = dotProductAngle(crossProduct(fp, op), stkLine);
-        phiO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((phi[DATA]>(Math.PI/2))? "S":"N"):((phi[DATA]>(Math.PI/2))? "N":"S");
-        phi[DATA]=(phi[DATA]>(Math.PI/2))? (Math.PI-phi[DATA]):(phi[DATA]);
-
-        alpha[DATA] = fod[DATA];
-
-        if(gamma[DATA]==0) // Necesitamos calcular gamma.
-        {
-            gamma[DATA] = dotProductAngle(striae, stkLine);
-            gammaO =(stk< (Math.PI/2) || stk>(3*Math.PI/2))? ((gamma[DATA]>(Math.PI/2))? "S":"N"):((gamma[DATA]>(Math.PI/2))? "N":"S");
-            gamma[DATA]=(gamma[DATA]>(Math.PI/2))? (Math.PI-gamma[DATA]):(gamma[DATA]);
-        }
-
-        MapView = "Arbitrary Line";
-
-    }
-
-    public Double[] method2CalculateDirCosPlane(Double strike, Double dip)
-    {
-        Double[] temp= new Double[] {0.0,0.0,0.0};
-
-        temp[TruDisp.N] = Math.sin(strike)*Math.sin(dip);
-        temp[TruDisp.E] = -Math.cos(strike)*Math.sin(dip);
-        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
-
-        return temp;
-    }
-
-    public Double[] method2CalculateDirCosLine(Double trend, Double plunge)
-    {
-        Double[] temp= new Double[] {0.0,0.0,0.0};
-
-        temp[TruDisp.N] = Math.cos(trend)*Math.cos(plunge);
-        temp[TruDisp.E] = Math.sin(trend)*Math.cos(plunge);
-        temp[TruDisp.D] = Math.sqrt(1 - ((temp[0] * temp[0]) + (temp[1] * temp[1])));
-
-        return temp;
-    }
-
-    // Método 3
-
-    public Double method3Calculate()
-    {
-
-        Double li = fpl[DATA], mi = fpm[DATA], ni = -fpn[DATA];
-        Double lo = opl[DATA], mo = opm[DATA], no = -opn[DATA];
-        Double lj = apl[DATA], mj = apm[DATA], nj = -apn[DATA];
-        Double lk = bpl[DATA], mk = bpm[DATA], nk = -bpn[DATA];
-        Double d = dAB[DATA], a = smA[DATA], b= smB[DATA];
-
-        // Director cosines of the line of intersection of fp and op
-
-        Double X = Math.sqrt(Math.pow((mi*no)-(ni*mo),2)+Math.pow((ni*lo)-(li*no),2)+Math.pow((li*mo)-(mi*lo),2));
-
-        Double lp= ((mi*no)-(ni*mo))/X , mp = ((ni*lo)-(li*no))/X, np =((li*mo)-(mi*lo))/X;
-
-        Double D = -lk*mj*ni + lj*mk*ni + lk*mi*nj - li*mk*nj - lj*mi*nk + li*mj*nk ; //Determinante
-
-        Double x1 = (-d*(lk*lp + mk*mp + nk*np)*(mj*ni - nj*mi))/D;
-        Double y1 = (-d*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni))/D;
-        Double z1 = (-d*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li))/D;
-
-        Double x2 = ((a*(lj*lp + mj*mp + nj*np)*(mk*ni - nk*mi))-((d + b)*(lk*lp + mk*mp + nk*np)*(mj*ni - nk*mi)))/D;
-        Double y2 = ((a*(lj*lp + mj*mp + nj*np)*(nk*li - lk*ni))-((d + b)*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni)))/D;
-        Double z2 = ((a*(lj*lp + mj*mp + nj*np)*(lk*mi - mk*li))-((d + b)*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li)))/D;
-
-        return Math.sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1))+((z2-z1)*(z2-z1)));
-    }
-
-    /**Metodos Get*/
-
-    public Double getS()
-    {return (double)Math.round(s[DATA]*PRECITION)/PRECITION;}
-    public Double getSError()
-    {return (double)Math.round(s[ERROR]*PRECITION)/PRECITION;}
-    public Double getSs()
-    {return (double)Math.round(ss[DATA]*PRECITION)/PRECITION;}
-    public Double getSsError()
-    {return (double)Math.round(ss[ERROR]*PRECITION)/PRECITION;}
-    public Double getSd()
-    {return (double)Math.round(sd[DATA]*PRECITION)/PRECITION;}
-    public Double getSdError()
-    {return (double)Math.round(sd[ERROR]*PRECITION)/PRECITION;}
-    public Double getSv()
-    {return (double)Math.round(sv[DATA]*PRECITION)/PRECITION;}
-    public Double getSvError()
-    {return (double)Math.round(sv[ERROR]*PRECITION)/PRECITION;}
-    public Double getSh()
-    {return (double)Math.round(sh[DATA]*PRECITION)/PRECITION;}
-    public Double getShError()
-    {return (double)Math.round(sh[ERROR]*PRECITION)/PRECITION;}
-
-    public Double getTheta()
-    {return  Math.round(Math.toDegrees(theta)*PRECITION)/PRECITION;}
-    public Double getThetaNull()
-    {return  Math.round(Math.toDegrees(thetanull)*PRECITION)/PRECITION;}
-
-
+    /******************************************************************************************************************/
+    /** Métodos GET.*/
+    /******************************************************************************************************************/
+
+    /** Método 1. */
     public Double getBeta()
     {return (double)Math.round(Math.toDegrees(beta[DATA])*PRECITION)/PRECITION;}
     public Double getBetaError()
@@ -1324,8 +1239,7 @@ public class TDData {
     {return notes;}
 
 
-    // Metodo 2
-
+    /** Método 2. */
     public Double getFod()
     {return Math.round(Math.toDegrees(fod[DATA])*PRECITION)/PRECITION;}
     public Double getFodError()
@@ -1374,9 +1288,6 @@ public class TDData {
     {return Math.round(dAB[DATA]*PRECITION)/PRECITION;}
     public Double getdABError()
     {return Math.round(dAB[ERROR]*PRECITION)/PRECITION;}
-
-    // Metodo 3
-
     public Double getFpl()
     {return Math.round(fpl[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getFplError()
@@ -1425,8 +1336,6 @@ public class TDData {
     {return Math.round(bpm[DATA]*DIR_COS_PRECITION)/DIR_COS_PRECITION;}
     public Double getBpmError()
     {return Math.round(bpm[ERROR]*PRECITION)/PRECITION;}
-
-
     public Double[] getFaultPlane()
     {return new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]};}
     public Double[] getObservationPlane()
@@ -1436,9 +1345,39 @@ public class TDData {
     public Double[] getPlaneB()
     {return  new Double[]{bpm[DATA],bpl[DATA],bpn[DATA]};}
 
-    /**To String*/
+    /** Generales */
+    public Double getS()
+    {return (double)Math.round(s[DATA]*PRECITION)/PRECITION;}
+    public Double getSError()
+    {return (double)Math.round(s[ERROR]*PRECITION)/PRECITION;}
+    public Double getSs()
+    {return (double)Math.round(ss[DATA]*PRECITION)/PRECITION;}
+    public Double getSsError()
+    {return (double)Math.round(ss[ERROR]*PRECITION)/PRECITION;}
+    public Double getSd()
+    {return (double)Math.round(sd[DATA]*PRECITION)/PRECITION;}
+    public Double getSdError()
+    {return (double)Math.round(sd[ERROR]*PRECITION)/PRECITION;}
+    public Double getSv()
+    {return (double)Math.round(sv[DATA]*PRECITION)/PRECITION;}
+    public Double getSvError()
+    {return (double)Math.round(sv[ERROR]*PRECITION)/PRECITION;}
+    public Double getSh()
+    {return (double)Math.round(sh[DATA]*PRECITION)/PRECITION;}
+    public Double getShError()
+    {return (double)Math.round(sh[ERROR]*PRECITION)/PRECITION;}
+    public Double getTheta()
+    {return  Math.round(Math.toDegrees(theta)*PRECITION)/PRECITION;}
+    public Double getThetaNull()
+    {return  Math.round(Math.toDegrees(thetanull)*PRECITION)/PRECITION;}
 
 
+
+    /******************************************************************************************************************/
+    /** Métodos To.*/
+    /******************************************************************************************************************/
+
+    /** To String*/
     @Override
     public String toString() {
 

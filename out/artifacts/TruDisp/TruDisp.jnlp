@@ -8,7 +8,28 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="TruDisp.jar" size="1538088" download="eager" />
+    <jar href="TruDISP.app/Contents/MacOS/TruDisp.jar" size="1581218" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/charsets.jar" size="3133473" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/cldrdata.jar" size="3860522" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/dnsns.jar" size="8286" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/jaccess.jar" size="44516" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/jfxrt.jar" size="18570861" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/localedata.jar" size="1178935" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/nashorn.jar" size="2014239" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/sunec.jar" size="39771" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/sunjce_provider.jar" size="278680" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/sunpkcs11.jar" size="250826" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/ext/zipfs.jar" size="68848" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/jce.jar" size="114730" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/jfr.jar" size="555268" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/jfxswt.jar" size="33930" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/jsse.jar" size="625764" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/management-agent.jar" size="381" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/resources.jar" size="3501583" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/rt.jar" size="66555254" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/security/US_export_policy.jar" size="3026" download="eager" />
+    <jar href="TruDISP.app/Contents/PlugIns/jre1.8.0_60.jre/Contents/Home/lib/security/local_policy.jar" size="3527" download="eager" />
+    <jar href="TruDisp.jar" size="23483621" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="TruDisp.TruDisp"  name="TruDisp" />
   <update check="background"/>

@@ -36,6 +36,7 @@ public class Plane3D extends My3DObject {
         this.getObjFaceColor().add(color);
         this.setContainer(container);
         this.setRotMatrix(container.getRotMatrix());
+        this.setObjPos(new Double[]{0d,0d,0d});
         this.intersectPlaneWidthContainer();
 
 
@@ -49,9 +50,9 @@ public class Plane3D extends My3DObject {
 
     public void intersectPlaneWidthContainer()
     {
-        Double[] nv = this.getObjNormalVect().get(0); // obtenemos el arreglo de vectores normales a los planos de las caras.
-        ArrayList<Double[]> vert = new ArrayList<>();    // Vertices del plano que sera´ calculados.
-        ArrayList<int[]> face = new ArrayList<>();       // Vector que contendrá el orden de los vertices.
+        Double[] nv = this.getObjNormalVect().get(0);       // obtenemos el arreglo de vectores normales a los planos de las caras.
+        ArrayList<Double[]> vert = new ArrayList<>();       // Vertices del plano que sera´ calculados.
+        ArrayList<int[]> face = new ArrayList<>();          // Vector que contendrá el orden de los vertices.
 
         Double[] planeOrigin= this.getObjPos();
         Double[] l = new Double[3];     // Arista;
@@ -67,19 +68,19 @@ public class Plane3D extends My3DObject {
                 // Obtenemos la arista
                 if(j==obj.getObjFace().get(i).length-1)
                 {
-                    l[X]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[X]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[X];
-                    l[Y]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[Y]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Y];
-                    l[Z]=obj.getObjTVert().get(obj.getObjFace().get(i)[0])[Z]-obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Z];
+                    l[X]=obj.getTObjVert().get(obj.getObjFace().get(i)[0])[X]-obj.getTObjVert().get(obj.getObjFace().get(i)[j])[X];
+                    l[Y]=obj.getTObjVert().get(obj.getObjFace().get(i)[0])[Y]-obj.getTObjVert().get(obj.getObjFace().get(i)[j])[Y];
+                    l[Z]=obj.getTObjVert().get(obj.getObjFace().get(i)[0])[Z]-obj.getTObjVert().get(obj.getObjFace().get(i)[j])[Z];
                 }
                 else
                 {
-                    l[X] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[X] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[X];
-                    l[Y] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Y] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Y];
-                    l[Z] = obj.getObjTVert().get(obj.getObjFace().get(i)[j + 1])[Z] - obj.getObjTVert().get(obj.getObjFace().get(i)[j])[Z];
+                    l[X] = obj.getTObjVert().get(obj.getObjFace().get(i)[j + 1])[X] - obj.getTObjVert().get(obj.getObjFace().get(i)[j])[X];
+                    l[Y] = obj.getTObjVert().get(obj.getObjFace().get(i)[j + 1])[Y] - obj.getTObjVert().get(obj.getObjFace().get(i)[j])[Y];
+                    l[Z] = obj.getTObjVert().get(obj.getObjFace().get(i)[j + 1])[Z] - obj.getTObjVert().get(obj.getObjFace().get(i)[j])[Z];
                 }
 
                 // obtenemos un punto de la arista.
-                linePoint = obj.getObjTVert().get(obj.getObjFace().get(i)[j]);
+                linePoint = obj.getTObjVert().get(obj.getObjFace().get(i)[j]);
 
                 // punto del plano - punto de la arista.
                 po_pl[X]= planeOrigin[X]-linePoint[X]; po_pl[Y]=planeOrigin[Y]-linePoint[Y]; po_pl[Z]=planeOrigin[Z]-linePoint[Z];
@@ -112,9 +113,9 @@ public class Plane3D extends My3DObject {
                 }
             }
         }
-        face.add(planeOrderVertices(vert, nv, planeOrigin));
+        face.add(orderFaceVertices(vert, nv));
         setObject(vert, face, this.getObjFaceColor());
-        projectObject();
+        project();
     }
 
     public void setObjFaceColor(Color color)

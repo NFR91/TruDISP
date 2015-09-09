@@ -78,7 +78,6 @@ public class TDStatusPane extends StackPane{
 
     /** Constantes */
     private static final Integer DEFAULT_DURATION=5000,NOTIFICATION_DURATION=10000;
-    private static final String WELCOME_ICON="Icons/welcomeicon.png";
 
     /** Constructor */
     public TDStatusPane()
@@ -150,7 +149,7 @@ public class TDStatusPane extends StackPane{
             // Si la tarea terminó correctamente se reinician los valores
             if (newValue == Worker.State.SUCCEEDED) {
                 statusLabel.setText("");
-                setIcon(WELCOME_ICON);
+                statusLabel.setGraphic(null);
                 statusDuration = DEFAULT_DURATION;
             }
         });
@@ -160,6 +159,7 @@ public class TDStatusPane extends StackPane{
 
         // desplegamos el estado.
         statusLabel.setText(stat);
+        statusLabel.setGraphic(null);
     }
 
     /** Función encargada de cambiar el ícono un estado */
@@ -172,8 +172,8 @@ public class TDStatusPane extends StackPane{
     /** Función encargada de desplegar un estado pero acepta el estado y la imagen */
     public void setStatus(String stat, String im)
     {
-        setIcon(im);
         setStatus(stat);
+        setIcon(im);
     }
 
     /** Función encargada de agregar el contenedor de la aplicación */

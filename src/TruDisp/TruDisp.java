@@ -65,6 +65,13 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -89,7 +96,7 @@ public class TruDisp extends Application {
 
     // Programa.
     public static final String UPDATE_TXT = "http://nfr91.github.io/TruDISP/TruDISP/TruDispVersions.txt"; //Dirección de la lista de actualizaciones.
-    public static final Double TRU_DISP_VERSION = 1.94;     // Versión del programa.
+    public static final Double TRU_DISP_VERSION = 1.95;     // Versión del programa.
     public static final String REPOSITORY ="beta";          // Repositorio al que pertenece.
 
     // Methods
@@ -99,9 +106,10 @@ public class TruDisp extends Application {
     // Icons;
     public static final String WELCOME_ICON = "Icons/welcomeicon.png";  // Icono de bienvenida.
     public static final String ADVICE_ICON = "Icons/adviceicon.png";    // Icono de tip
-    public static final String WARNING_ICON = WELCOME_ICON;             // Icono de advertencia.
-    public static final String ERROR_ICON = WELCOME_ICON;               // Icono de error.
-    public static final String SPLASH_IMAGE = "Images/splashimage.png";
+    public static final String WARNING_ICON = "Icons/warningicon.png";             // Icono de advertencia.
+    public static final String ERROR_ICON = "Icons/erroricon.png";               // Icono de error.
+    public static final String SPLASH_IMAGE = "Images/splashimage.png"; // Imagen Splash
+    public static final String TD_ICON  = "Icons/appicon.png";         // Icono para la aplicación
 
     // Estilos
     public static final String TRUDISP_STYLE_SHEET = "TruDisp/TruDispStyleSheet.css";
@@ -264,6 +272,7 @@ public class TruDisp extends Application {
         // Creamos el contenedor del texto ;
         Label splashProgressText = new Label("Iniciando TruDISP");
         splashProgressText.setId(SPLASH_PROGRESS_TEXT);
+        splashProgressText.setStyle("-fx-background-color:rgba(255,255,255,.5);");
         splashProgressText.setMaxWidth(Double.MAX_VALUE);
 
         // Creamos el contenedor de la barra de progreso;
@@ -279,7 +288,7 @@ public class TruDisp extends Application {
         // Creamos la escena del splash
         Scene splashScene = new Scene(splashVBoxLayout);
         splashScene.getStylesheets().add(TRUDISP_STYLE_SHEET);
-        splashScene.setFill(Color.WHITE);
+        splashScene.setFill(Color.TRANSPARENT);
         splashVBoxLayout.setBackground(Background.EMPTY);
 
         // agregamos la escena
@@ -288,7 +297,7 @@ public class TruDisp extends Application {
         mainStage.show();
 
         // Mandamos llamar la rutina de actualización.
-        update(splashProgressBar,splashProgressText,mainStage);
+        update(splashProgressText,mainStage,splashVBoxLayout,splashProgressBar);
     }
 
     public static void main(String[] args) {
@@ -296,10 +305,10 @@ public class TruDisp extends Application {
     }
 
     /** Rutina encargada de realizar la actualización.*/
-    private void update(ProgressBar splashProgressBar, Label splashProgressText,Stage stage) {
+    private void update(Label splashProgressText,Stage stage,VBox stageLayout,ProgressBar splashProgressBar) {
 
         // Creamos un objeto de actualización.
-        MyUpdater up = new MyUpdater(splashProgressBar,splashProgressText,stage);
+        MyUpdater up = new MyUpdater(splashProgressText,stage,stageLayout,splashProgressBar);
 
         // Si el actualizador ha terminado entonces mostramos la aplicación.
         up.getIsreadyProperty().addListener((observable, oldValue, newValue) -> {
@@ -324,6 +333,7 @@ public class TruDisp extends Application {
 
         // Agregamos el contenido
         mainTruDispStage.setScene(mainScene);
+        mainTruDispStage.getIcons().add(new Image(TD_ICON));
         mainTruDispStage.setMinHeight(700);
         mainTruDispStage.setHeight(700);
         mainTruDispStage.setMinWidth(550);
@@ -370,7 +380,7 @@ public class TruDisp extends Application {
 
         // Notificaciones.
         statusPane = new TDStatusPane();
-        statusPane.setStatus(".... Bienvenido a TruDisp", WELCOME_ICON);
+        statusPane.setStatus("Bienvenido a TruDisp");
 
         /** Método 1 */
 
@@ -486,10 +496,7 @@ public class TruDisp extends Application {
 
         panelMenuFaultViewrItem = new MenuItem("Fault Viewer");
         // Se agrega la función que muestra el graficador.
-        panelMenuFaultViewrItem.setOnAction(event -> {
-            faultViewerTD.show();
-            faultViewerTD.requestFocus();
-        });
+        panelMenuFaultViewrItem.setOnAction(event -> {faultViewerTD.show();});
 
         panelCosDirItem = new MenuItem("Direction Cosines");
         // Se agrega la función que muestra el dialogo de cosenos directores.
@@ -1703,9 +1710,6 @@ public class TruDisp extends Application {
                 smhLabel.setDisable(true);
                 smhErrorLabel.setDisable(true);
 
-                // Desplegamos información
-                statusPane.setStatus("Este es un caso general", ADVICE_ICON);
-
                 // Limpiamos
                 clearcomponents();
 
@@ -1735,8 +1739,6 @@ public class TruDisp extends Application {
                 smATextField.setDisable(true);
                 smALabel.setDisable(true);
                 smAErrorLabel.setDisable(true);
-                // Desplegamos que es;
-                statusPane.setStatus("Este es un caso particular", ADVICE_ICON);
                 //Limpiamos
                 clearcomponents();
             } else {
@@ -1820,7 +1822,7 @@ public class TruDisp extends Application {
                                     if (data.setSmd(smdTextField.getText(), smdErrorLabel.getText())) {
                                         if (data.setSmh(smhTextField.getText(), smhErrorLabel.getText())) {
                                             if (data.setMapView((mapSectionToggleButton.isSelected()) ? mapSectionToggleButton.getText() : arbitraryLineToggleButton.getText())) {
-                                                if (data.isDataValidForCalcuating()) {
+                                                if (data.isDataValidForMethod1()) {
                                                     if (data.Calculate(METHOD_1)) {
                                                         displayData(data);
                                                         tableTD.addData(data);
