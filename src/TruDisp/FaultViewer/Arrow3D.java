@@ -37,7 +37,7 @@ public class Arrow3D extends My3DObject {
         objFaceColor.add(3,color);
         objFaceColor.add(4, color);
 
-        setNormalVect(setNormalVect(objVert, objFace));
+        setNormalVect(normalVect(objVert, objFace));
 
         setObject(objVert, objFace, objFaceColor);
         reset();

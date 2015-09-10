@@ -70,8 +70,8 @@ import java.util.ArrayList;
 public class FaultViewer {
 
     /**Constantes */
-    private final Long              SLEEP_TIME_MILLIS = 1l;        // Tiempo de espera entre rotaciones en millisegundos.
-    private final Double            ROT_INCREMENT=0.001;            // Incremento de la rotación
+    private final Long              SLEEP_TIME_MILLIS = 10l;        // Tiempo de espera entre rotaciones en millisegundos.
+    private final Double            ROT_INCREMENT=0.005;            // Incremento de la rotación
 
     /**Variables */
     private Stage                   viewer;             // Ventana para mostrar el dibujo.
@@ -79,7 +79,6 @@ public class FaultViewer {
     private Double                  xold=0.0,yold=0.0;  // Posiciones del cursor para saber cuanto rotar.
     private Task<Double>            task;               // Tarea que maneja la rotación.
     private FaultBlock3D            faultBlock;         // Bloque de falla.
-    private Arrow3D                 northArrow;         // Indicador del norte.
     private ArrayList<My3DObject>   objects;            // Arreglo de objetos a dibujar.
     private HBox                    rotCtrl;            // Contenedor de controles de rotación.
     private GraphicsContext         gc;                 // Contexto gráfico.
@@ -109,7 +108,7 @@ public class FaultViewer {
 
         // Generamos la lista de objetos de la escena
         faultBlock = new FaultBlock3D();
-        northArrow = new Arrow3D();
+        faultBlock.rotateObject(My3DObject.Y,20d);
         objects = new ArrayList<>();
         objects.add(faultBlock);
         this.drawScene(gc,objects);
@@ -141,6 +140,33 @@ public class FaultViewer {
             }
         });
 
+        /**
+         * Las coordenadas del objeto son [X Y Z], las de la proyección son [X Y] y las del canvas son [Y X]
+         *
+         * Objeto
+         *
+         * x
+         * |  z
+         * | /
+         * |/_ _ _ Y
+         *
+         * Proyección
+         *
+         * x
+         * |
+         * |
+         * |_ _ _ Y
+         *
+         * Canvas
+         *
+         * _ _ _ _ X
+         * |
+         * |
+         * |Y
+         *
+         *
+         * */
+
         /**Botones de posición para el eje X*/
         rxpos = new Button("+");
         rxneg = new Button("-");
@@ -161,7 +187,7 @@ public class FaultViewer {
                         // Mientras la tarea este activa rotamos.
                         while (!isCancelled()) {
 
-                            objects.stream().forEach(obj -> obj.rotateObject(ROT_INCREMENT, 0.0, 0.0));
+                            objects.stream().forEach(obj -> obj.rotateObject(ROT_INCREMENT,0.0, 0.0));
                             drawScene(gc, objects);
 
                             try
@@ -203,7 +229,7 @@ public class FaultViewer {
 
                         // Mientras la tarea este activa roitamos.
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject(-ROT_INCREMENT, 0.0, 0.0));
+                            objects.stream().forEach(obj -> obj.rotateObject( -ROT_INCREMENT,0.0,  0.0));
                             drawScene(gc, objects);
 
                             try
@@ -248,7 +274,7 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject(0.0, ROT_INCREMENT, 0.0));
+                            objects.stream().forEach(obj -> obj.rotateObject( 0.0,ROT_INCREMENT,  0.0));
                             drawScene(gc, objects);
 
                             try
@@ -284,7 +310,7 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject(0.0, -ROT_INCREMENT, 0.0));
+                            objects.stream().forEach(obj -> obj.rotateObject( 0.0, -ROT_INCREMENT, 0.0));
                             drawScene(gc, objects);
 
                             try
@@ -456,8 +482,8 @@ public class FaultViewer {
         Double[] min = getMinVal(objects);
         Double[] max = getMaxVal(objects);
 
-        max = new Double[]{2.0,2.0};
-        min = new Double[]{-2.0,-2.0};
+        //max = new Double[]{2.0,2.0};
+        //min = new Double[]{-2.0,-2.0};
 
         // Limpiamos la escena.
         gc.clearRect(0, 0, w, h);
@@ -467,16 +493,6 @@ public class FaultViewer {
         {
             objects.get(i).draw(gc,min,max,w,h);
         }
-
-
-        // Dibujamos el sistema de coordenadas.
-        Double[] zero = getCanvasPoint(min, max, min, w, h);
-        gc.setStroke(Color.RED);
-        gc.strokeLine(zero[My3DObject.X], zero[My3DObject.Y], zero[My3DObject.X], zero[My3DObject.Y] - 100);
-        gc.setStroke(Color.GREEN);
-        gc.strokeLine(zero[My3DObject.X], zero[My3DObject.Y], zero[My3DObject.X] + 100, zero[My3DObject.Y]);
-        gc.setStroke(Color.BLUE);
-        gc.strokeLine(zero[My3DObject.X], zero[My3DObject.Y], zero[My3DObject.X] + 20, zero[My3DObject.Y] - 20);
     }
 
     /** Función que muestra la venta para graficar.. */
@@ -507,7 +523,6 @@ public class FaultViewer {
         objects.add(marker1Plane);
         objects.add(marker2Plane);
         // Agregamos los bloques básicos.
-        objects.add(northArrow);
         objects.add(faultBlock);
 
         // Dibujamos la escena.
@@ -568,16 +583,17 @@ public class FaultViewer {
         // Varialbes temporales.
         Double x,y;
 
-        // normalizamos mediante. (x-min)/(max-min) y (y-max)/(min-max)
-        x = (point[My3DObject.X]-min[My3DObject.X])/(max[My3DObject.X]-min[My3DObject.X]);
-        y = (point[My3DObject.Y]-max[My3DObject.Y])/(min[My3DObject.Y]-max[My3DObject.Y]);
+        // normalizamos mediante. (y-min)/(max-min) y (x-max)/(min-max) e invertimos los ejes para el canvas
+        y = (point[My3DObject.X]-min[My3DObject.X])/(max[My3DObject.X]-min[My3DObject.X]);
+        x = (point[My3DObject.Y]-max[My3DObject.Y])/(min[My3DObject.Y]-max[My3DObject.Y]);
+        //y=(point[My3DObject.Y]-min[My3DObject.Y])/(max[My3DObject.Y]-min[My3DObject.Y]);
 
         // Colocamos un margen del 10 % ;
-        x = (0.1)+(x*0.8);
-        y = (0.1)+(y*0.8);
+        x = ((0.1)+(x*0.8))*w;
+        y = ((0.1)+(y*0.8))*h;
 
         // Regresamos el valor normalizado multiplicado por las dimensiones de la ventana.
-        return  new Double[]{x*w,y*h};
+        return  new Double[]{x,y};
 
     }
 }

@@ -69,8 +69,9 @@ public abstract class My3DObject {
     private Double[]                rotMatrix;      // Matriz de rotación
 
     /** Constantes */
-    public static final int X=0,Y=1,Z=2;            // Constantes de posición en los arreglos.
-
+    public static final int     X=0,Y=1,Z=2;            // Constantes de posición en los arreglos.
+    public static final Double  FL=.004d;            // Distancia Focal
+    public static final Double  CAMERA_POS=5d;      // Posición de la cámara
     /** Constructor */
     public My3DObject()
     {
@@ -98,7 +99,7 @@ public abstract class My3DObject {
 
             // Para cada vertice de la cara generamos un punto
             for(int n=0; n<objFace.get(i).length;n++)
-            { points.add(n,FaultViewer.getCanvasPoint(objProj.get(objFace.get(i)[n]),max,min,w,h));}
+                {points.add(n, FaultViewer.getCanvasPoint(objProj.get(objFace.get(i)[n]), max, min, w, h));}
 
             xs = new double[points.size()]; ys = new double[points.size()];
 
@@ -111,9 +112,11 @@ public abstract class My3DObject {
 
             // Dibujamos el objeto
             gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
             gc.strokePolygon(xs, ys, points.size());
             gc.setFill(objFaceColor.get(i));
-            gc.fillPolygon(xs,ys,points.size());
+            gc.fillPolygon(xs, ys, points.size());
+
         }
     }
 
@@ -162,6 +165,44 @@ public abstract class My3DObject {
         n = Math.sqrt(n);
 
         return n;
+    }
+
+    /**Función encargada de calcular los vectores normales a las caras del objeto*/
+    public synchronized ArrayList<Double[]> normalVect(ArrayList<Double[]> vert, ArrayList<int[]> face) {
+
+        // Arreglo que almacena los vectores normales.
+        ArrayList<Double[]> normvect= new ArrayList<>(face.size());
+
+        // Variables de dos vectores no paralelos.
+        Double[] v1 = new Double[3];
+        Double[] v2 = new Double[3];
+
+        // para cada cara calculamos el vector normal.  // TODO Verificar que sean dos vectores no paralelos.
+        for(int i=0;i<face.size();i++)
+        {
+            // Vector de vertice 1 con vertice 0
+            v1[X] = vert.get(face.get(i)[1])[X]-vert.get(face.get(i)[0])[X];
+            v1[Y] = vert.get(face.get(i)[1])[Y]-vert.get(face.get(i)[0])[Y];
+            v1[Z] = vert.get(face.get(i)[1])[Z]-vert.get(face.get(i)[0])[Z] ;
+
+            // Vector de vertice 2 con vertice 0;
+            v2[X] = -vert.get(face.get(i)[0])[X] +vert.get(face.get(i)[2])[X];
+            v2[Y] = -vert.get(face.get(i)[0])[Y] + vert.get(face.get(i)[2])[Y];
+            v2[Z] = -vert.get(face.get(i)[0])[Z] + vert.get(face.get(i)[2])[Z];
+
+            // Obtenemos el vector normal.
+            normvect.add(i,crossProduct(v2,v1));
+        }
+
+        // Normalizamos los vectores
+        normvect.stream().forEach(nv-> {
+            nv[X] = nv[X]/ normOfVector(nv);
+            nv[Y] = nv[Y]/ normOfVector(nv);
+            nv[Z] = nv[Z]/ normOfVector(nv);
+        });
+
+        // Regresamos los vectores normales unitarios.
+        return normvect;
     }
 
     /******************************************************************************************************************/
@@ -308,6 +349,40 @@ public abstract class My3DObject {
 
     }
 
+    /** Función encargada de rotar el objeto en grados */
+    public synchronized void rotateObject(Integer axis,Double angle)
+    {
+        // Convertimos a radianes el ángulo
+        angle = Math.toRadians(angle);
+
+        // Verificamos sobre cual eje se realiza la rotación y realizamos la rotación
+        switch (axis)
+        {
+            case X:
+            {
+                for (double i=0,xd=0.0001; i<=angle;i+=xd)
+                    {rotMatrix = matrixPxN(rotMatrix,matrixRotUpdate(xd,0d,0d));}
+                break;
+            }
+
+            case Y:
+            {
+                for (double i=0,yd=0.0001; i<=angle;i+=yd)
+                    {rotMatrix = matrixPxN(rotMatrix,matrixRotUpdate(0d,yd,0d));}
+                break;
+            }
+            case Z:
+            {
+                for (double i=0,zd=0.0001; i<=angle;i+=zd)
+                    {rotMatrix = matrixPxN(rotMatrix,matrixRotUpdate(0d,0d,zd));}
+                break;
+            }
+        }
+
+        // Actualizamos el objeto
+        this.rotateObject(0d,0d,0d);
+    }
+
     /** Función encargada de multiplicar dos matrices de 3x3 , p y n. */
     public synchronized  Double[] matrixPxN(Double[] pr, Double[] nr)
     {
@@ -341,13 +416,13 @@ public abstract class My3DObject {
     }
 
     /** Función encargada obtener la nueva rotación */
-    public synchronized Double[] matrixRotUpdate(Double x,Double y,Double z)
-    {
+    public synchronized Double[] matrixRotUpdate(Double x, Double y, Double z) {
         // Variable que almacena el vector de rotación.
         Double[] a = new Double[]{x,y,z};
 
         // Transformamos el vector de rotación al sistema de coordenadas del objeto.
         a = rotate(matrixRotTranspose(rotMatrix),a);
+        //a = rotate(rotMatrix,a);
 
         // Creamos la matriz de rotación con el vector de rotación
         Double[] rd = new Double[9];
@@ -385,7 +460,7 @@ public abstract class My3DObject {
 
         // Para cada punto obtenemos los valores X e Y de cada punto del objeto 3D;
         for(int i=0; i<v.size();i++)
-        {proj.add(i,new Double[]{v.get(i)[Y],v.get(i)[X]});}
+        {proj.add(i,new Double[]{FL*(v.get(i)[X]/(CAMERA_POS+v.get(i)[Z])),FL*(v.get(i)[Y]/(CAMERA_POS+v.get(i)[Z]))});}
 
         // Regresamos la proyeción.
         return proj;
@@ -462,50 +537,12 @@ public abstract class My3DObject {
         objVert = new ArrayList<>(vert);
         objFace = face;
         objFaceColor = faceColor;
-        objnormVect = setNormalVect(objVert, objFace);
+        objnormVect = normalVect(objVert, objFace);
         objProj = project(objVert);
     }
 
     /** Función encargada de asignar el valor de la matriz de rotación. */
     public synchronized void setRotMatrix(Double[] rotm) {rotMatrix =rotm;}
-
-    /**Función encargada de calcular los vectores normales a las caras del objeto*/
-    public synchronized ArrayList<Double[]> setNormalVect(ArrayList<Double[]> vert, ArrayList<int[]> face) {
-
-        // Arreglo que almacena los vectores normales.
-        ArrayList<Double[]> normvect= new ArrayList<>(face.size());
-
-        // Variables de dos vectores no paralelos.
-        Double[] v1 = new Double[3];
-        Double[] v2 = new Double[3];
-
-        // para cada cara calculamos el vector normal.  // TODO Verificar que sean dos vectores no paralelos.
-        for(int i=0;i<face.size();i++)
-        {
-            // Vector de vertice 1 con vertice 0
-            v1[X] = vert.get(face.get(i)[1])[X]-vert.get(face.get(i)[0])[X];
-            v1[Y] = vert.get(face.get(i)[1])[Y]-vert.get(face.get(i)[0])[Y];
-            v1[Z] = vert.get(face.get(i)[1])[Z]-vert.get(face.get(i)[0])[Z] ;
-
-            // Vector de vertice 2 con vertice 0;
-            v2[X] = -vert.get(face.get(i)[0])[X] +vert.get(face.get(i)[2])[X];
-            v2[Y] = -vert.get(face.get(i)[0])[Y] + vert.get(face.get(i)[2])[Y];
-            v2[Z] = -vert.get(face.get(i)[0])[Z] + vert.get(face.get(i)[2])[Z];
-
-            // Obtenemos el vector normal.
-            normvect.add(i,crossProduct(v2,v1));
-        }
-
-        // Normalizamos los vectores
-        normvect.stream().forEach(nv-> {
-            nv[X] = nv[X]/ normOfVector(nv);
-            nv[Y] = nv[Y]/ normOfVector(nv);
-            nv[Z] = nv[Z]/ normOfVector(nv);
-        });
-
-        // Regresamos los vectores normales unitarios.
-        return normvect;
-    }
 
     /**Función encargada de asignar  los vectores normales a las caras del objeto*/
     public synchronized void setNormalVect(ArrayList<Double[]> nv)  {objnormVect = nv;}

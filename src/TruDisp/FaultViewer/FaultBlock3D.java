@@ -52,7 +52,11 @@
 
 package TruDisp.FaultViewer;
 
+import javafx.geometry.VPos;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 
@@ -64,14 +68,14 @@ public class FaultBlock3D extends My3DObject {
     {
         // Vertices
         ArrayList<Double[]> objVert = new ArrayList<>(8);
-        objVert.add(0, new Double[]{-1.0, -1.0, -1.0});
-        objVert.add(1, new Double[]{1.0, -1.0, -1.0});
-        objVert.add(2, new Double[]{1.0, 1.0, -1.0});
-        objVert.add(3, new Double[]{-1.0, 1.0, -1.0});
-        objVert.add(4, new Double[]{-1.0, -1.0, 1.0});
-        objVert.add(5, new Double[]{1.0, -1.0, 1.0});
-        objVert.add(6, new Double[]{1.0, 1.0, 1.0});
-        objVert.add(7, new Double[]{-1.0, 1.0, 1.0});
+        objVert.add(0, new Double[]{-1d, -1d, -1d});
+        objVert.add(1, new Double[]{-1d,  1d, -1d});
+        objVert.add(2, new Double[]{ 1d,  1d, -1d});
+        objVert.add(3, new Double[]{ 1d, -1d, -1d});
+        objVert.add(4, new Double[]{-1d, -1d,  1d});
+        objVert.add(5, new Double[]{-1d,  1d,  1d});
+        objVert.add(6, new Double[]{ 1d,  1d,  1d});
+        objVert.add(7, new Double[]{ 1d, -1d,  1d});
 
         // Caras
         ArrayList<int[]> objFace = new ArrayList(6);
@@ -84,24 +88,55 @@ public class FaultBlock3D extends My3DObject {
 
         // Color de las caras
         ArrayList<Color> objFaceColor = new ArrayList<>(6);
-        Color color = Color.rgb(0,0,0,.02);
+        Color color = Color.rgb(219, 140, 51,.02);
         objFaceColor.add(0, color);
         objFaceColor.add(1, color);
         objFaceColor.add(2, color);
         objFaceColor.add(3, color);
-        objFaceColor.add(4, Color.rgb(255,222,173,0.2));
-        objFaceColor.add(5, Color.rgb(0,0,0,0.2));
+        objFaceColor.add(4, Color.rgb(255, 143, 15,0.2));
+        objFaceColor.add(5, Color.rgb(99, 61, 17, .8));
 
         // Obtenemos el vector normal a cada cara.
-        ArrayList<Double[]> objnormVect = setNormalVect(objVert, objFace);
-        setNormalVect(objnormVect);
+        setNormalVect(normalVect(objVert, objFace));
+
+        // Asignamos los valores del objeto.
+        setObject(objVert, objFace, objFaceColor);
 
         // Ordenamos las caras
         orderObjectFaces();
 
-        // Asignamos los valores del objeto.
-        setObject(objVert, objFace, objFaceColor);
         reset();
+    }
+
+    /**Función encargada de dibujar el objeto*/
+    public void draw(GraphicsContext gc,Double[] min,Double[] max,Double w,Double h)
+    {
+        // Llamamos a la función padre.
+        super.draw(gc, min, max, w, h);
+
+        // Ahora dibujamos las coordenadas sobre el bloque de falla.
+
+
+        // Puntos de la línea del norte.
+        Double[] fp = FaultViewer.getCanvasPoint(getProjection().get(7),min,max,w,h);
+        Double[] op = FaultViewer.getCanvasPoint(getProjection().get(3), min, max, w, h);
+
+        // Definimos los colres, el tamaño y la posición de la esfera que indica el norte
+        gc.setFill(Color.rgb(200, 0, 0, .8));
+        gc.setStroke(Color.rgb(200, 0, 0, .8));
+        gc.fillOval(fp[X] - 10, fp[Y] - 10, 20, 20);
+
+
+        // Dibujamos la línea
+        gc.setLineWidth(3);
+        gc.strokeLine(op[X], op[Y], fp[X], fp[Y]);
+
+        // Dibujamos el texto que indica que es el norte
+        gc.setFont(new Font("Courier", 30));
+        gc.setTextBaseline(VPos.CENTER);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("N", (op[X] + fp[X]) / 2, (op[Y] + fp[Y]) / 2);
+
     }
 
 }
