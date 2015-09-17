@@ -4,3 +4,4 @@ beta; 1.93; http://nfr91.github.io/TruDISP/TruDISP/TruDisp-193.jar
 beta; 1.94; http://nfr91.github.io/TruDISP/TruDISP/TruDisp-194.jar
 beta; 1.95; http://nfr91.github.io/TruDISP/TruDISP/TruDisp-195.jar
 beta; 1.96; http://nfr91.github.io/TruDISP/TruDISP/TruDisp-196.jar
+beta; 1.97; http://nfr91.github.io/TruDISP/TruDISP/TruDisp-197.jar
