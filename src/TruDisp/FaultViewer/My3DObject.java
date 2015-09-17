@@ -70,12 +70,13 @@ public abstract class My3DObject {
 
     /** Constantes */
     public static final int     X=0,Y=1,Z=2;            // Constantes de posición en los arreglos.
-    public static final Double  FL=.004d;            // Distancia Focal
-    public static final Double  CAMERA_POS=5d;      // Posición de la cámara
+    public static final Double  FL=.0000004d;            // Distancia Focal
+    public static final Double  CAMERA_POS=500d;      // Posición de la cámara
     /** Constructor */
     public My3DObject()
     {
         setObject(new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+        objnormVect = new ArrayList<>();
         rotMatrix = new Double[]{1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0};
         objPos = new Double[]{0.0, 0.0, 0.0};
     }
@@ -124,12 +125,12 @@ public abstract class My3DObject {
     public synchronized void reset()
     {
         rotMatrix = new Double[]{1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0};
-        objProj= project(objVert);
-        objPos = new Double[]{0.0,0.0,0.0};
+        objProj= project(this.getTObjVert());
+        //objPos = new Double[]{0.0,0.0,0.0};
     }
 
     /**Función encargada de calcular el producto criz de dos vectores tridimensionales*/
-    public synchronized Double[] crossProduct(Double[] a, Double[] b)
+    public synchronized static Double[] crossProduct(Double[] a, Double[] b)
     {
         Double[] axb = new Double[3];
 
@@ -141,7 +142,7 @@ public abstract class My3DObject {
     }
 
     /**Función encargada de calcular el producto punto de dos vectores n-dimensionales*/
-    public synchronized Double dotProduct(Double[]a, Double[]b)
+    public synchronized static Double dotProduct(Double[]a, Double[]b)
     {
         Double adotb=0.0;
 
@@ -171,7 +172,7 @@ public abstract class My3DObject {
     public synchronized ArrayList<Double[]> normalVect(ArrayList<Double[]> vert, ArrayList<int[]> face) {
 
         // Arreglo que almacena los vectores normales.
-        ArrayList<Double[]> normvect= new ArrayList<>(face.size());
+        ArrayList<Double[]> normvect= new ArrayList<>();
 
         // Variables de dos vectores no paralelos.
         Double[] v1 = new Double[3];
@@ -191,14 +192,15 @@ public abstract class My3DObject {
             v2[Z] = -vert.get(face.get(i)[0])[Z] + vert.get(face.get(i)[2])[Z];
 
             // Obtenemos el vector normal.
-            normvect.add(i,crossProduct(v2,v1));
+            normvect.add(i,crossProduct(v1,v2));
         }
 
         // Normalizamos los vectores
         normvect.stream().forEach(nv-> {
-            nv[X] = nv[X]/ normOfVector(nv);
-            nv[Y] = nv[Y]/ normOfVector(nv);
-            nv[Z] = nv[Z]/ normOfVector(nv);
+            Double norm = normOfVector(nv);
+            nv[X] /=norm;
+            nv[Y] /=norm;
+            nv[Z] /=norm;
         });
 
         // Regresamos los vectores normales unitarios.
@@ -214,24 +216,15 @@ public abstract class My3DObject {
     {
         // Variable de la cara.
         int[] face = new int[vert.size()];
-        // Punto central de la cara.
-        double[] vc= new double[]{0.0,0.0,0.0};
         // Arreglos de los ángulos.
         ArrayList<Double> angle = new ArrayList<>(vert.size()),angleTemp=new ArrayList<>(vert.size());
         // Vectores de lineas
         Double[] l1 = new Double[3], l2=new Double[3];
 
-        // Obtenemos el centro de los vertices.
-        for (int i=0; i<vert.size();i++)
-        {
-            vc[X] += (vert.get(i)[X]);
-            vc[Y] += (vert.get(i)[Y]);
-            vc[Z] += (vert.get(i)[Z]);
-        }
-        vc[X]/=vert.size();vc[Y]/=vert.size();vc[Z]/=vert.size();
+        Double[] vc = Plane3D.getPlaneCenter(vert);
 
         // vector que va del centro de la cara a el primer vértice.
-        l1[X]=(vert.get(0)[X]-vc[X]);l1[Y]=(vert.get(0)[Y]-vc[Y]);l1[Z]=(vert.get(0)[Z]-vc[Z]);
+        l1[X]=(vert.get(0)[X] - vc[X]);l1[Y]=(vert.get(0)[Y]-vc[Y]);l1[Z]=(vert.get(0)[Z]-vc[Z]);
         // Corresponde al ángulo 0;
         angle.add(0.0);
 
@@ -331,6 +324,7 @@ public abstract class My3DObject {
     {
         // Matriz de rotación es la multiplicación de la matriz de rotación por la nueva matriz infinitesimal;
         rotMatrix = matrixPxN(rotMatrix,matrixRotUpdate(xd,yd,zd));
+
 
         // Vectores rotados.
         ArrayList<Double[]> rotated = new ArrayList<>(objVert.size());
@@ -460,7 +454,10 @@ public abstract class My3DObject {
 
         // Para cada punto obtenemos los valores X e Y de cada punto del objeto 3D;
         for(int i=0; i<v.size();i++)
-        {proj.add(i,new Double[]{FL*(v.get(i)[X]/(CAMERA_POS+v.get(i)[Z])),FL*(v.get(i)[Y]/(CAMERA_POS+v.get(i)[Z]))});}
+        {
+            //proj.add(i,new Double[]{FL*(v.get(i)[X]/(CAMERA_POS+v.get(i)[Z])),FL*(v.get(i)[Y]/(CAMERA_POS+v.get(i)[Z]))});
+            proj.add(i,new Double[]{v.get(i)[X],v.get(i)[Y]});
+        }
 
         // Regresamos la proyeción.
         return proj;
@@ -495,7 +492,7 @@ public abstract class My3DObject {
     }
 
     /** Función encargada obtener regresar el vector normal a las caras. */
-    public synchronized ArrayList<Double[]> getObjNormalVect(){return  objnormVect;}
+    public synchronized ArrayList<Double[]> getObjNormalVectors(){return  objnormVect;}
 
     /** Función encargada de reresar la matriz de rotación*/
     public synchronized Double[] getRotMatrix()
@@ -527,6 +524,10 @@ public abstract class My3DObject {
     /**Función encargada de regresar el valor de la posición del objeto*/
     public synchronized ArrayList<Color> getObjFaceColor(){return objFaceColor;}
 
+    public synchronized ArrayList<Double[]> getObjVertices()
+    {
+        return objVert;
+    }
 
     /******************************************************************************************************************/
     /** Métodos SET */
@@ -534,7 +535,7 @@ public abstract class My3DObject {
 
     /** Función encargada de iniciar los valores del objeto. */
     public synchronized void setObject(ArrayList<Double[]> vert,ArrayList<int[]> face,ArrayList<Color> faceColor) {
-        objVert = new ArrayList<>(vert);
+        this.setObjVertices(vert);
         objFace = face;
         objFaceColor = faceColor;
         objnormVect = normalVect(objVert, objFace);
@@ -552,5 +553,11 @@ public abstract class My3DObject {
 
     /**Función encargada de asginar el valor del color de cada cara del objeto*/
     public synchronized void setObjFaceColor(ArrayList<Color> c)  { objFaceColor = c; }
+
+    /**Función encargada de asginar los vertices del objeto*/
+    public synchronized void setObjVertices(ArrayList<Double[]> v)
+    {
+        objVert = v;
+    }
 
 }

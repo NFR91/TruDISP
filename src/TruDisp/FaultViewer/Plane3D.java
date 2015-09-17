@@ -53,6 +53,7 @@
 package TruDisp.FaultViewer;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /** Extensión de la clase objeto 3d para un plano */
@@ -90,14 +91,36 @@ public class Plane3D extends My3DObject {
 
         Double[] nv = new Double[]{-normalVector[2],normalVector[1],normalVector[0]};
 
-        this.getObjNormalVect().add(nv);
+        this.getObjNormalVectors().add(nv);
         this.getObjFaceColor().add(color);
         this.setContainer(container);
         this.setRotMatrix(container.getRotMatrix());
-        this.setObjPos(new Double[]{0d,0d,0d});
+        this.setObjPos(new Double[]{0d, 0d, 0d});
         this.intersectPlaneWidthContainer();
         this.rotateObject(0d, 0d, 0d);
     }
+
+
+    public Plane3D(ArrayList<Double[]> v,Color color)
+    {
+        int[] face = new int[v.size()];
+
+        for (int i=0; i<v.size();i++)
+            {face[i]=i;}
+
+        ArrayList<int[]> f = new ArrayList<>();
+        f.add(face);
+
+        this.setNormalVect(normalVect(v, f));
+
+        ArrayList<Color> fc = new ArrayList<>();
+        fc.add(color);
+        this.setObject(v, f, fc);
+
+        orderObjectFaces();
+
+    }
+
 
     /******************************************************************************************************************/
     /** Métodos SET */
@@ -116,7 +139,7 @@ public class Plane3D extends My3DObject {
     /** Asignamos el vector normal al plano */
     public void setNormalVector(Double[] nv)
     {
-        this.getObjNormalVect().set(0,nv);
+        this.getObjNormalVectors().set(0, nv);
     }
 
 
@@ -128,7 +151,7 @@ public class Plane3D extends My3DObject {
     public void intersectPlaneWidthContainer()
     {
         // Vector normal del plano
-        Double[] nv = this.getObjNormalVect().get(0);
+        Double[] nv = this.getObjNormalVectors().get(0);
         // Arreglo de vertices del plano
         ArrayList<Double[]> vert = new ArrayList<>();
         // Arreglo de la cara del plano
@@ -189,7 +212,7 @@ public class Plane3D extends My3DObject {
                     boolean addval = true;
                     for (int n =0;n<vert.size();n++)
                     {
-                        if(normOfVector(new Double[]{vert.get(n)[X] - val[X], vert.get(n)[Y] - val[Y], vert.get(n)[Z] - val[Z]})==0)
+                        if(normOfVector(new Double[]{vert.get(n)[X] - val[X], vert.get(n)[Y] - val[Y], vert.get(n)[Z] - val[Z]})<0.00001)
                         {
                             addval=false;
                             break;
@@ -212,4 +235,123 @@ public class Plane3D extends My3DObject {
         // Poroyectamos el objeto.
         this.project();
     }
+
+    /** Intersección entre dos planos **/
+    public Line3D intersectPlanes(Plane3D a)
+    {
+        // Obtenemos la direción de la línea de intersección.
+        Double[] lineNV= this.crossProduct(this.getPlaneNormalVector(),a.getPlaneNormalVector());
+
+        // Ahora debemos encontrar un punto que viva en la línea.
+        ArrayList<Double[]> av = a.getTObjVert();
+        int[] af = a.getPlaneFace();
+
+        Line3D la;
+
+        Double[] lv ;
+
+        for(int i=0; i<af.length;i++)
+        {
+            // Obtenemos la arista
+            if(i== af.length-1)
+            {
+                la = new Line3D(av.get(af[0]),av.get(af[i]),this.container.getRotMatrix());
+            }
+            else
+            {
+                la = new Line3D(av.get(af[i+1]),av.get(af[i]),this.container.getRotMatrix());
+            }
+
+            lv = this.intersectPlaneWithLine(this,la);
+
+            if(lv!=null)
+            {
+                return new Line3D(lineNV,lv,this.container,Color.PURPLE);
+            }
+        }
+        return null;
+    }
+
+    /** Intersección linea-plano **/
+    public static Double[] intersectPlaneWithLine(Plane3D plane,Line3D line)
+    {
+        ArrayList<Double[]> pv = plane.getTObjVert();
+        Double[] nv = plane.getPlaneNormalVector();
+        Double[] pp = Plane3D.getPlaneCenter(pv);
+        Double[] pp_lp = new Double[3];
+
+        Double[] lp = line.getLinePoint();
+        Double[] lnv = line.getLineNormalVector();
+
+        Double num,den,a;
+
+        // punto del plano - punto de la linea.
+        pp_lp[X] = pp[X] - lp[X];
+        pp_lp[Y] = pp[Y] - lp[Y];
+        pp_lp[Z] = pp[Z] - lp[Z];
+
+        // Numerador y denominador de la intersección de un plano y una recta.
+        num = dotProduct(pp_lp, nv);
+        den = dotProduct(lnv, nv);
+
+        // Si el numeroador es cero la linea vive en el plano, si el denominador es cero el plano y la linea son paralelos.
+        if (den != 0) {
+            // Obtenemos el escalar que nos da la intersección de la arista con el plano.
+            a = num / den;
+
+            // Obtenemos el punto de intersección.
+            return new Double[]{lp[X] + (a * lnv[X]), lp[Y] + (a * lnv[Y]), lp[Z] + (a * lnv[Z])};
+            }
+        else {
+            return null;
+        }
+    }
+
+    /******************************************************************************************************************/
+    /** Métodos GET*/
+    /******************************************************************************************************************/
+
+    /**Regresamos el vector normal al plano*/
+    public Double[] getPlaneNormalVector()
+    {
+        return this.getObjNormalVectors().get(0);
+    }
+
+    /** Regresamos la cara del plano*/
+    public int[] getPlaneFace()
+    {
+        return  this.getObjFace().get(0);
+    }
+
+    /**Obtenemos el centro del plano*/
+    public static Double[] getPlaneCenter(ArrayList<Double[]> pv)
+    {
+        Double[] pc = new Double[]{0d,0d,0d};
+
+        // Obtenemos el centro de los vertices.
+        for (int i=0; i<pv.size();i++)
+        {
+            pc[X] += (pv.get(i)[X]);
+            pc[Y] += (pv.get(i)[Y]);
+            pc[Z] += (pv.get(i)[Z]);
+        }
+        pc[X]/=pv.size();pc[Y]/=pv.size();pc[Z]/=pv.size();
+
+        return pc;
+    }
+
+    /**Rgresamos el color del plano*/
+    public Color getPlaneColor()
+    {
+        return this.getObjFaceColor().get(0);
+    }
+
+    /**Regresamos el contenedor del plano*/
+    public My3DObject getContainer()
+    {
+        return container;
+    }
+
+
+
 }

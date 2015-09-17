@@ -70,7 +70,7 @@ public class TDData {
     private String          notes;                          // Notas de la falla.
     private Double[]        smh,smd,                        // Valores de desplazamiento
                             smA,smB, dAB,
-                            s,sv,sd,ss,sh;                  // Valores de resultado
+                            s,sv,sd,ss,sh,sm,sl,sn;                  // Valores de resultado
     private Double          theta,thetanull;                // Valores de los ángulos theta y thetanull
 
     // Metodo 1
@@ -167,33 +167,36 @@ public class TDData {
                     // Calculamos los desplazamientos.
                     method1CalculateDistance();
                     // Calculamos los errores.
-                    calculateDistanceErrors();
+                    method1calculateDistanceErrors();
                     break;
                 }
                 case 2:
                 {
                     // El método 2 se encuentra seleccionado y se calculan los cosenos directores.
                     method2CalculateDirCosOfPlanes();
-                    // TODO calcular los errores de los cosenos directores
+                    method2CalculateDirCosOfPlanesError();
 
                     // Revisamos si se han introducido dos planos.
                     if(bpn[DATA]!=1 && apn[DATA]!=1)
                     {
                         //Si no se cuenta con la direción de la estria se requieren dos planos y empleamos el método 2
-                        s[DATA]= method2Calculate(fpl[DATA],fpm[DATA],-fpn[DATA],opl[DATA],opm[DATA],-opn[DATA],apl[DATA],apm[DATA],-apn[DATA],
-                                bpl[DATA],bpm[DATA], -bpn[DATA],dAB[DATA],smA[DATA],smB[DATA]);
+                        Double[] so= method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA],
+                                bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+
+                        sm[DATA]=so[0];
+                        sl[DATA]=so[1];
+                        sn[DATA]=so[2];
+                        s[DATA] = normOfVector(so);
 
                         // Obtenemos las distancias.
-                        method1CalculateDistance();
-
-                        // TODO calcular los errores propagados.
+                        method2CalculateDistances();
+                        method2CalculateDistanceError();
                     }
                     else
                     {
                         // A partir de los cosenos directores de los planos obtenemos los valores del método 1.
-                        method2ConvertDirCos2Method1();
-
-                        // TODO Progagar los errores de los cosenos a los pitchs.
+                        method2CalculatePitchs();
+                        method2CalculatePitchsErrors();
 
                         // Revisamos si la persona a introducido un valor de plunge que permita se encuentre dentro el plano.
                         // Y ademas que no se ha introducido la orientación de la estria mediante gamma.
@@ -207,7 +210,7 @@ public class TDData {
                             // Calculamos las distancias.
                             method1CalculateDistance();
                             // Calculamos los errores.
-                            calculateDistanceErrors();
+                            method1calculateDistanceErrors();
                         }
                     }
                     break;
@@ -240,6 +243,9 @@ public class TDData {
         smh= new Double[ ] {0.0,0.0};
 
         s = new Double[ ] {0.0,0.0};
+        sm=new Double[ ] {0.0,0.0};
+        sl=new Double[ ] {0.0,0.0};
+        sn=new Double[ ] {0.0,0.0};
         ss= new Double[ ] {0.0,0.0};
         sd = new Double[ ] {0.0,0.0};
         sv = new Double[ ] {0.0,0.0};
@@ -636,7 +642,7 @@ public class TDData {
     }
 
     /** Función que calcula el error de las distancias, propagando el error de las mediciones.*/
-    public void calculateDistanceErrors()
+    public void method1calculateDistanceErrors()
     {
         Double h=0.001,f,i,pdbeta,pdgamma,pdphi,pdsm,pdsmd,pdsmh;
 
@@ -735,6 +741,129 @@ public class TDData {
     /** Métodos 2.*/
     /******************************************************************************************************************/
 
+    public void method2CalculateDistances()
+    {
+        // Cosenos Directores de línea de strike del Plano de falla;
+        Double[] stkLine = new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0};
+
+        gamma[DATA] = dotProductAngle(stkLine,new Double[]{sm[DATA],sl[DATA],sn[DATA]});
+
+        alpha[DATA] = fod[DATA];
+
+        ss[DATA] = method1CalculateSs(s[DATA], gamma[DATA]);
+        sd[DATA] = method1CalculateSd(s[DATA], gamma[DATA]);
+        sv[DATA] = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA]);
+        sh[DATA] = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA]);
+
+    }
+
+    public void method2CalculatePitchsErrors()
+    {
+        Double f, i,h=0.001;
+        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano A.
+        beta[DATA] = dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA]-h,fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA]+h,fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdfpm = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA]-h,fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA]+h,fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdfpl = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]-h}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]+h}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdfpn = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA]-h,apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA]+h,apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdapm = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA]-h,apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA]+h,apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdapl = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]-h}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]+h}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdapn = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA]-h),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA]+h),0.0});
+        Double pdfostk = Math.abs((f-i)/(2*h));
+
+        beta[ERROR] = pdfpm*fpm[ERROR] + pdfpl*fpl[ERROR] + pdfpn*fpn[ERROR] + pdapm*apm[ERROR] + pdapl*apl[ERROR] + pdapn*apn[ERROR] + pdfostk*fostk[ERROR];
+
+
+        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano de observación.
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA]-h,fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA]+h,fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        pdfpm = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA], fpl[DATA] - h, fpn[DATA]}, new Double[]{opm[DATA], opl[DATA], opn[DATA]}), new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA], fpl[DATA] + h, fpn[DATA]}, new Double[]{opm[DATA], opl[DATA], opn[DATA]}), new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+        pdfpl = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA], fpl[DATA], fpn[DATA] - h}, new Double[]{opm[DATA], opl[DATA], opn[DATA]}), new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]+h},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        pdfpn = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA]-h,opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA]+h,opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdopm = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA],opl[DATA]-h,opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA],opl[DATA]+h,opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdopl = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA],opl[DATA],opn[DATA]-h}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{opm[DATA],opl[DATA],opn[DATA]+h}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdopn = Math.abs((f-i)/(2*h));
+        i= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA]-h),0.0});
+        f= dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA]+h),0.0});
+        pdfostk = Math.abs((f - i) / (2 * h));
+
+        phi[ERROR] = pdfpm*fpm[ERROR] + pdfpl*fpl[ERROR] + pdfpn*fpn[ERROR] + pdopm*opm[ERROR] + pdopl*opl[ERROR] + pdopn*opn[ERROR] + pdfostk*fostk[ERROR];
+
+        // Angulo del plano de falla.
+        alpha[ERROR] = fod[ERROR];
+
+        if(gamma[ERROR]==0){
+            // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+            Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+
+            i= Math.atan(Math.tan(fod[DATA]-h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+            f= Math.atan(Math.tan(fod[DATA]+h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+            Double pdfod = Math.abs((f - i) / (2 * h));
+            i= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]-h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]-h) - fostk[DATA])) : ((ostrend[DATA]-h) - fostk[DATA])));
+            f= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]+h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]+h) - fostk[DATA])) : ((ostrend[DATA]+h) - fostk[DATA])));
+            Double pdostrend = Math.abs((f - i) / (2 * h));
+            i= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA]-h) ) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA]-h))) : (ostrend[DATA] - (fostk[DATA]-h))));
+            f= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA] + h)) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA] + h))) : (ostrend[DATA] - (fostk[DATA] + h))));
+            pdfostk = Math.abs((f - i) / (2 * h));
+
+            Double plungeError = pdfod*fod[ERROR] + pdostrend*ostrend[ERROR] + pdfostk*fostk[ERROR];
+
+
+            // Cosenos directores de LÍNEA de la estria.
+            Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge);
+
+            Double[] in =method2CalculateDirCosLine(ostrend[DATA]-h, plunge);
+            Double[] fn =method2CalculateDirCosLine(ostrend[DATA] + h, plunge);
+            Double[] pdtrend = method2DerivateVector(in, fn, h);
+            in =method2CalculateDirCosLine(ostrend[DATA], plunge-h);
+            fn =method2CalculateDirCosLine(ostrend[DATA], plunge+h);
+            Double[] pdplunge = method2DerivateVector(in, fn, h);
+
+            Double[] strieaeError = new Double[]{pdtrend[0]*ostrend[ERROR]+pdplunge[0]+plungeError,pdtrend[1]*ostrend[ERROR]+pdplunge[1]+plungeError,pdtrend[2]*ostrend[ERROR]+pdplunge[2]+plungeError};
+
+
+            // Ángulo entre la Linea de strike del plano de falla y la estría.
+            i= dotProductAngle(new Double[]{striae[0] - h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+            f= dotProductAngle(new Double[]{striae[0] + h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+            Double pdstriae0 = Math.abs((f - i) / (2 * h));
+            i= dotProductAngle(new Double[]{striae[0],striae[1]-h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+            f= dotProductAngle(new Double[]{striae[0],striae[1]+h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+            Double pdstriae1 = Math.abs((f - i) / (2 * h));
+            i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]-h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+            f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]+h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+            Double pdstriae2 = Math.abs((f - i) / (2 * h));
+            i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA]-h),0.0});
+            f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA]+h),0.0});
+            pdfostk = Math.abs((f - i) / (2 * h));
+
+            gamma[ERROR] = pdstriae0*strieaeError[0] + pdstriae1*strieaeError[1] + pdstriae2*strieaeError[2] + pdfostk*fostk[ERROR];
+        }
+
+    }
     /** Función encargada de calcular los cosenos directores de los planos. */
     public void method2CalculateDirCosOfPlanes()
     {
@@ -763,8 +892,236 @@ public class TDData {
         bpn[DATA]=temp[TruDisp.D];
     }
 
+    /**Calculamos los errores de los cosenos directores*/
+    public void method2CalculateDirCosOfPlanesError()
+    {
+        Double h=0.001;
+        Double [] f,i,pdstk,pdd;
+
+        //Derivada de plano de falla.
+        i =method2CalculateDirCosPlane(fostk[DATA]-h, fod[DATA]);
+        f =method2CalculateDirCosPlane(fostk[DATA]+h, fod[DATA]);
+        pdstk = method2DerivateVector(i, f, h);
+        i =method2CalculateDirCosPlane(fostk[DATA], fod[DATA]-h);
+        f =method2CalculateDirCosPlane(fostk[DATA], fod[DATA]+h);
+        pdd = method2DerivateVector(i, f, h);
+
+        fpm[ERROR] = pdstk[TruDisp.N]*fostk[ERROR] + pdd[TruDisp.N]*fod[ERROR];
+        fpl[ERROR] = pdstk[TruDisp.E]*fostk[ERROR] + pdd[TruDisp.E]*fod[ERROR];
+        fpn[ERROR] = pdstk[TruDisp.D]*fostk[ERROR] + pdd[TruDisp.D]*fod[ERROR];
+
+        //Derivada de plano de observación.
+        i =method2CalculateDirCosPlane(opostk[DATA]-h, opod[DATA]);
+        f =method2CalculateDirCosPlane(opostk[DATA]+h, opod[DATA]);
+        pdstk = method2DerivateVector(i, f, h);
+        i =method2CalculateDirCosPlane(opostk[DATA], opod[DATA]-h);
+        f =method2CalculateDirCosPlane(opostk[DATA], opod[DATA]+h);
+        pdd = method2DerivateVector(i, f, h);
+
+        opm[ERROR] = pdstk[TruDisp.N]*opostk[ERROR] + pdd[TruDisp.N]*opod[ERROR];
+        opl[ERROR] = pdstk[TruDisp.E]*opostk[ERROR] + pdd[TruDisp.E]*opod[ERROR];
+        opn[ERROR] = pdstk[TruDisp.D]*opostk[ERROR] + pdd[TruDisp.D]*opod[ERROR];
+
+        //Derivada de plano A.
+        i =method2CalculateDirCosPlane(smo1stk[DATA]-h, smo1d[DATA]);
+        f =method2CalculateDirCosPlane(smo1stk[DATA] + h, smo1d[DATA]);
+        pdstk = method2DerivateVector(i, f, h);
+        i =method2CalculateDirCosPlane(smo1stk[DATA], smo1d[DATA]-h);
+        f =method2CalculateDirCosPlane(smo1stk[DATA], smo1d[DATA] + h);
+        pdd = method2DerivateVector(i, f, h);
+
+        apm[ERROR] = pdstk[TruDisp.N]*smo1stk[ERROR] + pdd[TruDisp.N]*smo1d[ERROR];
+        apl[ERROR] = pdstk[TruDisp.E]*smo1stk[ERROR] + pdd[TruDisp.E]*smo1d[ERROR];
+        apn[ERROR] = pdstk[TruDisp.D]*smo1stk[ERROR] + pdd[TruDisp.D]*smo1d[ERROR];
+
+        //Derivada de plano B.
+        i =method2CalculateDirCosPlane(smo2stk[DATA]-h, smo2d[DATA]);
+        f =method2CalculateDirCosPlane(smo2stk[DATA] + h, smo2d[DATA]);
+        pdstk = method2DerivateVector(i, f, h);
+        i =method2CalculateDirCosPlane(smo2stk[DATA], smo2d[DATA]-h);
+        f =method2CalculateDirCosPlane(smo2stk[DATA], smo2d[DATA] + h);
+        pdd = method2DerivateVector(i, f, h);
+
+        bpm[ERROR] = pdstk[TruDisp.N]*smo2stk[ERROR] + pdd[TruDisp.N]*smo2d[ERROR];
+        bpl[ERROR] = pdstk[TruDisp.E]*smo2stk[ERROR] + pdd[TruDisp.E]*smo2d[ERROR];
+        bpn[ERROR] = pdstk[TruDisp.D]*smo2stk[ERROR] + pdd[TruDisp.D]*smo2d[ERROR];
+
+
+    }
+
+    public Double[] method2DerivateVector(Double[] i, Double[] f,Double h)
+    {
+        Double[] pd = new Double[i.length];
+
+        for(int n=0;n<i.length;n++)
+        {
+            pd[n] = Math.abs((f[n]-i[n])/(2*h));
+        }
+
+        return pd;
+    }
+
+
+    public void method2CalculateDistanceError()
+    {
+        Double h=0.001;
+        int m=0,l=1,n=2;
+        Double[] i,f;
+
+        // Distance Error
+        i = method2Calculate(fpl[DATA]-h, fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA] + h, fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdfpl= method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA] - h, -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA] + h, -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdfpm = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA] - h, opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA] + h, opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdfpn = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA] - h, opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA] + h, opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdopl = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA] - h, -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA] + h, -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdopm = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA] - h, apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA]+h, apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdopn = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA] - h, apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA]+h, apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdapl = method2DerivateVector(i, f, h);;
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA] - h, -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA]+h, -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdapm = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA] - h, bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA]+h, bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdapn = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA] - h, bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA]+h, bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdbpl = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA] - h, -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA]+h, -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdbpm = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA] - h, dAB[DATA], smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA] + h, dAB[DATA], smA[DATA], smB[DATA]);
+        Double[] pdbpn = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA] - h, smA[DATA], smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA]+h, smA[DATA], smB[DATA]);
+        Double[] pddab = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA] - h, smB[DATA]);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA]+h, smB[DATA]);
+        Double[] pdsma = method2DerivateVector(i, f, h);
+        i = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]-h);
+        f = method2Calculate(fpl[DATA], fpm[DATA], -fpn[DATA], opl[DATA], opm[DATA], -opn[DATA], apl[DATA], apm[DATA], -apn[DATA], bpl[DATA], bpm[DATA], -bpn[DATA], dAB[DATA], smA[DATA], smB[DATA]+h);
+        Double[] pdsmb = method2DerivateVector(i, f, h);
+
+        sm[ERROR] = pdfpl[m]*fpl[ERROR] + pdfpm[m]*fpm[ERROR] + pdfpn[m]*fpn[ERROR] + pdopl[m]*opl[ERROR] + pdopm[m]*opm[ERROR] + pdopn[m]*opn[ERROR] +
+                    pdapl[m]*apl[ERROR] + pdapm[m]*apm[ERROR] + pdapn[m]*apn[ERROR] + pdbpl[m]*bpl[ERROR] + pdbpm[m]*bpm[ERROR] + pdbpn[m]*bpn[ERROR] +
+                    pddab[m]*dAB[ERROR] + pdsma[m]*smA[ERROR] + pdsmb[m]*smB[ERROR];
+        sl[ERROR] = pdfpl[l]*fpl[ERROR] + pdfpm[l]*fpm[ERROR] + pdfpn[l]*fpn[ERROR] + pdopl[l]*opl[ERROR] + pdopm[l]*opm[ERROR] + pdopn[l]*opn[ERROR] +
+                pdapl[l]*apl[ERROR] + pdapm[l]*apm[ERROR] + pdapn[l]*apn[ERROR] + pdbpl[l]*bpl[ERROR] + pdbpm[l]*bpm[ERROR] + pdbpn[l]*bpn[ERROR] +
+                pddab[l]*dAB[ERROR] + pdsma[l]*smA[ERROR] + pdsmb[l]*smB[ERROR];
+        sn[ERROR] = pdfpl[n]*fpl[ERROR] + pdfpm[n]*fpm[ERROR] + pdfpn[n]*fpn[ERROR] + pdopl[n]*opl[ERROR] + pdopm[n]*opm[ERROR] + pdopn[n]*opn[ERROR] +
+                pdapl[n]*apl[ERROR] + pdapm[n]*apm[ERROR] + pdapn[n]*apn[ERROR] + pdbpl[n]*bpl[ERROR] + pdbpm[n]*bpm[ERROR] + pdbpn[n]*bpn[ERROR] +
+                pddab[n]*dAB[ERROR] + pdsma[n]*smA[ERROR] + pdsmb[n]*smB[ERROR];
+
+        Double in,fn;
+
+        in=normOfVector(new Double[]{sm[DATA]-h, sl[DATA], sn[DATA]});
+        fn=normOfVector(new Double[]{sm[DATA]+h, sl[DATA], sn[DATA]});
+        Double pdsm = Math.abs((fn-in)/(2*h));
+        in=normOfVector(new Double[]{sm[DATA], sl[DATA]-h, sn[DATA]});
+        fn=normOfVector(new Double[]{sm[DATA], sl[DATA]+h, sn[DATA]});
+        Double pdsl = Math.abs((fn-in)/(2*h));
+        in=normOfVector(new Double[]{sm[DATA],sl[DATA],sn[DATA]-h});
+        fn=normOfVector(new Double[]{sm[DATA],sl[DATA],sn[DATA]+h});
+        Double pdsn = Math.abs((fn-in)/(2*h));
+
+        s[ERROR] = pdsm*sm[ERROR] + pdsl*sl[ERROR] + pdsn*sn[ERROR];
+
+
+        alpha[ERROR] = fod[ERROR];
+
+
+
+        // Gamma Partial Derivative
+        Double[] stkLine = new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0};
+
+        in = dotProductAngle(new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA] - h),0.0},new Double[]{sm[DATA],sl[DATA],sn[DATA]});
+        fn = dotProductAngle(new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA] + h),0.0},new Double[]{sm[DATA],sl[DATA],sn[DATA]});
+        Double pdstkline=Math.abs((fn-in)/(2*h));
+        in = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA]-h,sl[DATA],sn[DATA]});
+        fn = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA]+h,sl[DATA],sn[DATA]});
+        Double pdssm=Math.abs((fn-in)/(2*h));
+        in = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA],sl[DATA]-h,sn[DATA]});
+        fn = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA],sl[DATA]+h,sn[DATA]});
+        Double pdssl=Math.abs((fn-in)/(2*h));
+        in = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA],sl[DATA],sn[DATA]-h});
+        fn = dotProductAngle(new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0},new Double[]{sm[DATA],sl[DATA],sn[DATA]+h});
+        Double pdssn=Math.abs((fn-in)/(2*h));
+
+        gamma[ERROR] = pdstkline*fostk[ERROR] + pdssm*sm[ERROR] + pdssl*sl[ERROR] + pdssn*sn[ERROR];
+
+
+        //
+        Double pds,pdalpha,pdgamma;
+
+        // Derivada parcial dss/ds
+        fn = method1CalculateSs(s[DATA] + h, gamma[DATA]);
+        in = method1CalculateSs(s[DATA] - h, gamma[DATA]);
+        pds = Math.abs((fn-in)/(2*h));
+        // Derivada parcial dss/dgamma
+        fn = method1CalculateSs(s[DATA], gamma[DATA] + h);
+        in = method1CalculateSs(s[DATA], gamma[DATA] - h);
+        pdgamma = Math.abs((fn-in)/(2*h));
+
+        ss[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
+
+        // Derivada parcial dsd/ds
+        fn = method1CalculateSd(s[DATA] + h, gamma[DATA]);
+        in = method1CalculateSd(s[DATA] - h, gamma[DATA]);
+        pds = Math.abs((fn-in)/(2*h));
+        // Derivada parcial dsd/dgamma
+        fn = method1CalculateSd(s[DATA], gamma[DATA] + h);
+        in = method1CalculateSd(s[DATA], gamma[DATA] - h);
+        pdgamma = Math.abs((fn-in)/(2*h));
+
+        sd[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR]);
+
+        // Derivada parcial dsv/ds
+        fn = method1CalculateSv(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        in = method1CalculateSv(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        pds = Math.abs((fn-in)/(2*h));
+        // Derivada parcial dsv/dgamma
+        fn = method1CalculateSv(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        in = method1CalculateSv(s[DATA], gamma[DATA] - h, alpha[DATA]);
+        pdgamma =Math.abs((fn-in)/(2*h));
+        // Derivada parcial dsv/dalpha
+        fn = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] + h);
+        in = method1CalculateSv(s[DATA], gamma[DATA], alpha[DATA] - h);
+        pdalpha = Math.abs((fn-in)/(2*h));
+
+        sv[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
+
+        // Derivada parcial dsh/ds
+        fn = method1CalculateSh(s[DATA] + h, gamma[DATA], alpha[DATA]);
+        in = method1CalculateSh(s[DATA] - h, gamma[DATA], alpha[DATA]);
+        pds = Math.abs((fn-in)/(2*h));
+        // Derivada parcial dsh/dgamma
+        fn = method1CalculateSh(s[DATA], gamma[DATA] + h, alpha[DATA]);
+        in = method1CalculateSh(s[DATA], gamma[DATA] - h, alpha[DATA]);
+        pdgamma = Math.abs((fn-in)/(2*h));
+        // Derivada parcial dsh/dalpha
+        fn = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] + h);
+        in = method1CalculateSh(s[DATA], gamma[DATA], alpha[DATA] - h);
+        pdalpha = Math.abs((fn-in)/(2*h));
+
+        sh[ERROR] = (pds*s[ERROR])+(pdgamma*gamma[ERROR])+(pdalpha*alpha[ERROR]);
+
+    }
+
     /** Función encargada de calcular las mediciones del método 1 empleando los cosenos directores. */
-    public void method2ConvertDirCos2Method1()
+    public void method2CalculatePitchs()
     {
         /** Calculamos los pitch */
 
@@ -825,7 +1182,7 @@ public class TDData {
     }
 
     /** Función para calcular los cosenos directores de un plano con strike y dip */
-    public Double[] method2CalculateDirCosPlane(Double strike, Double dip)
+    public static Double[] method2CalculateDirCosPlane(Double strike, Double dip)
     {
         Double[] temp= new Double[] {0.0,0.0,0.0};
 
@@ -836,8 +1193,22 @@ public class TDData {
         return temp;
     }
 
+
+    public  Double normOfVector(Double[] a)
+    {
+        Double n =0.0;
+        for(int i=0; i<a.length;i++)
+        {
+            n += a[i]*a[i];
+        }
+
+        n = Math.sqrt(n);
+
+        return n;
+    }
+
     /** Funcioón para calcular los cosenos directores de una línea con trend y plinge.*/
-    public Double[] method2CalculateDirCosLine(Double trend, Double plunge)
+    public static Double[] method2CalculateDirCosLine(Double trend, Double plunge)
     {
         Double[] temp= new Double[] {0.0,0.0,0.0};
 
@@ -849,7 +1220,7 @@ public class TDData {
     }
 
     /** Función encargada de calcular el desplazamiento empleando el método 2;*/
-    public Double method2Calculate(Double li, Double mi, Double ni, Double lo, Double mo, Double no,  Double lj, Double mj, Double nj,
+    public Double[] method2Calculate(Double li, Double mi, Double ni, Double lo, Double mo, Double no,  Double lj, Double mj, Double nj,
                                    Double lk, Double mk, Double nk, Double d, Double a, Double b)
     {
         // Director cosines of the line of intersection of fp and op
@@ -868,7 +1239,8 @@ public class TDData {
         Double y2 = ((a*(lj*lp + mj*mp + nj*np)*(nk*li - lk*ni))-((d + b)*(lk*lp + mk*mp + nk*np)*(nj*li - lj*ni)))/D;
         Double z2 = ((a*(lj*lp + mj*mp + nj*np)*(lk*mi - mk*li))-((d + b)*(lk*lp + mk*mp + nk*np)*(lj*mi - mj*li)))/D;
 
-        return Math.sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1))+((z2-z1)*(z2-z1)));
+
+        return new Double[]{y2-y1,x2-x1,z2-z1};
     }
 
     /******************************************************************************************************************/

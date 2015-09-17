@@ -124,18 +124,20 @@ public class FaultBlock3D extends My3DObject {
         // Definimos los colres, el tamaño y la posición de la esfera que indica el norte
         gc.setFill(Color.rgb(200, 0, 0, .8));
         gc.setStroke(Color.rgb(200, 0, 0, .8));
-        gc.fillOval(fp[X] - 10, fp[Y] - 10, 20, 20);
+        gc.strokeOval(fp[X] - 20, fp[Y] - 20, 40, 40);
 
 
         // Dibujamos la línea
-        gc.setLineWidth(3);
+        gc.setLineWidth(5);
+
         gc.strokeLine(op[X], op[Y], fp[X], fp[Y]);
 
         // Dibujamos el texto que indica que es el norte
         gc.setFont(new Font("Courier", 30));
         gc.setTextBaseline(VPos.CENTER);
         gc.setTextAlign(TextAlignment.CENTER);
-        gc.fillText("N", (op[X] + fp[X]) / 2, (op[Y] + fp[Y]) / 2);
+        //gc.fillText("N", (op[X] + fp[X]) / 2, (op[Y] + fp[Y]) / 2);
+        gc.fillText("N",  fp[X], fp[Y] );
 
     }
 

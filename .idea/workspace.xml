@@ -7,11 +7,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f6f3c80-6929-46e3-ba67-b993c6aa86cb" name="Default" comment="Se cambió el SDK a la versión más reciente lo que eliminó el problema del table view. Además se agregó el boton cerrar en las notificaciones.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/FaultViewer/Arrow3D.java" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/Arrow3D.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/Line3D.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultBlock3D.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultBlock3D.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$1.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$2.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$3.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$4.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$5.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$6.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MethodsDisplayedChangeListener.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MethodsDisplayedChangeListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/My3DObject.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/My3DObject.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$4.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$5.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/Plane3D.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/Plane3D.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/ValueChangeScrollListener.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/ValueChangeScrollListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/FaultViewer/My3DObject.java" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/My3DObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java" afterPath="$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TDData.java" afterPath="$PROJECT_DIR$/src/TruDisp/TDData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" afterPath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TruDisp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,23 +53,143 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="FaultBlock3D.java" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state vertical-scroll-proportion="0.0">
+                    <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="TruDisp" />
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="TruDisp.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="392" column="65" selection-start-line="392" selection-start-column="65" selection-end-line="392" selection-end-column="65" />
+              <folding>
+                <element signature="docComment;field#UPDATE_TXT#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#mainTruDispStage#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#method1GridLayout#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#method2GridLayout#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#cosDirGridLayout#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#displacementGridLayout#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;field#resultGridLayout#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#initMethod2ComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initDirCosComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#initDirCosComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initDisplacementComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#initDisplacementComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#initResultComponentsGrid#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#clearcomponents#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#clearcomponents#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#initGUIActions#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#shakeStage#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#shakeStage#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;method#displayData#0;class#TruDisp#0" expanded="false" />
+                <element signature="method#displayData#0;class#TruDisp#0" expanded="false" />
+                <element signature="docComment;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="docComment;field#label#0;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="docComment;method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="method#ValueChangeScrollListener#0;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="docComment;method#ValueChangeScrollListener#1;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="docComment;method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="method#handle#0;class#ValueChangeScrollListener#0" expanded="false" />
+                <element signature="docComment;class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="docComment;method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="method#MethodsDisplayedChangeListener#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
+                <element signature="docComment;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#showLabels#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#showLabels#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#showHelp#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#showHelp#0;class#TDDialogs#0" expanded="false" />
+                <element signature="docComment;method#showLMNCoord#0;class#TDDialogs#0" expanded="false" />
+                <element signature="method#showLMNCoord#0;class#TDDialogs#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FaultViewer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="515" column="0" selection-start-line="515" selection-start-column="0" selection-end-line="515" selection-end-column="0" />
+              <folding>
+                <element signature="docComment;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;field#SLEEP_TIME_MILLIS#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;field#viewer#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#FaultViewer#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#initFVControls#0;class#FaultViewer#0" expanded="false" />
+                <element signature="e#17699#17729#0" expanded="false" />
+                <element signature="docComment;method#show#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#setPlanes#0;class#FaultViewer#0" expanded="false" />
+                <element signature="method#setPlanes#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#getMinVal#0;class#FaultViewer#0" expanded="false" />
+                <element signature="docComment;method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
+                <element signature="e#21795#21877#0" expanded="false" />
+                <element signature="e#22152#22153#0" expanded="true" />
+                <element signature="e#22181#22182#0" expanded="true" />
+                <element signature="e#22216#22217#0" expanded="true" />
+                <element signature="e#22246#22247#0" expanded="true" />
+                <element signature="e#22293#22294#0" expanded="true" />
+                <element signature="e#22326#22327#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="TDData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1314" column="22" selection-start-line="1314" selection-start-column="22" selection-end-line="1314" selection-end-column="22" />
+              <caret line="191" column="11" selection-start-line="191" selection-start-column="11" selection-end-line="191" selection-end-column="11" />
               <folding>
                 <element signature="method#TDData#0;class#TDData#0" expanded="false" />
                 <element signature="method#TDData#1;class#TDData#0" expanded="false" />
                 <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
                 <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
                 <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+                <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
                 <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
                 <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
                 <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -56,14 +199,19 @@
                 <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
                 <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
                 <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-                <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
                 <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
                 <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
                 <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
                 <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-                <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+                <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
                 <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-                <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+                <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+                <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
                 <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
                 <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
                 <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -116,83 +264,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FaultViewer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="533" column="22" selection-start-line="533" selection-start-column="22" selection-end-line="533" selection-end-column="22" />
-              <folding>
-                <element signature="docComment;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;field#SLEEP_TIME_MILLIS#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;field#viewer#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#FaultViewer#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#initFVControls#0;class#FaultViewer#0" expanded="false" />
-                <element signature="method#initFVControls#0;class#FaultViewer#0" expanded="false" />
-                <element signature="class#6775:7740" expanded="false" />
-                <element signature="method#call#0;class#6775:7740" expanded="false" />
-                <element signature="class#8378:9347" expanded="false" />
-                <element signature="method#call#0;class#8378:9347" expanded="false" />
-                <element signature="class#10000:10902" expanded="false" />
-                <element signature="method#call#0;class#10000:10902" expanded="false" />
-                <element signature="class#11252:12155" expanded="false" />
-                <element signature="method#call#0;class#11252:12155" expanded="false" />
-                <element signature="class#12704:13605" expanded="false" />
-                <element signature="method#call#0;class#12704:13605" expanded="false" />
-                <element signature="class#13955:14857" expanded="false" />
-                <element signature="method#call#0;class#13955:14857" expanded="false" />
-                <element signature="docComment;method#drawScene#0;class#FaultViewer#0" expanded="false" />
-                <element signature="e#17308#17338#0" expanded="false" />
-                <element signature="docComment;method#show#0;class#FaultViewer#0" expanded="false" />
-                <element signature="method#show#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#setPlanes#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
-                <element signature="method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#getMinVal#0;class#FaultViewer#0" expanded="false" />
-                <element signature="method#getMinVal#0;class#FaultViewer#0" expanded="false" />
-                <element signature="docComment;method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
-                <element signature="method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
-                <element signature="e#21063#21145#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="My3DObject.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/My3DObject.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="383" column="5" selection-start-line="383" selection-start-column="5" selection-end-line="383" selection-end-column="5" />
+              <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
               <folding>
                 <element signature="method#draw#0;class#My3DObject#0" expanded="false" />
-                <element signature="method#reset#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#crossProduct#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#dotProduct#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#normOfVector#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#normalVect#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#orderFaceVertices#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#orderObjectFaces#0;class#My3DObject#0" expanded="false" />
-                <element signature="method#rotateObject#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#rotateObject#1;class#My3DObject#0" expanded="false" />
                 <element signature="method#matrixPxN#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#matrixRotTranspose#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#matrixRotUpdate#0;class#My3DObject#0" expanded="false" />
-                <element signature="method#rotate#0;class#My3DObject#0" expanded="false" />
+                <element signature="method#project#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#getTObjVert#0;class#My3DObject#0" expanded="false" />
-                <element signature="method#getObjFaceColor#0;class#My3DObject#0" expanded="false" />
                 <element signature="method#setObject#0;class#My3DObject#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FaultBlock3D.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14800996">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-              <folding>
-                <element signature="method#FaultBlock3D#0;class#FaultBlock3D#0" expanded="false" />
-                <element signature="method#draw#0;class#FaultBlock3D#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -202,10 +293,38 @@
         <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+              <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
               <folding>
                 <element signature="method#Plane3D#0;class#Plane3D#0" expanded="false" />
-                <element signature="method#intersectPlaneWidthContainer#0;class#Plane3D#0" expanded="false" />
+                <element signature="method#Plane3D#1;class#Plane3D#0" expanded="false" />
+                <element signature="method#Plane3D#2;class#Plane3D#0" expanded="false" />
+                <element signature="method#intersectPlanes#0;class#Plane3D#0" expanded="false" />
+                <element signature="method#intersectPlaneWithLine#0;class#Plane3D#0" expanded="false" />
+                <element signature="e#12080#12081#0" expanded="true" />
+                <element signature="e#12136#12137#0" expanded="true" />
+                <element signature="e#12214#12215#0" expanded="true" />
+                <element signature="e#12262#12263#0" expanded="true" />
+                <element signature="method#getPlaneCenter#0;class#Plane3D#0" expanded="false" />
+                <element signature="e#12803#12804#0" expanded="true" />
+                <element signature="e#12855#12856#0" expanded="true" />
+                <element signature="e#12943#12944#0" expanded="true" />
+                <element signature="e#12975#12976#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Line3D.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Line3D.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#Line3D#0;class#Line3D#0" expanded="false" />
+                <element signature="method#Line3D#1;class#Line3D#0" expanded="false" />
+                <element signature="method#intersecLineWithContainer#0;class#Line3D#0" expanded="false" />
+                <element signature="method#setLineNormalVector#0;class#Line3D#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -249,13 +368,14 @@
         <option value="$PROJECT_DIR$/src/TruDisp/TDTable.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/TDStatusPane.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/MyUpdater.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/TDData.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/Arrow3D.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java" />
-        <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/Line3D.java" />
         <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/My3DObject.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/TDData.java" />
+        <option value="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
       </list>
     </option>
   </component>
@@ -270,10 +390,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="337" />
-    <option name="y" value="47" />
-    <option name="width" value="1350" />
-    <option name="height" value="1050" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="873" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -298,6 +417,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -417,8 +538,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -668,7 +787,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="337" y="47" width="1350" height="1050" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -676,23 +795,23 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26847035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41440502" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2149437" sideWeight="0.5020747" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19652778" sideWeight="0.5647059" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25799572" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31449893" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07388137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22706422" sideWeight="0.43529412" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13152401" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.072961375" sideWeight="0.43529412" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26847035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28824142" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.296" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20603538" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -728,8 +847,20 @@
           <properties />
           <option name="timeStamp" value="67" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/TruDisp/TDData.java</url>
+          <line>1242</line>
+          <properties />
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/TruDisp/TDData.java</url>
+          <line>175</line>
+          <properties />
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="117" />
+      <option name="time" value="158" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -738,85 +869,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#TDData#0;class#TDData#0" expanded="false" />
-            <element signature="method#TDData#1;class#TDData#0" expanded="false" />
-            <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
-            <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
-            <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
-            <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
-            <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
-            <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
-            <element signature="method#isAngleValid#0;class#TDData#0" expanded="false" />
-            <element signature="method#isDisplacementValid#0;class#TDData#0" expanded="false" />
-            <element signature="method#isNumber#0;class#TDData#0" expanded="false" />
-            <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
-            <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
-            <element signature="method#setGamma#0;class#TDData#0" expanded="false" />
-            <element signature="method#setPhi#0;class#TDData#0" expanded="false" />
-            <element signature="method#setApha#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmA#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmd#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmh#0;class#TDData#0" expanded="false" />
-            <element signature="method#setMapView#0;class#TDData#0" expanded="false" />
-            <element signature="method#setFod#0;class#TDData#0" expanded="false" />
-            <element signature="method#setFoStk#0;class#TDData#0" expanded="false" />
-            <element signature="method#setOpod#0;class#TDData#0" expanded="false" />
-            <element signature="method#setOpoStk#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmo1d#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmo1Stk#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmo2d#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmo2Stk#0;class#TDData#0" expanded="false" />
-            <element signature="method#setOsTrend#0;class#TDData#0" expanded="false" />
-            <element signature="method#setOsPlunge#0;class#TDData#0" expanded="false" />
-            <element signature="method#setSmB#0;class#TDData#0" expanded="false" />
-            <element signature="method#setdAB#0;class#TDData#0" expanded="false" />
-            <element signature="method#setExperiment#0;class#TDData#0" expanded="false" />
-            <element signature="method#setNotes#0;class#TDData#0" expanded="false" />
-            <element signature="method#getGammaError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getGammaOrientation#0;class#TDData#0" expanded="false" />
-            <element signature="method#getPhi#0;class#TDData#0" expanded="false" />
-            <element signature="method#getPhiError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getPhiOrientation#0;class#TDData#0" expanded="false" />
-            <element signature="method#getAlpha#0;class#TDData#0" expanded="false" />
-            <element signature="method#getAlphaError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSmA#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSmAError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSmd#0;class#TDData#0" expanded="false" />
-            <element signature="method#getsmdError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSmh#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSmhError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getMapView#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSd#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSdError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSv#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSvError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getSh#0;class#TDData#0" expanded="false" />
-            <element signature="method#getShError#0;class#TDData#0" expanded="false" />
-            <element signature="method#getTheta#0;class#TDData#0" expanded="false" />
-            <element signature="method#getThetaNull#0;class#TDData#0" expanded="false" />
-            <element signature="method#toString#0;class#TDData#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -832,9 +884,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -868,14 +918,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -923,6 +970,7 @@
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
             <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -932,15 +980,19 @@
             <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
             <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+            <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
             <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -1007,9 +1059,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1043,14 +1093,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1074,6 +1121,7 @@
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
             <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -1083,15 +1131,19 @@
             <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
             <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+            <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
             <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -1165,9 +1217,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1201,14 +1251,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1244,9 +1291,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1280,14 +1325,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1311,6 +1353,7 @@
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
             <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -1320,15 +1363,19 @@
             <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
             <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+            <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
             <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -1419,9 +1466,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1455,14 +1500,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1486,6 +1528,7 @@
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
             <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -1495,15 +1538,19 @@
             <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
             <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+            <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
             <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -1619,9 +1666,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1655,14 +1700,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1861,10 +1903,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Arrow3D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6790634">
+          <caret line="31" column="51" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk/Contents/Home/javafx-src.zip!/javafx/scene/paint/Color.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="9.928374">
-          <caret line="1743" column="20" selection-start-line="1743" selection-start-column="20" selection-end-line="1743" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="392" column="65" selection-start-line="392" selection-start-column="65" selection-end-line="392" selection-end-column="65" />
           <folding>
             <element signature="docComment;field#UPDATE_TXT#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainTruDispStage#0;class#TruDisp#0" expanded="false" />
@@ -1876,9 +1933,7 @@
             <element signature="docComment;method#start#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#update#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#showMainStage#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#showMainStage#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initcomponents#0;class#TruDisp#0" expanded="false" />
-            <element signature="method#initcomponents#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMenuBar#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
             <element signature="method#initMethod1ComponentsGrid#0;class#TruDisp#0" expanded="false" />
@@ -1912,14 +1967,11 @@
             <element signature="docComment;method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="method#changed#0;class#MethodsDisplayedChangeListener#0" expanded="false" />
             <element signature="docComment;class#TDDialogs#0" expanded="false" />
-            <element signature="class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#stageinput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;field#INPUT_IMAGE#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#TDDialogs#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="method#showInput#0;class#TDDialogs#0" expanded="false" />
-            <element signature="docComment;method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showOutput#0;class#TDDialogs#0" expanded="false" />
             <element signature="docComment;method#showAbout#0;class#TDDialogs#0" expanded="false" />
             <element signature="method#showAbout#0;class#TDDialogs#0" expanded="false" />
@@ -1933,24 +1985,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Arrow3D.java">
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6790634">
-          <caret line="31" column="51" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="515" column="0" selection-start-line="515" selection-start-column="0" selection-end-line="515" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;field#SLEEP_TIME_MILLIS#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;field#viewer#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#FaultViewer#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#initFVControls#0;class#FaultViewer#0" expanded="false" />
+            <element signature="e#17699#17729#0" expanded="false" />
+            <element signature="docComment;method#show#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#setPlanes#0;class#FaultViewer#0" expanded="false" />
+            <element signature="method#setPlanes#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#getMinVal#0;class#FaultViewer#0" expanded="false" />
+            <element signature="docComment;method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
+            <element signature="e#21795#21877#0" expanded="false" />
+            <element signature="e#22152#22153#0" expanded="true" />
+            <element signature="e#22181#22182#0" expanded="true" />
+            <element signature="e#22216#22217#0" expanded="true" />
+            <element signature="e#22246#22247#0" expanded="true" />
+            <element signature="e#22293#22294#0" expanded="true" />
+            <element signature="e#22326#22327#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TDData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1314" column="22" selection-start-line="1314" selection-start-column="22" selection-end-line="1314" selection-end-column="22" />
+          <caret line="191" column="11" selection-start-line="191" selection-start-column="11" selection-end-line="191" selection-end-column="11" />
           <folding>
             <element signature="method#TDData#0;class#TDData#0" expanded="false" />
             <element signature="method#TDData#1;class#TDData#0" expanded="false" />
             <element signature="method#initVariables#0;class#TDData#0" expanded="false" />
             <element signature="method#dotProductAngle#0;class#TDData#0" expanded="false" />
             <element signature="method#crossProduct#0;class#TDData#0" expanded="false" />
+            <element signature="method#isDataValidForMethod1#0;class#TDData#0" expanded="false" />
             <element signature="method#orientationIndeterminated#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearGamma#0;class#TDData#0" expanded="false" />
             <element signature="method#isBetaNearPhi#0;class#TDData#0" expanded="false" />
@@ -1960,14 +2033,19 @@
             <element signature="method#isStrikeAngleValid#0;class#TDData#0" expanded="false" />
             <element signature="method#isPlungeValid#0;class#TDData#0" expanded="false" />
             <element signature="method#method1Calculate#0;class#TDData#0" expanded="false" />
-            <element signature="method#method1CalculateSs#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSd#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSv#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateSh#0;class#TDData#0" expanded="false" />
             <element signature="method#method1CalculateDistance#0;class#TDData#0" expanded="false" />
-            <element signature="method#calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method1calculateDistanceErrors#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistances#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchsErrors#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosOfPlanes#0;class#TDData#0" expanded="false" />
-            <element signature="method#method2ConvertDirCos2Method1#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2DerivateVector#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDistanceError#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculatePitchs#0;class#TDData#0" expanded="false" />
+            <element signature="method#method2CalculateDirCosPlane#0;class#TDData#0" expanded="false" />
+            <element signature="method#normOfVector#0;class#TDData#0" expanded="false" />
             <element signature="method#method2CalculateDirCosLine#0;class#TDData#0" expanded="false" />
             <element signature="method#method2Calculate#0;class#TDData#0" expanded="false" />
             <element signature="method#setBeta#0;class#TDData#0" expanded="false" />
@@ -2019,90 +2097,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-          <folding>
-            <element signature="method#Plane3D#0;class#Plane3D#0" expanded="false" />
-            <element signature="method#intersectPlaneWidthContainer#0;class#Plane3D#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="533" column="22" selection-start-line="533" selection-start-column="22" selection-end-line="533" selection-end-column="22" />
-          <folding>
-            <element signature="docComment;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;field#SLEEP_TIME_MILLIS#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;field#viewer#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#FaultViewer#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#initFVControls#0;class#FaultViewer#0" expanded="false" />
-            <element signature="method#initFVControls#0;class#FaultViewer#0" expanded="false" />
-            <element signature="class#6775:7740" expanded="false" />
-            <element signature="method#call#0;class#6775:7740" expanded="false" />
-            <element signature="class#8378:9347" expanded="false" />
-            <element signature="method#call#0;class#8378:9347" expanded="false" />
-            <element signature="class#10000:10902" expanded="false" />
-            <element signature="method#call#0;class#10000:10902" expanded="false" />
-            <element signature="class#11252:12155" expanded="false" />
-            <element signature="method#call#0;class#11252:12155" expanded="false" />
-            <element signature="class#12704:13605" expanded="false" />
-            <element signature="method#call#0;class#12704:13605" expanded="false" />
-            <element signature="class#13955:14857" expanded="false" />
-            <element signature="method#call#0;class#13955:14857" expanded="false" />
-            <element signature="docComment;method#drawScene#0;class#FaultViewer#0" expanded="false" />
-            <element signature="e#17308#17338#0" expanded="false" />
-            <element signature="docComment;method#show#0;class#FaultViewer#0" expanded="false" />
-            <element signature="method#show#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#setPlanes#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
-            <element signature="method#getMaxVal#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#getMinVal#0;class#FaultViewer#0" expanded="false" />
-            <element signature="method#getMinVal#0;class#FaultViewer#0" expanded="false" />
-            <element signature="docComment;method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
-            <element signature="method#getCanvasPoint#0;class#FaultViewer#0" expanded="false" />
-            <element signature="e#21063#21145#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/My3DObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="383" column="5" selection-start-line="383" selection-start-column="5" selection-end-line="383" selection-end-column="5" />
+          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
           <folding>
             <element signature="method#draw#0;class#My3DObject#0" expanded="false" />
-            <element signature="method#reset#0;class#My3DObject#0" expanded="false" />
             <element signature="method#crossProduct#0;class#My3DObject#0" expanded="false" />
             <element signature="method#dotProduct#0;class#My3DObject#0" expanded="false" />
             <element signature="method#normOfVector#0;class#My3DObject#0" expanded="false" />
             <element signature="method#normalVect#0;class#My3DObject#0" expanded="false" />
             <element signature="method#orderFaceVertices#0;class#My3DObject#0" expanded="false" />
             <element signature="method#orderObjectFaces#0;class#My3DObject#0" expanded="false" />
-            <element signature="method#rotateObject#0;class#My3DObject#0" expanded="false" />
             <element signature="method#rotateObject#1;class#My3DObject#0" expanded="false" />
             <element signature="method#matrixPxN#0;class#My3DObject#0" expanded="false" />
             <element signature="method#matrixRotTranspose#0;class#My3DObject#0" expanded="false" />
             <element signature="method#matrixRotUpdate#0;class#My3DObject#0" expanded="false" />
-            <element signature="method#rotate#0;class#My3DObject#0" expanded="false" />
+            <element signature="method#project#0;class#My3DObject#0" expanded="false" />
             <element signature="method#getTObjVert#0;class#My3DObject#0" expanded="false" />
-            <element signature="method#getObjFaceColor#0;class#My3DObject#0" expanded="false" />
             <element signature="method#setObject#0;class#My3DObject#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Plane3D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
+          <folding>
+            <element signature="method#Plane3D#0;class#Plane3D#0" expanded="false" />
+            <element signature="method#Plane3D#1;class#Plane3D#0" expanded="false" />
+            <element signature="method#Plane3D#2;class#Plane3D#0" expanded="false" />
+            <element signature="method#intersectPlanes#0;class#Plane3D#0" expanded="false" />
+            <element signature="method#intersectPlaneWithLine#0;class#Plane3D#0" expanded="false" />
+            <element signature="e#12080#12081#0" expanded="true" />
+            <element signature="e#12136#12137#0" expanded="true" />
+            <element signature="e#12214#12215#0" expanded="true" />
+            <element signature="e#12262#12263#0" expanded="true" />
+            <element signature="method#getPlaneCenter#0;class#Plane3D#0" expanded="false" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12855#12856#0" expanded="true" />
+            <element signature="e#12943#12944#0" expanded="true" />
+            <element signature="e#12975#12976#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/Line3D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#Line3D#0;class#Line3D#0" expanded="false" />
+            <element signature="method#Line3D#1;class#Line3D#0" expanded="false" />
+            <element signature="method#intersecLineWithContainer#0;class#Line3D#0" expanded="false" />
+            <element signature="method#setLineNormalVector#0;class#Line3D#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/FaultViewer/FaultBlock3D.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14800996">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding>
-            <element signature="method#FaultBlock3D#0;class#FaultBlock3D#0" expanded="false" />
-            <element signature="method#draw#0;class#FaultBlock3D#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>

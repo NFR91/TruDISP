@@ -54,6 +54,9 @@ package TruDisp;
 
 // Importamos las librerias necesarias.
 import TruDisp.FaultViewer.FaultViewer;
+import TruDisp.FaultViewer.Line3D;
+import TruDisp.FaultViewer.My3DObject;
+import TruDisp.FaultViewer.Plane3D;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -61,9 +64,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.*;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -84,6 +90,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import javax.script.Bindings;
+import java.awt.*;
+import java.util.ArrayList;
+
 
 // Clase aplicación la cual corre el programa.
 public class TruDisp extends Application {
@@ -96,7 +106,7 @@ public class TruDisp extends Application {
 
     // Programa.
     public static final String UPDATE_TXT = "http://nfr91.github.io/TruDISP/TruDISP/TruDispVersions.txt"; //Dirección de la lista de actualizaciones.
-    public static final Double TRU_DISP_VERSION = 1.95;     // Versión del programa.
+    public static final Double TRU_DISP_VERSION = 1.96;     // Versión del programa.
     public static final String REPOSITORY ="beta";          // Repositorio al que pertenece.
 
     // Methods
@@ -380,7 +390,7 @@ public class TruDisp extends Application {
 
         // Notificaciones.
         statusPane = new TDStatusPane();
-        statusPane.setStatus("Bienvenido a TruDisp");
+        statusPane.setStatus("TruDISP net displacement calculator");
 
         /** Método 1 */
 
@@ -2190,23 +2200,59 @@ class TDDialogs {
         // Se verifica si ya se ha creado la escena.
         if(stageinput.getScene()==null)
         {
+
             // Agregamos la imagen correspondiente.
-            im = new ImageView(new Image(INPUT_IMAGE));
+            ImageView im = new ImageView(new Image(INPUT_IMAGE));
             // Definimos sus propiedades para que se redimensione con la ventana
-            im.fitWidthProperty().bind(stageinput.widthProperty());
-            im.fitHeightProperty().bind(stageinput.heightProperty());
             // Pedimos que mantega la realción alto-ancho.
             im.setPreserveRatio(true);
+            // Tamaño minimo;
+            im.minWidth(100);
+            im.minHeight(100);
             // La imagen estará centrada.
             StackPane.setAlignment(im, Pos.CENTER);
 
+            // Imagen 3D;
+            FaultViewer fv = new FaultViewer();
+            // Objetos
+            ArrayList<My3DObject> list = new ArrayList<>();
+            Plane3D fault = new Plane3D(TDData.method2CalculateDirCosPlane(Math.toRadians(30),Math.toRadians(45)),Color.rgb(100, 200, 0, 0.3),fv.getFaultBlock());
+            fault.setContainer(fv.getFaultBlock());
+
+            Plane3D marker = new Plane3D(TDData.method2CalculateDirCosPlane(Math.toRadians(0),Math.toRadians(0)),Color.rgb(200, 200, 100, 0.3),fv.getFaultBlock());
+            Line3D beta = fault.intersectPlanes(marker);
+
+
+
+            marker.setObjPos(new Double[]{0.2,.3,.2});
+
+            Line3D s = new Line3D(My3DObject.crossProduct(new Double[]{0.2,.3,.2},fault.getPlaneNormalVector()),new Double[]{0d,0d,0d},fv.getFaultBlock(),Color.SIENNA);
+
+            Line3D mrkLine = fault.intersectPlanes(marker);
+
+            marker.setObjPos(new Double[]{0d,0d,0d});
+
+            list.add(fault);
+            list.add(marker);
+            list.add(mrkLine);
+            list.add(beta);
+            list.add(s);
+            fv.setObjects(list);
+
+
             // Agregamos la escena.
-            stageinput.setScene(new Scene(new StackPane(im)));
+            stageinput.setScene(new Scene(new HBox(new StackPane(im), new StackPane(fv.getCanvas(), fv.getRotCtrl()))));
+
+            fv.getCanvas().widthProperty().bind(stageinput.getScene().widthProperty().divide(2));
+            fv.getCanvas().heightProperty().bind(stageinput.getScene().heightProperty());
+
+            im.fitWidthProperty().bind(stageinput.getScene().widthProperty().divide(2));
+            im.fitHeightProperty().bind(stageinput.getScene().heightProperty());
 
             // Dimensiones de la ventana
-            stageinput.setTitle("Input Variables Diagram");
-            stageinput.setWidth(500);
+            stageinput.setTitle("Output Variables Diagram");
             stageinput.setHeight(500 * (im.getImage().getHeight() / im.getImage().getWidth()));
+            stageinput.setWidth(500);
         }
 
         // Mostramos el dialogo y pedimos que se enfoque
@@ -2266,20 +2312,20 @@ class TDDialogs {
                     "\n" +
                     "TruDisp 1.0 is a program that calculates the true displacement (S) using the apparent displacement (Sm), " +
                     "which is measured from an arbitrary “observation line” on a fault plane. For the cases when Sm is unknown," +
-                    " the application uses apparent displacement along the dip line (Smd).\n" +
+                    " the application uses apparent displacement along the dip line (Smd).\n\n" +
                     "Special cases are map view and transversal section; for these cases, the apparent displacement " +
                     "along the dip (Smd) or the strike (Smh) are used. The application does not consider the sense " +
-                    "of movement and the obtained displacements are the absolute values of the vector displacement.\n" +
-                    "For cases of faults without striaes, the program needs two markers to calculate the true displacement (S). \n" +
+                    "of movement and the obtained displacements are the absolute values of the vector displacement.\n\n" +
                     "In the cases with striaes the program analyses 18 different combinations of the input data. " +
-                    "The theory was published in: \n" +
+                    "The theory was published in: \n\n" +
                     "Xu, S.-S., Velasquillo-Martinez, L. G., Grajales-Nishimura, J. M., Murillo-Muñetón, " +
                     "G., Nieto-Samaniego, A. F., 2007, Methods for quantitatively determining fault displacement " +
-                    "using fault separation: Journal of Structural Geology, v. 29, p. 1709-1720.\n" +
+                    "using fault separation: Journal of Structural Geology, v. 29, p. 1709-1720.\n\n" +
                     "Xu, S.-S., Nieto-Samaniego, A. F., y Alaniz-Álvarez, S. A, 2009, Quantification of true displacement " +
-                    "using apparent displacement along an arbitrary line on a fault plane: Tectonophysics, v 467, p. 107-118.\n" +
-                    "In the cases without striaes the program follows the solution published in:\n" +
-                    "Yamada, E., Sakaguchi, K., 1995. Fault-slip calculation from separations: Journal of Structural Geology 17, 1065–1070.\n" +
+                    "using apparent displacement along an arbitrary line on a fault plane: Tectonophysics, v 467, p. 107-118.\n\n" +
+                    "In the cases without striaes, the program needs two markers to calculate the true displacement (S) and " +
+                    "follows the solution published in:\n\n" +
+                    "Yamada, E., Sakaguchi, K., 1995. Fault-slip calculation from separations: Journal of Structural Geology 17, 1065–1070.\n\n" +
                     "TruDisp 2.0 is a tool for applied geologists, students and academics. It was developed in Java SE 8.0.\n" +
                     "\n" +
                     "Input data\n" +
@@ -2327,7 +2373,7 @@ class TDDialogs {
                             "Sv:     Vertical displacement (throw)\n  " +
                             "Sd:     Dip-slip displacement\n  " +
                             "Ss:     Strike-slip displacement\n" +
-                            "Stk: Strike angle of the fault plane\n" +
+                            "Stk: Strike angle of the plane\n" +
                             "D: Dip angle of the fault plane\n" +
                             "Trnd: Trend angle of the striae\n" +
                             "Plng: Plunge angle of the striae\n" +

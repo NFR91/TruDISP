@@ -99,6 +99,8 @@ public class FaultViewer {
         canvas = new Canvas();
         canvas.heightProperty().bind(viewer.heightProperty());
         canvas.widthProperty().bind(viewer.widthProperty());
+        // Ponemos al centro el canvas.
+        StackPane.setAlignment(canvas, Pos.CENTER);
 
         // Obtenemos el contexto gráfico del canvas.
         gc = canvas.getGraphicsContext2D();
@@ -187,7 +189,9 @@ public class FaultViewer {
                         // Mientras la tarea este activa rotamos.
                         while (!isCancelled()) {
 
-                            objects.stream().forEach(obj -> obj.rotateObject(ROT_INCREMENT,0.0, 0.0));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject(ROT_INCREMENT,0.0, 0.0);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -229,7 +233,9 @@ public class FaultViewer {
 
                         // Mientras la tarea este activa roitamos.
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject( -ROT_INCREMENT,0.0,  0.0));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject( -ROT_INCREMENT,0.0,  0.0);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -274,7 +280,9 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject( 0.0,ROT_INCREMENT,  0.0));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject( 0.0,ROT_INCREMENT,  0.0);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -310,7 +318,9 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject( 0.0, -ROT_INCREMENT, 0.0));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject( 0.0, -ROT_INCREMENT, 0.0);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -353,7 +363,9 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject(0.0, 0.0, ROT_INCREMENT));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject(0.0, 0.0, ROT_INCREMENT);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -389,7 +401,9 @@ public class FaultViewer {
                     protected Double call() throws Exception {
 
                         while (!isCancelled()) {
-                            objects.stream().forEach(obj -> obj.rotateObject(0.0, 0.0, -ROT_INCREMENT));
+                            objects.stream().forEach(obj -> {
+                                obj.rotateObject(0.0, 0.0, -ROT_INCREMENT);
+                            });
                             drawScene(gc, objects);
 
                             try
@@ -427,7 +441,7 @@ public class FaultViewer {
         rotCtrl.prefHeight(20);
         rotCtrl.pickOnBoundsProperty().set(false);
         rotCtrl.setOpacity(0.1);
-        rotCtrl.getChildren().addAll(new HBox(rxpos, rxneg), new HBox(rypos, ryneg),new HBox(rzpos,rzneg));
+        rotCtrl.getChildren().addAll(new HBox(rxpos, rxneg), new HBox(rypos, ryneg), new HBox(rzpos, rzneg));
 
         // Creamos una transición que desvanece cuando no esta activo.
         rotCtrl.setOnMouseEntered(event -> {
@@ -444,9 +458,6 @@ public class FaultViewer {
             fd.play();
         });
 
-
-        // Ponemos al centro el canvas.
-        StackPane.setAlignment(canvas, Pos.CENTER);
 
         // Cuando se arrastra el ratón el cubo se rota.
         canvas.setOnMouseDragged(event -> {
@@ -502,6 +513,7 @@ public class FaultViewer {
         viewer.requestFocus();
     }
 
+
     /******************************************************************************************************************/
     /** Métodos SET. */
     /******************************************************************************************************************/
@@ -530,6 +542,17 @@ public class FaultViewer {
 
     }
 
+    public void setObjects(ArrayList<My3DObject> obj)
+    {
+        // Limpiamos la lista
+        objects.clear();
+        // Agregamos los objetos
+        obj.stream().forEach(o -> objects.add(o));
+        //Agregamos los bloques básicos
+        objects.add(faultBlock);
+        // dibujamos la escena
+        drawScene(gc,objects);
+    }
     /******************************************************************************************************************/
     /** Métodos GET */
     /******************************************************************************************************************/
@@ -595,5 +618,19 @@ public class FaultViewer {
         // Regresamos el valor normalizado multiplicado por las dimensiones de la ventana.
         return  new Double[]{x,y};
 
+    }
+
+    public Canvas getCanvas()
+    {
+        return canvas;
+    }
+    public HBox getRotCtrl()
+    {
+        return rotCtrl;
+    }
+
+    public FaultBlock3D getFaultBlock()
+    {
+        return faultBlock;
     }
 }
