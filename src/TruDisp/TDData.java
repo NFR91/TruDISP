@@ -757,12 +757,12 @@ public class TDData {
 
     }
 
+    /**Función que calcula los errores en el cálculo de pitchs*/
     public void method2CalculatePitchsErrors()
     {
         Double f, i,h=0.001;
-        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano A.
-        beta[DATA] = dotProductAngle(crossProduct(new Double[]{fpm[DATA],fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
 
+        // Derivadas parciales de beta.
         i= dotProductAngle(crossProduct(new Double[]{fpm[DATA]-h,fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
         f= dotProductAngle(crossProduct(new Double[]{fpm[DATA]+h,fpl[DATA],fpn[DATA]}, new Double[]{apm[DATA],apl[DATA],apn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
         Double pdfpm = Math.abs((f-i)/(2*h));
@@ -788,7 +788,7 @@ public class TDData {
         beta[ERROR] = pdfpm*fpm[ERROR] + pdfpl*fpl[ERROR] + pdfpn*fpn[ERROR] + pdapm*apm[ERROR] + pdapl*apl[ERROR] + pdapn*apn[ERROR] + pdfostk*fostk[ERROR];
 
 
-        // Angulo entre la LINEA de strike del plano de falla y la intersección del plano de falla y el plano de observación.
+        // Derivadas parciales de phi
         i= dotProductAngle(crossProduct(new Double[]{fpm[DATA]-h,fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
         f= dotProductAngle(crossProduct(new Double[]{fpm[DATA]+h,fpl[DATA],fpn[DATA]},  new Double[]{opm[DATA],opl[DATA],opn[DATA]}),new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
         pdfpm = Math.abs((f - i) / (2 * h));
@@ -813,56 +813,57 @@ public class TDData {
 
         phi[ERROR] = pdfpm*fpm[ERROR] + pdfpl*fpl[ERROR] + pdfpn*fpn[ERROR] + pdopm*opm[ERROR] + pdopl*opl[ERROR] + pdopn*opn[ERROR] + pdfostk*fostk[ERROR];
 
-        // Angulo del plano de falla.
+        // Error de alpha
         alpha[ERROR] = fod[ERROR];
 
-        if(gamma[ERROR]==0){
-            // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
-            Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+        //******** Error de gamma ()**********************//
 
-            i= Math.atan(Math.tan(fod[DATA]-h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
-            f= Math.atan(Math.tan(fod[DATA]+h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
-            Double pdfod = Math.abs((f - i) / (2 * h));
-            i= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]-h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]-h) - fostk[DATA])) : ((ostrend[DATA]-h) - fostk[DATA])));
-            f= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]+h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]+h) - fostk[DATA])) : ((ostrend[DATA]+h) - fostk[DATA])));
-            Double pdostrend = Math.abs((f - i) / (2 * h));
-            i= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA]-h) ) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA]-h))) : (ostrend[DATA] - (fostk[DATA]-h))));
-            f= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA] + h)) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA] + h))) : (ostrend[DATA] - (fostk[DATA] + h))));
-            pdfostk = Math.abs((f - i) / (2 * h));
+        // Calculamos el plunge para asegurar que la estria está siempre sobre el plano.
+        Double plunge = Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
 
-            Double plungeError = pdfod*fod[ERROR] + pdostrend*ostrend[ERROR] + pdfostk*fostk[ERROR];
+        i= Math.atan(Math.tan(fod[DATA]-h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+        f= Math.atan(Math.tan(fod[DATA]+h) * Math.sin(((ostrend[DATA] - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - fostk[DATA])) : (ostrend[DATA] - fostk[DATA])));
+        Double pdfod = Math.abs((f - i) / (2 * h));
+        i= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]-h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]-h) - fostk[DATA])) : ((ostrend[DATA]-h) - fostk[DATA])));
+        f= Math.atan(Math.tan(fod[DATA]) * Math.sin((( (ostrend[DATA]+h) - fostk[DATA]) > Math.toRadians(90)) ? (Math.PI - ((ostrend[DATA]+h) - fostk[DATA])) : ((ostrend[DATA]+h) - fostk[DATA])));
+        Double pdostrend = Math.abs((f - i) / (2 * h));
+        i= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA]-h) ) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA]-h))) : (ostrend[DATA] - (fostk[DATA]-h))));
+        f= Math.atan(Math.tan(fod[DATA]) * Math.sin(((ostrend[DATA] - (fostk[DATA] + h)) > Math.toRadians(90)) ? (Math.PI - (ostrend[DATA] - (fostk[DATA] + h))) : (ostrend[DATA] - (fostk[DATA] + h))));
+        pdfostk = Math.abs((f - i) / (2 * h));
 
-
-            // Cosenos directores de LÍNEA de la estria.
-            Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge);
-
-            Double[] in =method2CalculateDirCosLine(ostrend[DATA]-h, plunge);
-            Double[] fn =method2CalculateDirCosLine(ostrend[DATA] + h, plunge);
-            Double[] pdtrend = method2DerivateVector(in, fn, h);
-            in =method2CalculateDirCosLine(ostrend[DATA], plunge-h);
-            fn =method2CalculateDirCosLine(ostrend[DATA], plunge+h);
-            Double[] pdplunge = method2DerivateVector(in, fn, h);
-
-            Double[] strieaeError = new Double[]{pdtrend[0]*ostrend[ERROR]+pdplunge[0]+plungeError,pdtrend[1]*ostrend[ERROR]+pdplunge[1]+plungeError,pdtrend[2]*ostrend[ERROR]+pdplunge[2]+plungeError};
+        Double plungeError = pdfod*fod[ERROR] + pdostrend*ostrend[ERROR] + pdfostk*fostk[ERROR];
 
 
-            // Ángulo entre la Linea de strike del plano de falla y la estría.
-            i= dotProductAngle(new Double[]{striae[0] - h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
-            f= dotProductAngle(new Double[]{striae[0] + h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
-            Double pdstriae0 = Math.abs((f - i) / (2 * h));
-            i= dotProductAngle(new Double[]{striae[0],striae[1]-h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
-            f= dotProductAngle(new Double[]{striae[0],striae[1]+h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
-            Double pdstriae1 = Math.abs((f - i) / (2 * h));
-            i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]-h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
-            f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]+h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
-            Double pdstriae2 = Math.abs((f - i) / (2 * h));
-            i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA]-h),0.0});
-            f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA]+h),0.0});
-            pdfostk = Math.abs((f - i) / (2 * h));
+        Double[] in =method2CalculateDirCosLine(ostrend[DATA]-h, plunge);
+        Double[] fn =method2CalculateDirCosLine(ostrend[DATA] + h, plunge);
+        Double[] pdtrend = method2DerivateVector(in, fn, h);
+        in =method2CalculateDirCosLine(ostrend[DATA], plunge-h);
+        fn =method2CalculateDirCosLine(ostrend[DATA], plunge+h);
+        Double[] pdplunge = method2DerivateVector(in, fn, h);
 
-            gamma[ERROR] = pdstriae0*strieaeError[0] + pdstriae1*strieaeError[1] + pdstriae2*strieaeError[2] + pdfostk*fostk[ERROR];
-        }
+        // Cosenos directores de LÍNEA de la estria.
+        Double[] striae = method2CalculateDirCosLine(ostrend[DATA], plunge);
+        Double[] strieaeError = new Double[]{pdtrend[0]*ostrend[ERROR]+pdplunge[0]*plungeError,pdtrend[1]*ostrend[ERROR]+pdplunge[1]*plungeError,pdtrend[2]*ostrend[ERROR]+pdplunge[2]*plungeError};
 
+
+        // Ángulo entre la Linea de strike del plano de falla y la estría.
+        i= dotProductAngle(new Double[]{striae[0] - h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+        f= dotProductAngle(new Double[]{striae[0] + h, striae[1], striae[2]}, new Double[]{Math.cos(fostk[DATA]), Math.sin(fostk[DATA]), 0.0});
+        Double pdstriae0 = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(new Double[]{striae[0],striae[1]-h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(new Double[]{striae[0],striae[1]+h,striae[2]}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdstriae1 = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]-h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]+h}, new Double[]{Math.cos(fostk[DATA]),Math.sin(fostk[DATA]),0.0});
+        Double pdstriae2 = Math.abs((f - i) / (2 * h));
+        i= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]-h),Math.sin(fostk[DATA]-h),0.0});
+        f= dotProductAngle(new Double[]{striae[0],striae[1],striae[2]}, new Double[]{Math.cos(fostk[DATA]+h),Math.sin(fostk[DATA]+h),0.0});
+        pdfostk = Math.abs((f - i) / (2 * h));
+
+        gamma[ERROR] = pdstriae0*strieaeError[0] + pdstriae1*strieaeError[1] + pdstriae2*strieaeError[2] + pdfostk*fostk[ERROR];
+
+
+        //*******************************//
     }
     /** Función encargada de calcular los cosenos directores de los planos. */
     public void method2CalculateDirCosOfPlanes()
