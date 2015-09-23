@@ -106,7 +106,7 @@ public class TruDisp extends Application {
 
     // Programa.
     public static final String UPDATE_TXT = "http://nfr91.github.io/TruDISP/TruDISP/TruDispVersions.txt"; //Dirección de la lista de actualizaciones.
-    public static final Double TRU_DISP_VERSION = 1.97;     // Versión del programa.
+    public static final Double TRU_DISP_VERSION = 1.971;     // Versión del programa.
     public static final String REPOSITORY ="beta";          // Repositorio al que pertenece.
 
     // Methods
@@ -2212,41 +2212,12 @@ class TDDialogs {
             // La imagen estará centrada.
             StackPane.setAlignment(im, Pos.CENTER);
 
-            // Imagen 3D;
-            FaultViewer fv = new FaultViewer();
-            // Objetos
-            ArrayList<My3DObject> list = new ArrayList<>();
-            Plane3D fault = new Plane3D(TDData.method2CalculateDirCosPlane(Math.toRadians(30),Math.toRadians(45)),Color.rgb(100, 200, 0, 0.3),fv.getFaultBlock());
-            fault.setContainer(fv.getFaultBlock());
-
-            Plane3D marker = new Plane3D(TDData.method2CalculateDirCosPlane(Math.toRadians(0),Math.toRadians(0)),Color.rgb(200, 200, 100, 0.3),fv.getFaultBlock());
-            Line3D beta = fault.intersectPlanes(marker);
-
-
-
-            marker.setObjPos(new Double[]{0.2,.3,.2});
-
-            Line3D s = new Line3D(My3DObject.crossProduct(new Double[]{0.2,.3,.2},fault.getPlaneNormalVector()),new Double[]{0d,0d,0d},fv.getFaultBlock(),Color.SIENNA);
-
-            Line3D mrkLine = fault.intersectPlanes(marker);
-
-            marker.setObjPos(new Double[]{0d,0d,0d});
-
-            list.add(fault);
-            list.add(marker);
-            list.add(mrkLine);
-            list.add(beta);
-            list.add(s);
-            fv.setObjects(list);
-
 
             // Agregamos la escena.
-            stageinput.setScene(new Scene(new HBox(new StackPane(im), new StackPane(fv.getCanvas(), fv.getRotCtrl()))));
+            stageinput.setScene(new Scene(new StackPane(im)));
 
-            fv.getCanvas().widthProperty().bind(stageinput.getScene().widthProperty().divide(2));
-            fv.getCanvas().heightProperty().bind(stageinput.getScene().heightProperty());
 
-            im.fitWidthProperty().bind(stageinput.getScene().widthProperty().divide(2));
+            im.fitWidthProperty().bind(stageinput.getScene().widthProperty());
             im.fitHeightProperty().bind(stageinput.getScene().heightProperty());
 
             // Dimensiones de la ventana
