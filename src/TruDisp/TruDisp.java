@@ -106,7 +106,7 @@ public class TruDisp extends Application {
 
     // Programa.
     public static final String UPDATE_TXT = "http://nfr91.github.io/TruDISP/TruDISP/TruDispVersions.txt"; //Dirección de la lista de actualizaciones.
-    public static final Double TRU_DISP_VERSION = 1.971;     // Versión del programa.
+    public static final Double TRU_DISP_VERSION = 1.972;     // Versión del programa.
     public static final String REPOSITORY ="beta";          // Repositorio al que pertenece.
 
     // Methods

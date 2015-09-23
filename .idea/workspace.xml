@@ -7,27 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f6f3c80-6929-46e3-ba67-b993c6aa86cb" name="Default" comment="Se cambió el SDK a la versión más reciente lo que eliminó el problema del table view. Además se agregó el boton cerrar en las notificaciones.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$1.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$2.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$3.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$4.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$5.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$6.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/FaultViewer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/My3DObject.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/FaultViewer/My3DObject.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$4.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$5.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/MyUpdater.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDDialogs.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDOpenSave.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDOpenSave.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDStatusPane.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDStatusPane.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TDTable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" afterPath="$PROJECT_DIR$/out/production/TruDisp/TruDisp/TruDisp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Images/lmn.jpg" afterPath="$PROJECT_DIR$/src/Images/lmn.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" afterPath="$PROJECT_DIR$/src/TruDisp/TruDisp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" afterPath="$PROJECT_DIR$/out/artifacts/TruDisp/TruDisp.jnlp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TruDisp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,8 +36,8 @@
       <file leaf-file-name="TruDisp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3602649">
-              <caret line="124" column="85" selection-start-line="124" selection-start-column="85" selection-end-line="124" selection-end-column="85" />
+            <state vertical-scroll-proportion="0.4741036">
+              <caret line="118" column="107" selection-start-line="118" selection-start-column="107" selection-end-line="118" selection-end-column="107" />
               <folding>
                 <element signature="docComment;field#UPDATE_TXT#0;class#TruDisp#0" expanded="false" />
                 <element signature="docComment;field#mainTruDispStage#0;class#TruDisp#0" expanded="false" />
@@ -754,22 +735,22 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34955186" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2149437" sideWeight="0.5020747" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19652778" sideWeight="0.5647059" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25799572" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07388137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.072961375" sideWeight="0.43529412" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20486556" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26847035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34955186" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07388137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.296" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20486556" sideWeight="0.4979253" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -2019,8 +2000,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TruDisp/TruDisp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3602649">
-          <caret line="124" column="85" selection-start-line="124" selection-start-column="85" selection-end-line="124" selection-end-column="85" />
+        <state vertical-scroll-proportion="0.4741036">
+          <caret line="118" column="107" selection-start-line="118" selection-start-column="107" selection-end-line="118" selection-end-column="107" />
           <folding>
             <element signature="docComment;field#UPDATE_TXT#0;class#TruDisp#0" expanded="false" />
             <element signature="docComment;field#mainTruDispStage#0;class#TruDisp#0" expanded="false" />
