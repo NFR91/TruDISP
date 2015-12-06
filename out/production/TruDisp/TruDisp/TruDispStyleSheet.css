@@ -1,0 +1,145 @@
+
+
+/*Clases Generales */
+
+.iolabel{
+
+-fx-font-size:14;
+-fx-text-alignment:center;
+-fx-alignment: center;
+-fx-min-width:40;
+-fx-pref-width:40;
+
+}
+
+
+
+.subtitlelabel{
+
+ -fx-font-size:14;
+
+}
+
+
+/* Padding */
+
+.iogridpane, .iovbox {
+
+    -fx-padding:5,5,5,5;
+    -fx-spacing:5;
+}
+
+
+.iogridpane{
+
+    -fx-border: 2px;
+    -fx-border-color:black;
+    -fx-hgap: 10;
+    -fx-vgap: 5;
+    -fx-alignment: center;
+    -fx-grid-lines-visible: false;
+
+/* aliceblue, floralwhite, gris */
+
+}
+
+
+.ioerrorlabel{
+    -fx-min-width :50;
+    -fx-pref-width:50;
+    -fx-alignment: center;
+}
+.iotextfield{
+    -fx-min-width : 80;
+    -fx-text-alignment:center;
+    -fx-pref-width:80;
+}
+.iocombobox{
+    -fx-min-width: 60;
+    -fx-pref-width:60;
+    -fx-text-alignment:center;
+}
+
+.titlelabel{
+
+ -fx-text-alignment:center;
+ -fx-alignment: center;
+ -fx-font-size: 25 px;
+
+
+}
+
+.titlehbox{
+
+
+    -fx-alignment: center;
+
+}
+
+#mapsectiontogglebutton, #arbitrarylinetogglebutton{
+
+ -fx-max-width: 200;
+ -fx-min-width: 50;
+
+}
+
+.vbox{
+
+    -fx-padding: 10,10,0,10;
+}
+
+#thetanulltextfield, #thetatextfield{
+    -fx-min-width:50;
+    -fx-max-width:50;
+}
+
+/*Ventana de progreso*/
+
+#splashprogresstext
+{
+
+    -fx-font-size:14;
+    -fx-font-family:"Courier";
+    -fx-font-style:italic;
+    -fx-alignment:center;
+    -fx-text-alignment:center;
+}
+
+#splashprogressbar
+{
+
+    -fx-accent: black;
+
+}
+
+/**StatusBar*/
+
+.statusbargrid{
+
+ }
+
+.statusbartext{
+
+-fx-font-size:12;
+-fx-font-family:"Courier";
+-fx-font-style: italic;
+ -fx-padding:0,0,0,0;
+ -fx-wrap-text:true;
+ -fx-min-size:400px;
+}
+/**Status Pane*/
+
+.notificationlabel
+{
+
+    -fx-font-family:"Courier";
+    -fx-font-size:14;
+    -fx-pref-size:40px;
+    -fx-wrap-text:true;
+    -fx-background-color:rgba(200, 200, 200, .95);
+    -fx-text-fill:black;
+    -fx-text-alignment:center;
+    -fx-padding:5,5,5,5;
+
+}
+
